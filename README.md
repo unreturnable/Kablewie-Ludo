@@ -8,11 +8,11 @@ The commands you will need our
 ```
 git clone <URL>                 # The url of the repository you are cloning
 
-git pull                        # Pull down changes from remote repository
+git pull origin master		# Pull down changes from remote repository
 
 git add . -A                    # Add changes to local repository
 git commit -m "<Your message>"  # Commit to local repository with a message
-git push                        # Push local changes to remote repository
+git push origin master		# Push local changes to remote repository
 ```
 
 A list of graphical git clients can be found [here](https://git-scm.com/download/gui/linux), if you are determined to use a graphical one of the CLI I would recommend the [github](https://desktop.github.com/) one.
