@@ -1,40 +1,57 @@
-package main;
-
-/**
- * 
- * @author Thomas Phelps
- *
- */
 
 public class Kablewie {
-
+	
 	private String username;
-	private int boardWidth = 0;
-	private int boardHeight = 0;
-	private int totalMines = 0;
+	private int boardHeight;
+	private int boardWidth;
+	private int totalMines;
 	
+
 	public static void main(String[] args) {
-		// Do initalization.
+		//I think this is where we want the main class?
+		Kablewie kablewie = new Kablewie();
+		
+
 	}
-	
+
+
 	public String getUsername() {
-		// Get username
-		return "";
+		return username;
 	}
-	
-	public int getWidth() {
-		// Get width
-		return 0;
+
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
-	
-	public int getHeight() {
-		// Get height
-		return 0;
+
+
+	public int getBoardHeight() {
+		return boardHeight;
 	}
-	
+
+
+	public void setBoardHeight(int boardHeight) {
+		this.boardHeight = boardHeight;
+	}
+
+
+	public int getBoardWidth() {
+		return boardWidth;
+	}
+
+
+	public void setBoardWidth(int boardWidth) {
+		this.boardWidth = boardWidth;
+	}
+
+
 	public int getTotalMines() {
-		// Get total mines
-		return 0;
+		return totalMines;
 	}
-	
+
+
+	public void setTotalMines(int totalMines) {
+		this.totalMines = totalMines;
+	}
+
 }
