@@ -62,9 +62,8 @@ public class Board {
 				mineCount++;
 			}
 		}
-	}
 	
-	public void revealTile(int row, int column) {
+	public void revealTile(int boardPosition) {
 		// This method is responsible for the revealing of a tile on the board
 		if (board[row][column] == /*code that calls isMine method */) {
 				gameWon = false;
