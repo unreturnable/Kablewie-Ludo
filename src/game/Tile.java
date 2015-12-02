@@ -27,8 +27,7 @@ public class Tile {
 	}
 	
 	public void createTile() {
-		// This will create each individual tile required
-	}
+			}
 	
 	public void changeTileType() {
 		// This will change the type of the tile if required
