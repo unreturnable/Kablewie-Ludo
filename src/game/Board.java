@@ -18,7 +18,7 @@ public class Board {
 	private int mineCount;
 	private Boolean gameWon;
 	private Boolean gameLost;
-	private int[][] board;
+	private Tile[][] board;
 	
 	public Board (int bRows, int bColumns, int numMines) {
 		mineCount = numMines;
@@ -102,7 +102,7 @@ public class Board {
 		// This will reset the board to an empty board when executed
 		for (int i = 0; i<board.length; i++) {
 		    for (int j = 0; j<board.length; j++) {
-		    	board[i][j] = // code that changes all the tiles on the board to hidden
+		    	board[i][j] = new Hidden();
 		    }
 		}
 	}
