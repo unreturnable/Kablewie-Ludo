@@ -1,3 +1,4 @@
+package main;
 
 public class Kablewie {
 	
@@ -8,10 +9,8 @@ public class Kablewie {
 	
 
 	public static void main(String[] args) {
-		//I think this is where we want the main class?
-		Kablewie kablewie = new Kablewie();
-		
-
+		// Create a Kablewie instance to escape static scope.
+		new Kablewie();
 	}
 
 

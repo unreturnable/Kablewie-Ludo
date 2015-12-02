@@ -25,25 +25,29 @@ public class Board {
 	
 	public Boolean isHidden() {
 		// Returns true or false is tile is hidden
+		return false;
 	}
 	
 	public Boolean isDefused() {
 		// Returns true or false is tile is defused
+		return false;
 	}
 	
 	public Boolean Mine() {
 		// Returns true or false if tile is a mine
+		return false;
 	}
 	
 	public Boolean isRevealed() {
 		// Returns true or false if the tile is revealed
+		return false;
 	}
 
 	public void placeMines() {
 		// This places the mines in random areas on the board(In the array list)
 	}
 	
-	public revealTile(int boardPosition) {
+	public void revealTile(int boardPosition) {
 		// This method is responsible for the revealing of a tile on the board
 	}
 	
@@ -57,10 +61,12 @@ public class Board {
 	
 	public Boolean isGameLost() {
 		// Checks the conditions to see if the game has been lost
+		return false;
 	}
 	
 	public Boolean isGameWon() {
 		// Checks the conditions to see if the game has been won
+		return false;
 	}
 	
 	private void setBoardDimensions(int rows, int columns) {
