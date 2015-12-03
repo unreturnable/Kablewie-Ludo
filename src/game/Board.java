@@ -44,8 +44,7 @@ public class Board {
 		 Random rnd = new Random();
 		 while (mineCount < mines) {
 			 int row = rnd.nextInt(board.size());
-			 int column = rnd.nextInt(board.get(row).size()); //not sure how to random for arraylist within arraylist
-
+			 int column = rnd.nextInt(board.get(row).size()); 
 			 board.get(row).set(column, new Mine(false));
 			 mineCount++;
 		 }
@@ -61,7 +60,12 @@ public class Board {
 //		}
 	}
 
-	private void paintBoard(Graphics g) {
+	private void render(Graphics g) {
 		// This will be responsible for creating the graphics of the board
+		for (ArrayList<Tile> row : board) {
+			for (Tile tile : row) {
+				tile.render();
+			}
+		}
 	}
 }
