@@ -1,5 +1,9 @@
 package game;
 
-public class Hidden {
+public class Hidden extends Tile {
+
+	public Hidden(boolean mineType) {
+		super(mineType);
+	}
 
 }

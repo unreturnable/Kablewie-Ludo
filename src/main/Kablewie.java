@@ -1,4 +1,15 @@
+/**
+ * 
+ * @author Thomas Phelps
+ *
+ */
+
 package main;
+
+import javax.swing.JFrame;
+
+import game.Board;
+import game.GameController;
 
 public class Kablewie {
 	
@@ -6,6 +17,7 @@ public class Kablewie {
 	private int boardHeight;
 	private int boardWidth;
 	private int totalMines;
+	private Object frame;
 	
 
 	public static void main(String[] args) {
@@ -13,44 +25,25 @@ public class Kablewie {
 		new Kablewie();
 	}
 
+	public Kablewie(){
+		
+		//1. Create the frame.
+		JFrame frame = new JFrame("Main Menu");
+		frame.setBounds(100, 100, 480, 560);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 
-	public String getUsername() {
-		return username;
-	}
-
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-
-	public int getBoardHeight() {
-		return boardHeight;
-	}
-
-
-	public void setBoardHeight(int boardHeight) {
-		this.boardHeight = boardHeight;
-	}
-
-
-	public int getBoardWidth() {
-		return boardWidth;
-	}
-
-
-	public void setBoardWidth(int boardWidth) {
-		this.boardWidth = boardWidth;
-	}
-
-
-	public int getTotalMines() {
-		return totalMines;
-	}
-
-
-	public void setTotalMines(int totalMines) {
-		this.totalMines = totalMines;
+		frame.getContentPane().setLayout(null);
+		
+		//Show it.
+		frame.setVisible(true);
+		
+		//MainMenu menu = new MainMenu(frame);
+		
+		Board board = new Board(5,5,5);
+		
+		GameController gameController = new GameController(board, null);
+		
 	}
 
 }

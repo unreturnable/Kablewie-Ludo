@@ -12,17 +12,28 @@ public class GameController {
 	
 	private ArrayList<Player> players;
 	private Board board;
-	private int boardWidth = 0;
-	private int boardHeight = 0;
-	private int mineCount = 0;
 	private long gameStartTime = 0;
+	private boolean gamePlaying = true;
 
-	public GameController(int rows, int columns, int mines, ArrayList<Player> players) {
-		// Initalization
+	public GameController(Board board, ArrayList<Player> players) {
+		this.board = board;
+		this.players = players;
+		
+		startGame();
 	}
 	
-	public void gameTurn() {
-		// Take a game turn
+	private void startGame() {
+		gameStartTime = System.currentTimeMillis();
+		
+		// Loop until the game is over.
+		while (gamePlaying) {
+			
+			for (Player player: players) {
+				player.takeTurn();
+				
+			}
+			
+		}
 	}
 	
 }
