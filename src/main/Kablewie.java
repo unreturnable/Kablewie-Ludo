@@ -6,10 +6,13 @@
 
 package main;
 
+import java.util.ArrayList;
+
 import javax.swing.JFrame;
 
 import game.Board;
 import game.GameController;
+import game.Player;
 
 public class Kablewie {
 	
@@ -40,10 +43,12 @@ public class Kablewie {
 		
 		//MainMenu menu = new MainMenu(frame);
 		
-		Board board = new Board(5,5,5);
 		
+		
+	}
+	
+	public void startGame(Board board, ArrayList<Player> players){
 		GameController gameController = new GameController(board, null);
-		
 	}
 
 }
