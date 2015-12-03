@@ -2,6 +2,8 @@ package game;
 
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
+
 /**
  * 
  * @author Peter Jenkins
@@ -15,7 +17,7 @@ public class GameController {
 	private long gameStartTime = 0;
 	private boolean gamePlaying = true;
 
-	public GameController(Board board, ArrayList<Player> players) {
+	public GameController(Board board, ArrayList<Player> players, JFrame frame) {
 		this.board = board;
 		this.players = players;
 		
