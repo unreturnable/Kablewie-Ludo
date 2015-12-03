@@ -24,7 +24,7 @@ public class Kablewie {
 		new Kablewie();
 	}
 
-	public Kablewie(){
+	public Kablewie() {
 		
 		// Create the frame.
 		frame = new JFrame("Main Menu");
@@ -37,13 +37,7 @@ public class Kablewie {
 		//Show it.
 		frame.setVisible(true);
 		
-		//MainMenu menu = new MainMenu(frame);
-		
-		Board board = new Board(5, 5, 3);
-		Player player = new Player("Bob");
-		ArrayList<Player> players = new ArrayList<Player>();
-		players.add(player);
-		new GameController(board, players, frame);
+		MainMenu menu = new MainMenu(frame);
 	}
 	
 	public void startGame(Board board, ArrayList<Player> players){

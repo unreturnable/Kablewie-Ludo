@@ -26,7 +26,7 @@ public class MainMenu extends JFrame {
 	private static JTextField boardWidthText;
 	private static JTextField totalMinesText;
 	
-	public MainMenu(){
+	public MainMenu(JFrame frame) {
 		getContentPane().setLayout(new FlowLayout());
 		
 		topMenuBar = new JMenuBar();
@@ -71,31 +71,7 @@ public class MainMenu extends JFrame {
 		}
 	}
 	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainMenu window = new MainMenu();
-					window.Kablewie.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	
-	
 	public void display(){
-		final JFrame main = this;
-		Kablewie = new JFrame();
-		//Kablewie.setTitle("Game Board Setting");
-		Kablewie.setResizable(false);
-		Kablewie.setSize(540, 380);
-		Kablewie.setTitle("Kablewie");
-		Kablewie.setForeground(Color.RED);
-		Kablewie.setBackground(Color.RED);
-		Kablewie.getContentPane().setBackground(new Color(153, 180, 209));
-		Kablewie.getContentPane().setLayout(null);
 		
 		JPanel gamePanel = new JPanel();
 		gamePanel.setBackground(SystemColor.inactiveCaption);

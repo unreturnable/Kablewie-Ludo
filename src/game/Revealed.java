@@ -9,6 +9,7 @@ import java.awt.Graphics;
  *
  */
 public class Revealed extends Tile {
+	
 	public Revealed(boolean mineType) {
 		super(mineType);
 	}
@@ -16,8 +17,10 @@ public class Revealed extends Tile {
 	private int m_nearbyMines;
 
 	public void render(Graphics g, int x, int y) {
+		
 		g.setColor(Color.RED);
 		g.drawRect(x * WIDTH, y * HEIGHT, WIDTH, HEIGHT);
+		
 		if(m_nearbyMines>0) {
 			g.drawString(""+m_nearbyMines, x * WIDTH, y * HEIGHT);
 		}
