@@ -16,18 +16,23 @@ public class Revealed extends Tile {
 
 	public void render(Graphics g, int x, int y) {
 		g.drawRect(x*width, y*height, width, height);
+		if(m_nearbyMines>0) {
+			g.drawString(""+m_nearbyMines, x*width, y*height);
+		}
 	}
-
-	/*
-	 * private int calculateNearbyMines(){ return 1; }
+	
+	/**
+	 * calculates the number of mines arround a tile
+	 * @param tile have the tile in center
+	 * @param tileArround have the tile arround it
 	 */
-	public int calculateNearbyMines(Tile tile, Tile[] tileArround) {
+	public void calculateNearbyMines(Tile tile, Tile[] tileArround) {
 		int nearbyMine = 0;
 		for (int i = 0; i < tileArround.length; ++i) {
 			if (tileArround[i].getMineType()) {
 				++nearbyMine;
 			}
 		}
-		return nearbyMine;
+		m_nearbyMines=nearbyMine;
 	}
 }
