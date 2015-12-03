@@ -17,7 +17,7 @@ public class GameController {
 	private int mineCount = 0;
 	private long gameStartTime = 0;
 
-	public GameController(int rows, int columns, int mines, ArrayList<Player> players) {
+	public GameController(Board board, ArrayList<Player> players) {
 		// Initalization
 	}
 	
