@@ -35,7 +35,7 @@ public class Board {
 			board.add(new ArrayList<Tile>());
 			
 			for (int q=0; q<columns; q++) {
-				board.get(i).add(new Hidden(false));
+				board.get(i).add(new Hidden(false, true));
 			}
 		}
 	}
@@ -48,9 +48,7 @@ public class Board {
 			 int row = rnd.nextInt(board.size());
 			 int column = rnd.nextInt(board.get(row).size());
 			 
-			 ArrayList<Tile> rowTiles = board.get(row);
-			 rowTiles.set(column, new Mine(false));
-			 board.set(row, rowTiles);
+			 board.get(row).get(column).setTileType(true, true);
 			 
 			 mineCount--;
 		 }
@@ -60,16 +58,15 @@ public class Board {
 	public void revealTile(int x, int y) {
 		// This method is responsible for the revealing of a tile on the board
 		
-		double xPos = Math.floor(x/50);
-		double yPos = Math.floor(y/50);
+		int xPos = (int) Math.floor(x / Tile.WIDTH);
+		int yPos = (int) Math.floor(y / Tile.HEIGHT);
 
+		if (board.get(xPos).get(yPos).isHidden) {
+			
+			
+			
+		}
 		
-//		if (board[row][column] == /*code that calls isMine method */) {
-//				gameWon = false;
-//				gameLost = true;
-//		} else if (board[row][column] == /* code that calls isHidden method */) {
-//			board[row][column] = // code that calls adjacent mines method
-//		}
 	}
 
 	public void render(Graphics g) {

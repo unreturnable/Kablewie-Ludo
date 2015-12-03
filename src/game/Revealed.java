@@ -10,8 +10,9 @@ import java.awt.Graphics;
  */
 public class Revealed extends Tile {
 	
-	public Revealed(boolean mineType) {
-		super(mineType);
+	public Revealed(boolean isMine, boolean isHidden) {
+		// Always set hidden to false as its the revealed tile.
+		super(isMine, false);
 	}
 
 	private int m_nearbyMines;
@@ -33,9 +34,9 @@ public class Revealed extends Tile {
 	 */
 	public void calculateNearbyMines(Tile tile, Tile[] tileArround) {
 		int nearbyMine = 0;
-		for (int i = 0; i < tileArround.length; ++i) {
-			if (tileArround[i].getMineType()) {
-				++nearbyMine;
+		for (int i = 0; i < tileArround.length; i++) {
+			if (tileArround[i].isMine()) {
+				nearbyMine++;
 			}
 		}
 		m_nearbyMines=nearbyMine;

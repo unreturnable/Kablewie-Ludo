@@ -1,7 +1,5 @@
 package game;
 
-import java.awt.Color;
-import java.awt.Graphics;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -25,30 +23,35 @@ public class GameController {
 
 		this.frame = frame;
 
-		JPanel panel = new JPanel() {
-			@Override
-			public void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				board.render(g);
-			}
-		};
-		panel.setBounds(0, 0, 640, 480);
-		frame.getContentPane().add(panel);
-
-		frame.validate();
-		frame.repaint();
-
 		startGame();
 	}
 
 	private void startGame() {
 		gameStartTime = System.currentTimeMillis();
 
+		JPanel panel = new JPanel();
+		panel.setBounds(0, 0, 640, 480);
+		frame.getContentPane().add(panel);
+		
+		try {
+			Human humanPlayer = (Human) player;
+			humanPlayer.setMouseListener(panel);
+		} catch(ClassCastException e) {
+			// Player was not human.
+		}
+
+		frame.validate();
+		frame.repaint();
+		
 		// Loop until the game is over
 		while (gamePlaying) {
 
+			// board.render(panel.getGraphics());
+			//panel.repaint();
+			
 			player.takeTurn();
 			gamePlaying = false;
+			
 		}
 	}
 

@@ -5,8 +5,9 @@ import java.awt.Graphics;
 
 public class Hidden extends Tile {
 
-	public Hidden(boolean mineType) {
-		super(mineType);
+	public Hidden(boolean isMine, boolean isHidden) {
+		// Always set hidden to false as its the hidden tile.
+		super(isMine, true);
 	}
 	
 	public void render(Graphics g, int x, int y) {

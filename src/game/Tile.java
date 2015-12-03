@@ -9,34 +9,28 @@ import java.awt.*;
 
 public class Tile {
 	
-	public static int WIDTH = 25;
-	public static int HEIGHT = 25;
+	public static final int WIDTH = 25;
+	public static final int HEIGHT = 25;
 
-	protected Boolean isClicked;
-	protected Boolean mineType;
-	protected Boolean hiddenType;
-	protected Boolean revealedType;
-	protected Boolean defusedType;
-	protected Image tileCover;
-	
-	public static void main(String[] args) {
-		
-	}
+	protected boolean isMine = false;
+	protected boolean isHidden = false;
 
-	public Tile(boolean mineType){
-		this.mineType=mineType;
+	public Tile(boolean isMine, boolean isHidden){
+		this.isMine = isMine;
+		this.isHidden = isHidden;
 	}
 	
-	public void createTile() {
-		
+	protected boolean isMine() {
+		return isMine;
 	}
 	
-	public boolean getMineType() {
-		return mineType;
+	protected boolean isHidden() {
+		return isHidden;
 	}
 	
-	public void changeTileType() {
-		// This will change the type of the tile if required
+	protected void setTileType(boolean isMine, boolean isHidden) {
+		this.isMine = isMine;
+		this.isHidden = isHidden;
 	}
 	
 	public void render(Graphics g, int x, int y) {
