@@ -37,7 +37,7 @@ public class Tile{
         tile.setPreferredSize(new Dimension(20,20));
         tile.setMargin(new Insets(0,0,0,0));
         setTileImage(tileCover);
-			}
+	}
 	
 	public void changeTileType() {
 		// This will change the type of the tile if required
