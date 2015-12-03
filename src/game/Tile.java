@@ -9,8 +9,8 @@ import java.awt.*;
 
 public class Tile {
 	
-	public static int WIDTH = 50;
-	public static int HEIGHT = 50;
+	public static int WIDTH = 25;
+	public static int HEIGHT = 25;
 
 	protected Boolean isClicked;
 	protected Boolean mineType;
@@ -39,7 +39,7 @@ public class Tile {
 		// This will change the type of the tile if required
 	}
 	
-	public void render() {
+	public void render(Graphics g, int x, int y) {
 		// This will render the tile 
 	}
 

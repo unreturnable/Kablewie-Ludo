@@ -2,9 +2,6 @@ package game;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.color.*;
-import java.util.ArrayList;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -16,31 +13,31 @@ import javax.swing.JPanel;
 
 public class GameController {
 
-	private ArrayList<Player> players;
+	private Player player;
 	private Board board;
 	private long gameStartTime = 0;
 	private boolean gamePlaying = true;
 	private JFrame frame;
 
-	public GameController(Board board, ArrayList<Player> players, JFrame frame) {
+	public GameController(Board board, Player player, JFrame frame) {
 		this.board = board;
-		this.players = players;
+		this.player = player;
 
-		frame = this.frame;
+		this.frame = frame;
 
 		JPanel panel = new JPanel() {
 			@Override
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				g.setColor(Color.BLUE);
-				g.fillRect(0, 0, 100, 100);
+				board.render(g);
 			}
 		};
-		frame.add(panel);
+		panel.setBounds(0, 0, 640, 480);
+		frame.getContentPane().add(panel);
 
 		frame.validate();
 		frame.repaint();
-		
+
 		startGame();
 	}
 
@@ -50,10 +47,8 @@ public class GameController {
 		// Loop until the game is over
 		while (gamePlaying) {
 
-			for (Player player : players) {
-				player.takeTurn();
-			}
-
+			player.takeTurn();
+			gamePlaying = false;
 		}
 	}
 

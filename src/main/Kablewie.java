@@ -6,8 +6,6 @@
 
 package main;
 
-import java.util.ArrayList;
-
 import javax.swing.JFrame;
 
 import game.Board;
@@ -34,11 +32,12 @@ public class Kablewie {
 		//Show it.
 		frame.setVisible(true);
 		
-		MainMenu menu = new MainMenu(frame);
+		MainMenu menu = new MainMenu(frame, this);
 	}
 	
-	public void startGame(Board board, ArrayList<Player> players){
-		new GameController(board, players, frame);
+	public void startGame(Board board, Player player) {
+		frame.getContentPane().removeAll();
+		new GameController(board, player, frame);
 	}
 
 }
