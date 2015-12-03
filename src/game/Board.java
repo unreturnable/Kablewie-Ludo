@@ -2,6 +2,7 @@ package game;
 
 import java.awt.*;
 import java.util.*;
+import java.lang.Math;
 
 /**
  * 
@@ -56,8 +57,13 @@ public class Board {
 		 
 	} 
 
-	public void revealTile(int boardPosition) {
+	public void revealTile(int x, int y) {
 		// This method is responsible for the revealing of a tile on the board
+		
+		double xPos = Math.floor(x/50);
+		double yPos = Math.floor(y/50);
+
+		
 //		if (board[row][column] == /*code that calls isMine method */) {
 //				gameWon = false;
 //				gameLost = true;
@@ -66,7 +72,6 @@ public class Board {
 //		}
 	}
 
-	
 	public void render(Graphics g) {
 		// This will be responsible for creating the graphics of the board
 		for (int y=0; y<board.size(); y++) {
