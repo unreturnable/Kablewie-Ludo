@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 /**
@@ -15,9 +16,10 @@ public class Revealed extends Tile {
 	private int m_nearbyMines;
 
 	public void render(Graphics g, int x, int y) {
-		g.drawRect(x*width, y*height, width, height);
+		g.setColor(Color.RED);
+		g.drawRect(x * WIDTH, y * HEIGHT, WIDTH, HEIGHT);
 		if(m_nearbyMines>0) {
-			g.drawString(""+m_nearbyMines, x*width, y*height);
+			g.drawString(""+m_nearbyMines, x * WIDTH, y * HEIGHT);
 		}
 	}
 	
