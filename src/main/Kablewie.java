@@ -1,4 +1,6 @@
 
+package main;
+
 public class Kablewie {
 	
 	private String username;
