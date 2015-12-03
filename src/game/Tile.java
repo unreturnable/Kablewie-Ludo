@@ -9,8 +9,8 @@ import java.awt.*;
 
 public class Tile {
 	
-	protected static int WIDTH = 50;
-	protected static int HEIGHT = 50;
+	public static int WIDTH = 50;
+	public static int HEIGHT = 50;
 
 	protected Boolean isClicked;
 	protected Boolean mineType;
