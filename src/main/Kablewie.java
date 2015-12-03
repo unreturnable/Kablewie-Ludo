@@ -27,13 +27,10 @@ public class Kablewie {
 	public Kablewie() {
 		
 		// Create the frame.
-		frame = new JFrame("Main Menu");
-		frame.setBounds(100, 100, 480, 560);
+		frame = new JFrame("Kablewie");
+		frame.setBounds(100, 100, 640, 480);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-
-		frame.getContentPane().setLayout(null);
-		
+	
 		//Show it.
 		frame.setVisible(true);
 		
