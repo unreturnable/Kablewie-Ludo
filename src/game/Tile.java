@@ -15,13 +15,13 @@ import javax.swing.JButton;
 
 public class Tile{
 	
-	private Boolean isClicked;
-	private Boolean mineType;
-	private Boolean hiddenType;
-	private Boolean revealedType;
-	private Boolean defusedType;
-	private Image tileCover;
-	private JButton tile = new JButton();
+	protected Boolean isClicked;
+	protected Boolean mineType;
+	protected Boolean hiddenType;
+	protected Boolean revealedType;
+	protected Boolean defusedType;
+	protected Image tileCover;
+	protected JButton tile = new JButton();
 	
 	public static void main(String[] args) {
 		

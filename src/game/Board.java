@@ -79,7 +79,6 @@ public class Board {
 	
 	private void flagTile(int boardPosition) {
 		// This method will be responsible for flagging a tile on the board
-		if ()
 	}
 	
 	public Boolean isGameLost() {
