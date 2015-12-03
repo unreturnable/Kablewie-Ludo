@@ -60,7 +60,7 @@ public class Board {
 //		}
 	}
 
-	private void render(Graphics g) {
+	public void render(Graphics g) {
 		// This will be responsible for creating the graphics of the board
 		for (ArrayList<Tile> row : board) {
 			for (Tile tile : row) {
