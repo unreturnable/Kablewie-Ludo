@@ -29,7 +29,6 @@ public class Human extends Player implements MouseListener {
 		playersTurn = true;
 	}
 
-	@Override
 	public void mouseClicked(MouseEvent e) {
 		System.out.println("Mouse event");
 		
@@ -43,19 +42,15 @@ public class Human extends Player implements MouseListener {
 		}
 	}
 
-	@Override
 	public void mouseEntered(MouseEvent e) {
 	}
 
-	@Override
 	public void mouseExited(MouseEvent e) {	
 	}
 
-	@Override
 	public void mousePressed(MouseEvent e) {
 	}
 
-	@Override
 	public void mouseReleased(MouseEvent arg0) {
 	}
 

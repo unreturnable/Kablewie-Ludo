@@ -79,13 +79,13 @@ public class MainMenu extends JFrame {
 		}
 	}
 
-	public void display(Kablewie kablewie) {
+	public void display(final Kablewie kablewie) {
 
 		frame.setResizable(false);
-		frame.setSize(640, 480);
+		frame.setSize(440, 320);
 		frame.setTitle("Kablewie");
-		frame.setForeground(Color.RED);
-		frame.setBackground(Color.RED);
+		//frame.setForeground(Color.RED);
+		//frame.setBackground(Color.RED);
 		frame.getContentPane().setBackground(new Color(153, 180, 209));
 		frame.getContentPane().setLayout(null);
 
@@ -93,42 +93,48 @@ public class MainMenu extends JFrame {
 		gamePanel.setBackground(SystemColor.inactiveCaption);
 		gamePanel.setBorder(
 				new TitledBorder(null, "Kablewie Status", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		gamePanel.setBounds(100, 25, 440, 400);
+		gamePanel.setBounds(95, 27, 274, 210);
+		//gamePanel.setForeground(Color.RED);
 		frame.getContentPane().add(gamePanel);
 		gamePanel.setLayout(null);
 
 		JLabel userName = new JLabel("User Name:");
-		userName.setBounds(10, 25, 100, 25);
+		userName.setBounds(6, 26, 82, 26);
+		//userName.setForeground(Color.RED);
 		gamePanel.add(userName);
 
 		userNameText = new JTextField();
-		userNameText.setBounds(110, 25, 120, 25);
+		userNameText.setBounds(98, 26, 110, 26);
+		userNameText.setForeground(Color.RED);
 		gamePanel.add(userNameText);
 		userNameText.setColumns(10);
 
 		JLabel boardSize = new JLabel("Board Size:");
-		boardSize.setBounds(10, 75, 100, 25);
+		boardSize.setBounds(6, 69, 82, 26);
 		gamePanel.add(boardSize);
 
 		boardSizeText = new JTextField();
-		boardSizeText.setBounds(110, 75, 120, 25);
+		boardSizeText.setBounds(98, 69, 110, 26);
+		boardSizeText.setForeground(Color.RED);
 		gamePanel.add(boardSizeText);
 		boardSizeText.setColumns(10);
 
 		JLabel totalMines = new JLabel("Total Mines:");
-		totalMines.setBounds(10, 175, 100, 25);
+		totalMines.setBounds(6, 116, 82, 26);;
 		gamePanel.add(totalMines);
 
 		totalMinesText = new JTextField();
-		totalMinesText.setBounds(110, 175, 120, 25);
+		totalMinesText.setBounds(98, 116, 110, 26);
+		totalMinesText.setForeground(Color.RED);
 		gamePanel.add(totalMinesText);
 		totalMinesText.setColumns(10);
 
 		JButton startGame = new JButton("Start Game");
 		startGame.setIcon(null);
-		startGame.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 11));
-		startGame.setForeground(Color.BLUE);
-		startGame.setBounds(25, 250, 200, 25);
+		startGame.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 10));
+		startGame.setForeground(Color.RED);
+		startGame.setBackground(Color.BLACK);
+		startGame.setBounds(110, 160, 100, 32);
 		gamePanel.add(startGame);
 
 		startGame.addActionListener(new ActionListener() {
