@@ -48,9 +48,12 @@ public class Board {
 			 int row = rnd.nextInt(board.size());
 			 int column = rnd.nextInt(board.get(row).size());
 			 
-			 board.get(row).get(column).setTileType(true, true);
-			 
-			 mineCount--;
+			 if (board.get(row).get(column).isMine) {
+				 
+			 } else {
+				 board.get(row).get(column).setTileType(true, true);
+				 mineCount--;
+			 }
 		 }
 		 
 	} 
@@ -62,9 +65,11 @@ public class Board {
 		int yPos = (int) Math.floor(y / Tile.HEIGHT);
 
 		if (board.get(xPos).get(yPos).isHidden) {
-			
-			
-			
+			board.get(xPos).get(yPos).setTileType(false, false);
+		} else if (board.get(xPos).get(yPos).isMine) {
+			this.gameWon = false;
+			this.gameLost = true;
+			board.get(xPos).get(yPos).setTileType(true, false);
 		}
 		
 	}
