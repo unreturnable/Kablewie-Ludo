@@ -19,12 +19,12 @@ public class Board {
 	private Boolean gameWon;
 	private Boolean gameLost;
 	private ArrayList<ArrayList<Tile>> board = new ArrayList<ArrayList<Tile>>();
-
+	private Revealed reveal;	// made it so that you can call the reveal methods
 	public Board(int bRows, int bColumns, int numMines) {
 		this.mineCount = numMines;
 		this.rows = bRows;
 		this.columns = bColumns;
-
+		reveal=new Revealed(false,false);
 		setBoardDimensions();
 		placeMines(numMines);
 	}
@@ -65,10 +65,12 @@ public class Board {
 		int yPos = (int) Math.floor(y / Tile.HEIGHT);
 
 		if (board.get(xPos).get(yPos).isHidden) {
-			//board.get(xPos).get(yPos).setTileType(false, false);
+			/*board.get(xPos).get(yPos).setTileType(false, false);
 			board.get(xPos).remove(yPos);
 			board.get(xPos).add(yPos, new Revealed(false, false));
 			board.get(xPos).get(yPos).revealPosition(board,xPos, yPos);
+			*/
+			reveal.revealPosition(board,xPos, yPos);
 		} else if (board.get(xPos).get(yPos).isMine) {
 			this.gameWon = false;
 			this.gameLost = true;
