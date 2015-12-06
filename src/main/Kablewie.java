@@ -15,7 +15,12 @@ import javax.swing.JFrame;
 import game.Board;
 import game.GameController;
 import game.Player;
-
+/**
+ * This Class is main Class which calls the MainMenu class
+ * where user name ,board size and number of mine is entered 
+ * @author Thomas Phelps 
+ *
+ */
 public class Kablewie {
 
 	private JFrame m_frame;
@@ -47,7 +52,7 @@ public class Kablewie {
 
 		// Show the frame.
 		m_frame.setVisible(true);
-		MainMenu menu = new MainMenu(m_frame, this);
+		new MainMenu(m_frame, this);
 	}
 
 	/**

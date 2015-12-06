@@ -6,7 +6,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JPanel;
 
 /**
- * 
+ * human is a player which store the
  * @author Zongbo Xu
  *
  */

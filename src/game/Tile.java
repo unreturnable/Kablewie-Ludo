@@ -2,7 +2,9 @@ package game;
 import java.awt.*;
 
 /**
- * 
+ * It is an abstract class which is extended by Hidden, 
+ * Mine, Revealed and Defused
+ * it has the basic information which each type of tile has
  * @author Ethan Davies
  *
  */

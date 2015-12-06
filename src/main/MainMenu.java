@@ -11,7 +11,8 @@ import game.Human;
 import game.Player;
 
 /**
- * 
+ * Asks the user name , board size and the number of the mines 
+ * after that it starts the game
  * @author Eromosele Gideon
  *
  */
@@ -128,7 +129,8 @@ implements MouseListener, KeyListener {
 		createStartGameBtn(gamePanel);
 	}
 	/**
-	 *  display the main menu using the above method
+	 *  display the main menu using the above method which create a JPanel
+	 *  which is then added in the frame
 	 */
 	public void display() {
 

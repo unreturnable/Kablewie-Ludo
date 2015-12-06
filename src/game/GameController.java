@@ -26,7 +26,9 @@ import javax.swing.Timer;
 import main.MainMenu;
 
 /**
- * 
+ * controls the flow of the game 
+ * take the click of the user and 
+ * pass the position of the clicked to the Board
  * @author Peter Jenkins
  *
  */

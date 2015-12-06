@@ -10,8 +10,9 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 /**
- * 
- * @author anshul
+ * It has the revealed algorithm 
+ * which reveal a Tile and Draws it 
+ * @author Anshul Kumar
  *
  */
 public class Revealed extends Tile implements ImageObserver {
@@ -83,7 +84,7 @@ public class Revealed extends Tile implements ImageObserver {
 	 * @param i
 	 *            the current row which has been clicked
 	 * @param j
-	 *            the current coloumb which has been clicked
+	 *            the current column which has been clicked
 	 * @return
 	 */
 	private ArrayList<Tile> getTileArround(ArrayList<ArrayList<Tile>> board, 
@@ -116,7 +117,7 @@ public class Revealed extends Tile implements ImageObserver {
 	 * @param i
 	 *            have the row of the current tile
 	 * @param j
-	 *            have the coloumb of the current tile
+	 *            have the column of the current tile
 	 */
 	public void revealPosition(ArrayList<ArrayList<Tile>> board, 
 			int i, int j) {

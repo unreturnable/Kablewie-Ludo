@@ -9,7 +9,7 @@ import javax.swing.ImageIcon;
 
 /**
  * 
- * @author anshul
+ * @author Josh Townsend
  *
  */
 public class Defused extends Tile implements ImageObserver {

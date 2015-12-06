@@ -6,7 +6,11 @@ import java.awt.Image;
 import java.awt.image.ImageObserver;
 
 import javax.swing.ImageIcon;
-
+/**
+ * Draws A Hidden Animation
+ * @author Thomas Williams
+ *
+ */
 public class Hidden extends Tile implements ImageObserver {
 
 	ImageIcon m_hidden;

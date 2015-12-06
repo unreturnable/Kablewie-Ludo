@@ -7,6 +7,11 @@ import java.awt.image.ImageObserver;
 
 import javax.swing.ImageIcon;
 
+/**
+ * Draws A Mine Animation
+ * @author Josh Townsend
+ *
+ */
 public class Mine extends Tile implements ImageObserver {
 
 	ImageIcon m_mineImage;
