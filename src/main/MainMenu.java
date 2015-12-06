@@ -1,7 +1,9 @@
 package main;
 
 import java.awt.event.*;
+
 import java.awt.*;
+import java.util.List;
 
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -51,13 +53,14 @@ implements MouseListener, KeyListener {
 	 */
 	public void createUserName(JPanel gamePanel) {
 		JLabel userName = new JLabel("User Name:");
-		userName.setBounds(10, 25, 100, 25);
+		userName.setBounds(6, 26, 82, 26);
 		gamePanel.add(userName);
 
 		m_userNameText = new JTextField();
 		m_userNameText.addKeyListener(this);
 		m_userNameText.setBorder(null);
-		m_userNameText.setBounds(110, 25, 120, 25);
+		m_userNameText.setBounds(98, 26, 110, 26);
+		m_userNameText.setForeground(Color.RED);
 		gamePanel.add(m_userNameText);
 		m_userNameText.setColumns(10);
 	}
@@ -67,32 +70,37 @@ implements MouseListener, KeyListener {
 	 */
 	public void createBoardSize(JPanel gamePanel) {
 		JLabel boardSize = new JLabel("Board Size:");
-		boardSize.setBounds(10, 75, 100, 25);
+		boardSize.setBounds(6, 69, 82, 26);
 		gamePanel.add(boardSize);
 
 		m_boardSizeText = new JTextField();
 		m_boardSizeText.addKeyListener(this);
 		m_boardSizeText.setText("10");
 		m_boardSizeText.setBorder(null);
-		m_boardSizeText.setBounds(110, 75, 120, 25);
+		m_boardSizeText.setBounds(98, 69, 110, 26);
+		m_boardSizeText.setForeground(Color.RED);
 		gamePanel.add(m_boardSizeText);
 		m_boardSizeText.setColumns(10);
 	}
+	
 	/**
 	 * create the Total Mine on the gamePanel
 	 * @param gamePanel - the Panel is which is added on the frame
 	 */
 	public void createTotalMines(JPanel gamePanel) {
 		JLabel totalMines = new JLabel("Total Mines:");
-		totalMines.setBounds(10, 120, 100, 25);
+		totalMines.setBounds(6, 116, 82, 26);
 		gamePanel.add(totalMines);
+		
 		m_totalMinesText = new JTextField();
 		m_totalMinesText.addKeyListener(this);
 		m_totalMinesText.setText("10");
 		m_totalMinesText.setBorder(null);
-		m_totalMinesText.setBounds(110, 120, 120, 25);
+		m_totalMinesText.setBounds(98, 116, 110, 26);
+		m_totalMinesText.setForeground(Color.RED);
 		gamePanel.add(m_totalMinesText);
 		m_totalMinesText.setColumns(10);
+		
 	}
 	/**
 	 * create the Start Button on the gamePanel
@@ -101,11 +109,13 @@ implements MouseListener, KeyListener {
 	public void createStartGameBtn(JPanel gamePanel) {
 		JButton startGame = new JButton("Start Game");
 		startGame.setIcon(null);
-		startGame.setFont(new Font("Copperplate Gothic Bold"
-				, Font.PLAIN, 11));
-		startGame.setForeground(Color.BLUE);
-		startGame.setBounds(25, 250, 200, 25);
+		startGame.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 10));
+		startGame.setForeground(Color.RED);
+		startGame.setBackground(Color.WHITE);
+		startGame.setBounds(110, 160, 100, 32);
 		gamePanel.add(startGame);
+		
+		
 
 		startGame.addMouseListener(this);
 	}
@@ -120,7 +130,7 @@ implements MouseListener, KeyListener {
 		gamePanel.setBorder(
 				new TitledBorder(null, "Kablewie Status"
 						, TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		gamePanel.setBounds(100, 25, 440, 400);
+		gamePanel.setBounds(95, 27, 274, 210);
 		m_frame.getContentPane().add(gamePanel);
 		gamePanel.setLayout(null);
 		createUserName(gamePanel);
@@ -134,7 +144,7 @@ implements MouseListener, KeyListener {
 	public void display() {
 
 		m_frame.setResizable(false);
-		m_frame.setSize(640, 480);
+		m_frame.setSize(440, 320);
 		m_frame.setTitle("Kablewie");
 		m_frame.setForeground(Color.RED);
 		m_frame.setBackground(Color.RED);

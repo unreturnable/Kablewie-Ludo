@@ -162,7 +162,7 @@ public class GameController implements MouseListener, ActionListener {
 
 	private JMenuBar mymenu() {
 		JMenuBar menu = new JMenuBar();
-		JMenu game = new JMenu("game");
+		JMenu game = new JMenu("Game");
 		m_newGame = new JMenuItem("New Game");
 		m_newGame.addActionListener(this);
 		m_settings = new JMenuItem("Settings");
