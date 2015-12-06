@@ -31,11 +31,11 @@ public class Revealed extends Tile implements ImageObserver {
 	private final ImageIcon revealedImage;
 	public void render(Graphics g, int x, int y) {
 
-		g.setColor(Color.BLACK);
+		g.setColor(Color.BLUE);
 		g.drawImage(revealedImage.getImage(), x * super.WIDTH, y * super.HEIGHT, this);
 		if (m_nearbyMines > 0) {
 			g.setFont(new Font("Time new roman",Font.BOLD,15));
-			g.drawString(Integer.toString(m_nearbyMines), x * super.WIDTH+8, y * super.HEIGHT+17);
+			g.drawString(Integer.toString(m_nearbyMines), x * super.WIDTH+10, y * super.HEIGHT+19);
 		}
 	}
 

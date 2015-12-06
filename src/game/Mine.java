@@ -20,6 +20,7 @@ public class Mine extends Tile implements ImageObserver {
 	public void render(Graphics g, int x, int y) {
 	
 		g.setColor(Color.RED);
+		//g.drawRect(x * super.WIDTH, y * super.HEIGHT, super.WIDTH, super.HEIGHT);
 		g.drawImage(mineImage.getImage(), x * super.WIDTH, y * super.HEIGHT, this);
 		
 	}

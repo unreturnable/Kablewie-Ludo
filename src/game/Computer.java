@@ -8,7 +8,7 @@ package game;
 
 public class Computer extends Player {
 
-	private String username;
+	private String m_username;
 	
 	public Computer(String name) {
 		// Initalization
