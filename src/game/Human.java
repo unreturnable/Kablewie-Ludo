@@ -13,8 +13,8 @@ import javax.swing.JPanel;
 
 public class Human extends Player  {
 
-	private String username;
-	private boolean playersTurn = true;
+	private String m_username;
+	private boolean m_playersTurn = true;
 
 	public Human(String name) {
 		super(name);
@@ -22,7 +22,7 @@ public class Human extends Player  {
 
 	
 	public void takeTurn() {
-		playersTurn = true;
+		m_playersTurn = true;
 	}
 
 	

@@ -7,6 +7,9 @@
 
 package main;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 import javax.swing.JFrame;
 
 import game.Board;
@@ -15,7 +18,7 @@ import game.Player;
 
 public class Kablewie {
 
-	private JFrame frame;
+	private JFrame m_frame;
 
 	public static void main(String[] args) {
 		// Create a Kablewie instance to escape static scope.
@@ -31,18 +34,20 @@ public class Kablewie {
 	public Kablewie() {
 
 		// Create the frame.
-		frame = new JFrame("Kablewie");
-
+		m_frame = new JFrame("Kablewie");
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		// Set frame boundaries.
-		frame.setBounds(100, 100, 640, 480);
+		m_frame.setSize( 640, 480);
+		m_frame.setLocation(dim.width/2-m_frame.getSize().width/2, dim.height/2-m_frame.getSize().height/2);
+		
 
 		// Set window to close when exited.
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		m_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Show the frame.
-		frame.setVisible(true);
+		m_frame.setVisible(true);
 
-		MainMenu menu = new MainMenu(frame, this);
+		MainMenu menu = new MainMenu(m_frame, this);
 	}
 
 	/**
@@ -56,8 +61,8 @@ public class Kablewie {
 	 */
 
 	public void startGame(Board board, Player player, MainMenu menu) {
-		frame.getContentPane().removeAll();
-		new GameController(board, player, frame, menu);
+		m_frame.getContentPane().removeAll();
+		new GameController(board, player, m_frame, menu);
 	}
 
 }

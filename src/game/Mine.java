@@ -9,19 +9,19 @@ import javax.swing.ImageIcon;
 
 public class Mine extends Tile implements ImageObserver {
 
-	ImageIcon mineImage;
+	ImageIcon m_mineImage;
 	public Mine(boolean isMine, boolean isHidden,boolean isDefused,String path) {
 		// Always set hidden to false as Mine is a visible tile.
 		// Always set mine to true as Mine is a mine.
 		super(true, true,false);
-		mineImage=new ImageIcon(path);
+		m_mineImage=new ImageIcon(path);
 	}
 	
 	public void render(Graphics g, int x, int y) {
 	
 		g.setColor(Color.RED);
 		//g.drawRect(x * super.WIDTH, y * super.HEIGHT, super.WIDTH, super.HEIGHT);
-		g.drawImage(mineImage.getImage(), x * super.WIDTH, y * super.HEIGHT, this);
+		g.drawImage(m_mineImage.getImage(), x * super.WIDTH, y * super.HEIGHT, this);
 		
 	}
 

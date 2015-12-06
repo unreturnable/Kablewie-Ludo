@@ -20,7 +20,7 @@ public class Revealed extends Tile implements ImageObserver {
 		// Always set hidden to false as its the revealed tile.
 		super(isMine, isHidden,isDefused);
 		
-		revealedImage=new ImageIcon("revealed.png");
+		m_revealedImage=new ImageIcon("revealed.png");
 	}
 
 	public int getm_NearByMines() {
@@ -28,11 +28,11 @@ public class Revealed extends Tile implements ImageObserver {
 	}
 
 	private int m_nearbyMines;
-	private final ImageIcon revealedImage;
+	private final ImageIcon m_revealedImage;
 	public void render(Graphics g, int x, int y) {
 
 		g.setColor(Color.BLUE);
-		g.drawImage(revealedImage.getImage(), x * super.WIDTH, y * super.HEIGHT, this);
+		g.drawImage(m_revealedImage.getImage(), x * super.WIDTH, y * super.HEIGHT, this);
 		if (m_nearbyMines > 0) {
 			g.setFont(new Font("Time new roman",Font.BOLD,15));
 			g.drawString(Integer.toString(m_nearbyMines), x * super.WIDTH+10, y * super.HEIGHT+19);
@@ -48,7 +48,7 @@ public class Revealed extends Tile implements ImageObserver {
 	 *            have the tile arround it
 	 */
 	private int calculateNearbyMines(Tile tile, ArrayList<Tile> tileArround) {
-		if (tile.isMine) {
+		if (tile.m_isMine) {
 			m_nearbyMines = -1;
 		} else {
 			int nearbyMine = 0;
@@ -103,7 +103,7 @@ public class Revealed extends Tile implements ImageObserver {
 	 *            have the coloumb of the current tile
 	 */
 	public void revealPosition(ArrayList<ArrayList<Tile>> board, int i, int j) {
-		if (i < 0 || j < 0 || i >= board.size() || j >= board.get(0).size() || !(board.get(i).get(j).isHidden)) {
+		if (i < 0 || j < 0 || i >= board.size() || j >= board.get(0).size() || !(board.get(i).get(j).m_isHidden)) {
 			return;
 		}
 		ArrayList<Tile> tileArround = getTileArround(board, i, j);
@@ -124,7 +124,7 @@ public class Revealed extends Tile implements ImageObserver {
 			board.get(i).remove(j);
 			board.get(i).add(j, new Revealed(false, false,false));
 			Revealed r = (Revealed) board.get(i).get(j);
-			r.calculateNearbyMines(r, getTileArround(board, i, j));
+		 	r.calculateNearbyMines(r, getTileArround(board, i, j));
 		}
 	}
 

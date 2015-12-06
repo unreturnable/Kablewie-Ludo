@@ -31,57 +31,56 @@ import main.MainMenu;
 
 public class GameController implements MouseListener, ActionListener {
 
-	private MainMenu menu;
-	private Player player;
-	private Board board;
-	private boolean gamePlaying = true;
-	private JFrame frame;
-	private Human humanPlayer;
-	private JPanel panelGame;
-	private JPanel panelInfo;
+	private MainMenu m_menu;
+	private Player m_player;
+	private Board m_board;
+	private boolean m_gamePlaying = true;
+	private JFrame m_frame;
+	private Human m_humanPlayer;
+	private JPanel m_panelGame;
+	private JPanel m_panelInfo;
 	private JButton m_GameFinsh;
-	private Timer time;
-	private long hoursPlayed;
-	private long minuntesPlayed;
-	private long secoundPlayed;
+	private Timer m_time;
+	private long m_hoursPlayed;
+	private long m_minuntesPlayed;
+	private long m_secoundPlayed;
 	private String m_timePassed;
-
-	JMenuItem newGame;
-	JMenuItem settings;
-	JMenuItem exit;
-	JMenuItem about;
-	JMenuItem instructions;
+	private JMenuItem m_newGame;
+	private JMenuItem m_settings;
+	private JMenuItem m_exit;
+	private JMenuItem m_about;
+	private JMenuItem m_instructions;
 
 	public GameController(Board board, Player player, JFrame frame, MainMenu menu) {
-		this.board = board;
-		this.player = player;
-		time = new Timer(1000, this);
-		this.frame = frame;
-		this.menu = menu;
+		this.m_board = board;
+		this.m_player = player;
+		m_time = new Timer(1000, this);
+		this.m_frame = frame;
+		this.m_menu = menu;
 		setInfo();
 		startGame();
-		time.start();
+		m_time.start();
 	}
 
 	private void setInfo() {
-		panelInfo = new JPanel() {
+		m_panelInfo = new JPanel() {
 			@Override
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				board.renderInfo(g, player, m_timePassed);
+				m_board.renderInfo(g, m_player, m_timePassed);
 			}
 		};
-		panelInfo.setBounds(0, 0, 640, 50);
-		frame.getContentPane().add(panelInfo);
-		panelInfo.setLayout(null);
+		m_panelInfo.setBounds(0, 0, 640, 50);
+		m_frame.getContentPane().add(m_panelInfo);
+		m_panelInfo.setLayout(null);
 		m_GameFinsh = new JButton();
 		m_GameFinsh.setVisible(false);
 		m_GameFinsh.setBounds(130, 12, 38, 38);
-		panelInfo.add(m_GameFinsh);
+		m_panelInfo.add(m_GameFinsh);
 		m_GameFinsh.addMouseListener(this);
-		frame.validate();
-		frame.repaint();
-		panelInfo.repaint();
+		m_frame.validate();
+		m_frame.repaint();
+		m_panelInfo.repaint();
 
 	}
 
@@ -96,57 +95,52 @@ public class GameController implements MouseListener, ActionListener {
 	}
 
 	private void startGame() {
-		panelGame = new JPanel() {
+		m_panelGame = new JPanel() {
 			@Override
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
-				board.render(g);
+				m_board.render(g);
 			}
 		};
-		panelGame.setBounds(0, 50, frame.getWidth(), frame.getHeight());
-		panelGame.addMouseListener(this);
+		m_panelGame.setBounds(0, 50, m_frame.getWidth(), m_frame.getHeight());
+		m_panelGame.addMouseListener(this);
 
-		frame.getContentPane().add(panelGame);
-		frame.setJMenuBar(mymenu());
+		m_frame.getContentPane().add(m_panelGame);
+		m_frame.setJMenuBar(mymenu());
 		try {
-			humanPlayer = (Human) player;
+			m_humanPlayer = (Human) m_player;
 		} catch (ClassCastException e) {
 			// Player was not human.
 		}
-		frame.validate();
-		frame.repaint();
+		m_frame.validate();
+		m_frame.repaint();
 
-		// Loop until the game is over
-		// while (gamePlaying) {
-
-		panelGame.repaint();
-		player.takeTurn();
-		gamePlaying = false;
-
-		// }
+		m_panelGame.repaint();
+		m_player.takeTurn();
+		m_gamePlaying = false;
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		if (!(board.getGameLost())) {
+		if (!(m_board.getm_GameLost())) {
 			if (e.getButton() == MouseEvent.BUTTON1) {
-				board.revealTile(e.getX(), e.getY());
-				panelGame.repaint();
-				panelInfo.repaint();
+				m_board.revealTile(e.getX(), e.getY());
+				m_panelGame.repaint();
+				m_panelInfo.repaint();
 			} else if (e.getButton() == MouseEvent.BUTTON3) {
-				board.defusedTile(e.getX(), e.getY());
-				panelGame.repaint();
-				panelInfo.repaint();
+				m_board.defusedTile(e.getX(), e.getY());
+				m_panelGame.repaint();
+				m_panelInfo.repaint();
 			}
 		}
-		if (board.getGameLost()) {
-			time.stop();
+		if (m_board.getm_GameLost()) {
+			m_time.stop();
 			setm_GameLost();
 			if (e.getSource() == m_GameFinsh) {
 				reset();
 			}
 		}
-		if(board.getGameWon()) {
-			time.stop();
+		if(m_board.getm_GameWon()) {
+			m_time.stop();
 			sesetm_GameWin();
 			if (e.getSource() == m_GameFinsh) {
 				reset();
@@ -169,22 +163,22 @@ public class GameController implements MouseListener, ActionListener {
 	private JMenuBar mymenu() {
 		JMenuBar menu = new JMenuBar();
 		JMenu game = new JMenu("game");
-		newGame = new JMenuItem("New Game");
-		newGame.addActionListener(this);
-		settings = new JMenuItem("Settings");
-		settings.addActionListener(this);
-		exit = new JMenuItem("Exit");
-		exit.addActionListener(this);
-		game.add(newGame);
-		game.add(settings);
-		game.add(exit);
+		m_newGame = new JMenuItem("New Game");
+		m_newGame.addActionListener(this);
+		m_settings = new JMenuItem("Settings");
+		m_settings.addActionListener(this);
+		m_exit = new JMenuItem("Exit");
+		m_exit.addActionListener(this);
+		game.add(m_newGame);
+		game.add(m_settings);
+		game.add(m_exit);
 		JMenu help = new JMenu("Help");
-		about = new JMenuItem("About");
-		about.addActionListener(this);
-		instructions = new JMenuItem("Instructions");
-		instructions.addActionListener(this);
-		help.add(about);
-		help.add(instructions);
+		m_about = new JMenuItem("About");
+		m_about.addActionListener(this);
+		m_instructions = new JMenuItem("Instructions");
+		m_instructions.addActionListener(this);
+		help.add(m_about);
+		help.add(m_instructions);
 		menu.add(game);
 		menu.add(help);
 		return menu;
@@ -192,33 +186,33 @@ public class GameController implements MouseListener, ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent event) {
-		if (event.getSource() == time) {
-			panelInfo.repaint();
-			secoundPlayed += time.getDelay() / 1000;
-			if (secoundPlayed >= 60) {
-				minuntesPlayed = minuntesPlayed + 1;
-				secoundPlayed = 0;
-				if (minuntesPlayed >= 60) {
-					hoursPlayed = hoursPlayed + 1;
-					minuntesPlayed = 0;
+		if (event.getSource() == m_time) {
+			m_panelInfo.repaint();
+			m_secoundPlayed += m_time.getDelay() / 1000;
+			if (m_secoundPlayed >= 60) {
+				m_minuntesPlayed = m_minuntesPlayed + 1;
+				m_secoundPlayed = 0;
+				if (m_minuntesPlayed >= 60) {
+					m_hoursPlayed = m_hoursPlayed + 1;
+					m_minuntesPlayed = 0;
 				}
 			}
-			m_timePassed = hoursPlayed + " : " + minuntesPlayed + " : " + secoundPlayed;
-		} else if (event.getSource() == newGame) {
+			m_timePassed = m_hoursPlayed + " : " + m_minuntesPlayed + " : " + m_secoundPlayed;
+		} else if (event.getSource() == m_newGame) {
 			reset();
-		} else if (event.getSource() == settings) {
-			frame.getContentPane().removeAll();
-			menu.display();
-		} else if (event.getSource() == exit) {
+		} else if (event.getSource() == m_settings) {
+			m_frame.getContentPane().removeAll();
+			m_menu.display();
+		} else if (event.getSource() == m_exit) {
 			System.exit(0);
-		} else if (event.getSource() == about) {
+		} else if (event.getSource() == m_about) {
 			String author="Author: Software Engineering Group 14\n";
 			author+="Date created : 06/12/2015 \n";
 			author+="Version : 1.0\n";
 			author+="The game was part of an assignment and is based on the famous game Minesweeper";
-			JOptionPane.showMessageDialog(about, author, "About", JOptionPane.PLAIN_MESSAGE);
-		} else if (event.getSource() == instructions) {
-			JOptionPane.showMessageDialog(about, getInformation(), "About", JOptionPane.PLAIN_MESSAGE);
+			JOptionPane.showMessageDialog(m_about, author, "About", JOptionPane.PLAIN_MESSAGE);
+		} else if (event.getSource() == m_instructions) {
+			JOptionPane.showMessageDialog(m_instructions, getInformation(), "About", JOptionPane.PLAIN_MESSAGE);
 
 		}
 	}
@@ -233,16 +227,16 @@ public class GameController implements MouseListener, ActionListener {
 				+ "that is deemed to be a mine then the number of mines defused is increased.\n";
 	}
 	public void reset() {
-		board.reset();
+		m_board.reset();
 		m_GameFinsh.setVisible(false);
-		panelGame.repaint();
-		panelInfo.repaint();
-		frame.repaint();
-		secoundPlayed = 0;
-		minuntesPlayed = 0;
-		hoursPlayed = 0;
+		m_panelGame.repaint();
+		m_panelInfo.repaint();
+		m_frame.repaint();
+		m_secoundPlayed = 0;
+		m_minuntesPlayed = 0;
+		m_hoursPlayed = 0;
 		m_timePassed = null;
-		time.start();
+		m_time.start();
 	}
 
 }

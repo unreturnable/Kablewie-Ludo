@@ -8,10 +8,10 @@ package game;
 
 public class Player {
 
-	private String username;
+	private String m_username;
 	
 	public Player(String username) {
-		this.username = username;
+		this.m_username = username;
 	}
 	
 	public void takeTurn() {
@@ -19,7 +19,7 @@ public class Player {
 	}
 	
 	public String getUsername() {
-		return username;
+		return m_username;
 	}
 	
 }
