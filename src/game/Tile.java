@@ -14,10 +14,12 @@ public class Tile {
 
 	protected boolean isMine = false;
 	protected boolean isHidden = false;
+	protected boolean isDefused = false;
 
-	public Tile(boolean isMine, boolean isHidden){
+	public Tile(boolean isMine, boolean isHidden, boolean isDefused){
 		this.isMine = isMine;
 		this.isHidden = isHidden;
+		this.isDefused=isDefused;
 	}
 	
 	protected boolean isMine() {
@@ -27,6 +29,7 @@ public class Tile {
 	protected boolean isHidden() {
 		return isHidden;
 	}
+	
 	
 	protected void setTileType(boolean isMine, boolean isHidden) {
 		this.isMine = isMine;

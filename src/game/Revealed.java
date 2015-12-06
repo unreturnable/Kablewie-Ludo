@@ -1,19 +1,26 @@
 package game;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.ImageObserver;
 import java.util.ArrayList;
+
+import javax.swing.ImageIcon;
 
 /**
  * 
  * @author Anshul Kumar
  *
  */
-public class Revealed extends Tile {
+public class Revealed extends Tile implements ImageObserver {
 
-	public Revealed(boolean isMine, boolean isHidden) {
+	public Revealed(boolean isMine, boolean isHidden,boolean isDefused) {
 		// Always set hidden to false as its the revealed tile.
-		super(isMine, false);
+		super(isMine, isHidden,isDefused);
+		
+		revealedImage=new ImageIcon("C:\\Users\\anshul\\workspace\\revealed.png");
 	}
 
 	public int getm_NearByMines() {
@@ -21,14 +28,14 @@ public class Revealed extends Tile {
 	}
 
 	private int m_nearbyMines;
-
+	private final ImageIcon revealedImage;
 	public void render(Graphics g, int x, int y) {
 
-		g.setColor(Color.GREEN);
-		g.drawRect(x * WIDTH, y * HEIGHT, WIDTH, HEIGHT);
-
+		g.setColor(Color.BLACK);
+		g.drawImage(revealedImage.getImage(), x * super.WIDTH, y * super.HEIGHT, this);
 		if (m_nearbyMines > 0) {
-			g.drawString(Integer.toString(m_nearbyMines), x * WIDTH, y * HEIGHT);
+			g.setFont(new Font("Time new roman",Font.BOLD,15));
+			g.drawString(Integer.toString(m_nearbyMines), x * super.WIDTH+8, y * super.HEIGHT+17);
 		}
 	}
 
@@ -102,7 +109,7 @@ public class Revealed extends Tile {
 		ArrayList<Tile> tileArround = getTileArround(board, i, j);
 		if (calculateNearbyMines(board.get(i).get(j), tileArround) == 0) {
 			board.get(i).remove(j);
-			board.get(i).add(j, new Revealed(false, false));
+			board.get(i).add(j, new Revealed(false, false,false));
 			Revealed r = (Revealed) board.get(i).get(j);
 			r.calculateNearbyMines(r, getTileArround(board, i, j));
 			revealPosition(board, i - 1, j - 1);
@@ -115,10 +122,14 @@ public class Revealed extends Tile {
 			revealPosition(board, i + 1, j + 1);
 		} else {
 			board.get(i).remove(j);
-			board.get(i).add(j, new Revealed(false, false));
+			board.get(i).add(j, new Revealed(false, false,false));
 			Revealed r = (Revealed) board.get(i).get(j);
 			r.calculateNearbyMines(r, getTileArround(board, i, j));
 		}
+	}
+
+	public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+		return false;
 	}
 
 }

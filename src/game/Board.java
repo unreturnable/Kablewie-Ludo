@@ -24,7 +24,7 @@ public class Board {
 		this.mineCount = numMines;
 		this.rows = bRows;
 		this.columns = bColumns;
-		reveal=new Revealed(false,false);
+		reveal=new Revealed(false,false,false);
 		setBoardDimensions();
 		placeMines(numMines);
 	}
@@ -35,7 +35,7 @@ public class Board {
 			board.add(new ArrayList<Tile>());
 			
 			for (int q=0; q<columns; q++) {
-				board.get(i).add(new Hidden(false, true));
+				board.get(i).add(new Hidden(false, true,false));
 			}
 		}
 	}
@@ -63,22 +63,40 @@ public class Board {
 		
 		int xPos = (int) Math.floor(x / Tile.WIDTH);
 		int yPos = (int) Math.floor(y / Tile.HEIGHT);
-
-		if (board.get(xPos).get(yPos).isHidden) {
+		if(!(board.get(yPos).get(xPos).isDefused)){
+		if (board.get(yPos).get(xPos).isHidden && !(board.get(yPos).get(xPos).isMine)) {
 			/*board.get(xPos).get(yPos).setTileType(false, false);
 			board.get(xPos).remove(yPos);
 			board.get(xPos).add(yPos, new Revealed(false, false));
 			board.get(xPos).get(yPos).revealPosition(board,xPos, yPos);
 			*/
-			reveal.revealPosition(board,xPos, yPos);
-		} else if (board.get(xPos).get(yPos).isMine) {
+			reveal.revealPosition(board,yPos, xPos);
+		} else if (board.get(yPos).get(xPos).isMine) {
 			this.gameWon = false;
 			this.gameLost = true;
-			board.get(xPos).get(yPos).setTileType(true, false);
+			board.get(xPos).remove(yPos); //create a mine tile
+			board.get(xPos).add(yPos,new Mine(true,true,false,""));
+		}
 		}
 		
 	}
-
+	public void defusedTile(int x, int y) {
+		int xPos = (int) Math.floor(x / Tile.WIDTH);
+		int yPos = (int) Math.floor(y / Tile.HEIGHT);
+		boolean isMine=board.get(yPos).get(xPos).isMine;
+		boolean isDefused=board.get(yPos).get(xPos).isDefused;
+		boolean isHidden=board.get(yPos).get(xPos).isHidden;
+		if(isHidden){
+		if(!(isDefused)) {
+			board.get(yPos).remove(xPos);
+			board.get(yPos).add(xPos, new Defused(isMine, true,true));
+		}
+		else {
+			board.get(yPos).remove(xPos);
+			board.get(yPos).add(xPos, new Hidden(isMine, true,false));
+		}
+		}
+	}
 	public void render(Graphics g) {
 		// This will be responsible for creating the graphics of the board
 		for (int y=0; y<board.size(); y++) {

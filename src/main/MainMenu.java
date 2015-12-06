@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import game.Board;
+import game.Human;
 import game.Player;
 
 /**
@@ -14,7 +15,7 @@ import game.Player;
  * @author Eromosele Gideon
  *
  */
-public class MainMenu extends JFrame {
+public class MainMenu extends JPanel implements MouseListener{
 	JFrame frame;
 	JMenuBar topMenuBar;
 	JMenu file;
@@ -23,15 +24,12 @@ public class MainMenu extends JFrame {
 	JMenuItem gameMainMenu;
 	JMenuItem newGame;
 	JMenuItem exitGame;
-
+	Kablewie kablewie;
 	private static JTextField userNameText;
 	private static JTextField boardSizeText;
 	private static JTextField totalMinesText;
-
-	public MainMenu(JFrame frame, Kablewie kablewie) {
-
-		this.frame = frame;
-
+/*
+ * 
 		getContentPane().setLayout(new FlowLayout());
 		
 		topMenuBar = new JMenuBar();
@@ -66,20 +64,27 @@ public class MainMenu extends JFrame {
 
 		event eg = new event();
 		exitGame.addActionListener(eg);
-
-		display(kablewie);
-
-		frame.validate();
-		frame.repaint();
-	}
-
-	public class event implements ActionListener {
+		
+		public class event implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			System.exit(0);
 		}
 	}
 
-	public void display(final Kablewie kablewie) {
+ */
+	public MainMenu(JFrame frame, Kablewie kablewie) {
+
+		this.frame = frame;
+		this.kablewie=kablewie;
+		display();
+
+		frame.validate();
+		frame.repaint();
+	}
+
+	
+
+	public void display() {
 
 		frame.setResizable(false);
 		frame.setSize(640, 480);
@@ -131,22 +136,45 @@ public class MainMenu extends JFrame {
 		startGame.setBounds(25, 250, 200, 25);
 		gamePanel.add(startGame);
 
-		startGame.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String username = userNameText.getText();
-				int boardSize = Integer.parseInt(boardSizeText.getText());
-				int numMines = Integer.parseInt(totalMinesText.getText());
-
-				Board board = new Board(boardSize, boardSize, numMines);
-				Player player = new Player(username);
-
-				kablewie.startGame(board, player);
-			}
-		});
+		startGame.addMouseListener(this);
 
 		// JCheckBox tickBox = new JCheckBox("Tick box to Agree");
 		// tickBox.setBounds(25, 250, 200, 25);
 		// gamePanel.add(tickBox);
+	}
+
+	public void mouseClicked(MouseEvent arg0) {
+
+		String username = userNameText.getText();
+		int boardSize = Integer.parseInt(boardSizeText.getText());
+		int numMines = Integer.parseInt(totalMinesText.getText());
+
+		Board board = new Board(boardSize, boardSize, numMines);
+		Player player = new Human(username);
+
+		kablewie.startGame(board, player);
+	
+		
+	}
+
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
