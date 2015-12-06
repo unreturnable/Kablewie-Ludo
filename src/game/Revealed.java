@@ -20,7 +20,7 @@ public class Revealed extends Tile implements ImageObserver {
 		// Always set hidden to false as its the revealed tile.
 		super(isMine, isHidden,isDefused);
 		
-		revealedImage=new ImageIcon("C:\\Users\\anshul\\workspace\\revealed.png");
+		revealedImage=new ImageIcon("revealed.png");
 	}
 
 	public int getm_NearByMines() {

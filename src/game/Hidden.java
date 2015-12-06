@@ -13,7 +13,7 @@ public class Hidden extends Tile implements ImageObserver {
 	public Hidden(boolean isMine, boolean isHidden,boolean isDefused) {
 		// Always set hidden to false as its the hidden tile.
 		super(isMine, true,false);
-		hidden=new ImageIcon("C:\\Users\\anshul\\workspace\\hidden.png");
+		hidden=new ImageIcon("hidden.png");
 	}
 	
 	public void render(Graphics g, int x, int y) {

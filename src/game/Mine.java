@@ -14,7 +14,7 @@ public class Mine extends Tile implements ImageObserver {
 		// Always set hidden to false as Mine is a visible tile.
 		// Always set mine to true as Mine is a mine.
 		super(true, true,false);
-		mineImage=new ImageIcon("C:\\Users\\anshul\\workspace\\"+path);
+		mineImage=new ImageIcon(path);
 	}
 	
 	public void render(Graphics g, int x, int y) {

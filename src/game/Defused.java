@@ -12,7 +12,7 @@ public class Defused extends Tile implements ImageObserver {
 	ImageIcon defused;
 	public Defused(boolean isMine, boolean isHidden,boolean isDefused) {
 		super(isMine, isHidden,isDefused);
-		defused=new ImageIcon("C:\\Users\\anshul\\workspace\\defused.png");
+		defused=new ImageIcon("defused.png");
 	}
 	
 	public void render(Graphics g, int x, int y) {
