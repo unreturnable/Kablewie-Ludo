@@ -1,7 +1,7 @@
 package game;
 
 /**
- * 
+ * computer is a player which stores the user name of current player
  * @author Zongbo Xu
  *
  */

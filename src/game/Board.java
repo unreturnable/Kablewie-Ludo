@@ -9,7 +9,9 @@ import javax.swing.JPanel;
 import java.lang.Math;
 
 /**
- * 
+ * Contain the Information of the current Board
+ * In generally Board Contains the Information
+ * which is displayed on the board
  * @author Ethan Davies
  *
  */
@@ -25,7 +27,16 @@ public class Board {
 	private ArrayList<ArrayList<Tile>> m_board = new ArrayList<ArrayList<Tile>>();
 	private Revealed m_reveal; // made it so that you can call the reveal
 								// methods
-
+	/**
+	 * Board Constructor it takes all the counters 
+	 * and inputs from the MainMenu class as parameters
+	 * @param bRows 
+	 * 				number of rows
+	 * @param bColumns
+	 * 				number of columns
+	 * @param numMines
+	 * 				number of mines
+	 */
 	public Board(int bRows, int bColumns, int numMines) {
 		this.m_mineCount = numMines;
 		this.m_rows = bRows;
@@ -37,19 +48,31 @@ public class Board {
 		m_gameWon = false;
 	}
 
-
+	/**
+	 * 
+	 * @return the value of m_gameLost which is true if the game is lost
+	 */
 	public boolean getm_GameLost() {
 		return m_gameLost;
 	}
-
+	/**
+	 * 
+	 * @return the board that contains the tiles
+	 */
 	public ArrayList<ArrayList<Tile>> getm_Board() {
 		return m_board;
 	}
-
+	/**
+	 * 
+	 * @return the value of m_gameWon which is true if the game is Won
+	 */
 	public boolean getm_GameWon() {
 		return m_gameWon;
 	}
-	
+	/**
+	 * this set the Dimensions of the board
+	 * which is the size times size entered in MainMenu
+	 */
 	private void setBoardDimensions() {
 		// Sets the dimensions HxW of the board that is to be created
 		for (int i = 0; i < m_rows; i++) {
@@ -60,6 +83,10 @@ public class Board {
 			}
 		}
 	}
+	/**
+	 * this function places the mine at random 
+	 * position and makes sure that two Mines are not placed in the same tile
+	 */
 	private void placeMines() {
 		// This places the mines in random areas on the board(In the array)
 		Random rnd = new Random();
@@ -77,7 +104,15 @@ public class Board {
 		}
 
 	}
-
+	/**
+	 * the method is called with the x,y position to reveal a tile
+	 * the method calls the Revealed class if the Tile is not a mine and 
+	 * is not defused 
+	 * @param x 
+	 * 			x position of the click on the board
+	 * @param y
+	 * 			y position of the click on the board
+	 */
 	public void revealTile(int x, int y) {
 		// This method is responsible for the revealing of a tile on the board
 
@@ -104,7 +139,15 @@ public class Board {
 		}
 
 	}
-
+	/**
+	 * the method is called when the user does a right click
+	 * which is for placing a flag on a tile(Defusing a tile)
+	 * it makes sure that if a flag is already there then it removes it
+	 * @param x 
+	 * 			x position of the click on the board
+	 * @param y
+	 * 			y position of the click on the board
+	 */
 	public void defusedTile(int x, int y) {
 		int xPos = (int) Math.floor(x / Tile.WIDTH);
 		int yPos = (int) Math.floor(y / Tile.HEIGHT);
@@ -116,6 +159,7 @@ public class Board {
 			if (!(isDefused)) {
 				m_board.get(yPos).remove(xPos);
 				m_board.get(yPos).add(xPos, new Defused(isMine, true, true));
+				haveWon();
 			} else {
 				m_board.get(yPos).remove(xPos);
 				m_board.get(yPos).add(xPos, new Hidden(isMine, true, false));
@@ -123,6 +167,14 @@ public class Board {
 		}
 		}
 	}
+	/**
+	 * checks if x,y are in the range of the board or not
+	 * @param x
+	 * 			row in Tile
+	 * @param y
+	 * 			column in Tile
+	 * @return true if x, y are in range
+	 */
 	public boolean inLimit(int x,int y) {
 		if(x>=m_board.size() 
 				|| y>=m_board.get(0).size() 
@@ -132,6 +184,12 @@ public class Board {
 			return true;
 		}
 	}
+	/**
+	 * the method calls the render method in Tile 
+	 * which draws the current status of the Board
+	 * @param g
+	 * 			graphics
+	 */
 	public void render(Graphics g) {
 		// This will be responsible for creating the graphics of the board
 		for (int y = 0; y < m_board.size(); y++) {
@@ -140,7 +198,16 @@ public class Board {
 			}
 		}
 	}
-
+	/**
+	 * it displays the information required
+	 * according to the specification
+	 * @param g
+	 * 			graphics
+	 * @param player
+	 * 			Player Object
+	 * @param timePassed
+	 * 			time which has passed since the start of the game
+	 */
 	public void renderInfo(Graphics g, Player player, String timePassed) {
 		Font timeNewRoman = new Font("Time new roman", Font.BOLD, 12);
 		int x = 1;
@@ -166,7 +233,9 @@ public class Board {
 		x = x + 200;
 		g.drawString("Revealed Square : " + this.getRevealedTile(), x, y);
 	}
-
+	/**
+	 *  checks if the game have been won or not
+	 */
 	public void haveWon() {
 		if (getRevealedTile() + getDefusedTile() == m_board.size() * m_board.size()) {
 			m_gameLost = false;
@@ -174,7 +243,10 @@ public class Board {
 		}
 	}
 
-
+	/**
+	 * 
+	 * @return the number of Revealed Tiles
+	 */
 	private int getRevealedTile() {
 		int revealedTile = 0;
 		for (int i = 0; i < m_board.size(); ++i) {
@@ -186,7 +258,10 @@ public class Board {
 		}
 		return revealedTile;
 	}
-
+	/**
+	 * 
+	 * @return the number of Hidden Tiles
+	 */
 	private int getHiddenTile() {
 		int hiddenTile = 0;
 		for (int i = 0; i < m_board.size(); ++i) {
@@ -198,7 +273,10 @@ public class Board {
 		}
 		return hiddenTile;
 	}
-
+	/**
+	 * 
+	 * @return the number of defused Tiles
+	 */
 	private int getDefusedTile() {
 		int defusedTile = 0;
 		for (int i = 0; i < m_board.size(); ++i) {
@@ -210,7 +288,9 @@ public class Board {
 		}
 		return defusedTile;
 	}
-
+	/**
+	 * resets the game so that it can be played again
+	 */
 	public void reset() {
 		m_board.clear();
 		setBoardDimensions();

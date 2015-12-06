@@ -13,7 +13,8 @@ import game.Human;
 import game.Player;
 
 /**
- * 
+ * Asks the user name , board size and the number of the mines 
+ * after that it starts the game
  * @author Eromosele Gideon
  *
  */
@@ -32,10 +33,10 @@ implements MouseListener, KeyListener {
 	private static JTextField m_boardSizeText;
 	private static JTextField m_totalMinesText;
 	/**
-	 * the constructor of the MainMenu create the Main Menu on which
-	 * the board size can be give and the username is asked 
+	 * the constructor of the MainMenu creates the Main Menu on which
+	 * the board size can be given and the username is entered 
 	 * @param frame - the main frame which is build in Kablewie
-	 * @param kablewie - the Kablewie object which starts 
+	 * @param kablewie - the Kablewie object that starts 
 	 * 						the game after the inputs have been entered
 	 */
 	public MainMenu(JFrame frame, Kablewie kablewie) {
@@ -49,7 +50,7 @@ implements MouseListener, KeyListener {
 	}
 	/**
 	 * create the user name on the gamePanel
-	 * @param gamePanel - the Panel is which is added on the frame
+	 * @param gamePanel - the Panel is added on the frame
 	 */
 	public void createUserName(JPanel gamePanel) {
 		JLabel userName = new JLabel("User Name:");
@@ -66,7 +67,7 @@ implements MouseListener, KeyListener {
 	}
 	/**
 	 * create the Board Size on the gamePanel
-	 * @param gamePanel - the Panel is which is added on the frame
+	 * @param gamePanel - the Panel which is added on the frame
 	 */
 	public void createBoardSize(JPanel gamePanel) {
 		JLabel boardSize = new JLabel("Board Size:");
@@ -85,7 +86,7 @@ implements MouseListener, KeyListener {
 	
 	/**
 	 * create the Total Mine on the gamePanel
-	 * @param gamePanel - the Panel is which is added on the frame
+	 * @param gamePanel - the Panel which is added on the frame
 	 */
 	public void createTotalMines(JPanel gamePanel) {
 		JLabel totalMines = new JLabel("Total Mines:");
@@ -104,7 +105,7 @@ implements MouseListener, KeyListener {
 	}
 	/**
 	 * create the Start Button on the gamePanel
-	 * @param gamePanel - the Panel is which is added on the frame
+	 * @param gamePanel - the Panel which is added on the frame
 	 */
 	public void createStartGameBtn(JPanel gamePanel) {
 		JButton startGame = new JButton("Start Game");
@@ -120,17 +121,23 @@ implements MouseListener, KeyListener {
 		startGame.addMouseListener(this);
 	}
 	/**
-	 * add every thing which needs to be asked before starting the game
+	 * add every thing that needs to be asked before starting the game
 	 * in gamePanel
 	 * @param gamePanel
 	 */
 	public void createPanel(JPanel gamePanel) {
 
 		gamePanel.setBackground(SystemColor.inactiveCaption);
+<<<<<<< HEAD
 		gamePanel.setBorder(
 				new TitledBorder(null, "Kablewie Status"
 						, TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		gamePanel.setBounds(95, 27, 274, 210);
+=======
+		gamePanel.setBorder(new TitledBorder(null, "Kablewie Status"
+				, TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		gamePanel.setBounds(100, 25, 440, 400);
+>>>>>>> 2416cf068d49f5c758813d2e4b444f9059e4e269
 		m_frame.getContentPane().add(gamePanel);
 		gamePanel.setLayout(null);
 		createUserName(gamePanel);
@@ -139,7 +146,8 @@ implements MouseListener, KeyListener {
 		createStartGameBtn(gamePanel);
 	}
 	/**
-	 *  display the main menu using the above method
+	 *  display the main menu using the above method which creates a JPanel
+	 *  which is then added in the frame
 	 */
 	public void display() {
 
@@ -172,19 +180,21 @@ implements MouseListener, KeyListener {
 			return;
 		}
 		if (!(boardSize > 0 && boardSize <= 30) 
-				|| !(numMines < boardSize * boardSize && numMines <= 150 && numMines>0)) {
+				|| !(numMines < boardSize * boardSize
+						&& numMines <= 150 && numMines>0)) {
 			m_totalMinesText.setText(m_boardSizeText.getText());
 			return;
 		}
 		Board board = new Board(boardSize, boardSize, numMines);
 		Player player = new Human(username);
 		m_frame.setSize(boardSize * 30 + 50, boardSize * 30 + 105);
+		m_frame.setMinimumSize(new Dimension(5 * 30 + 50+130, 5 * 30 + 105));
 		m_kablewie.startGame(board, player, this);
 	}
 	
 	/**
 	 * whenever the start button is pressed the mouseclicked
-	 *  is called which calls startGame()
+	 *  method is called which calls startGame()
 	 */
 	public void mouseClicked(MouseEvent arg0) {
 
