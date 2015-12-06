@@ -116,6 +116,7 @@ public class Board {
 			if (!(isDefused)) {
 				m_board.get(yPos).remove(xPos);
 				m_board.get(yPos).add(xPos, new Defused(isMine, true, true));
+				haveWon();
 			} else {
 				m_board.get(yPos).remove(xPos);
 				m_board.get(yPos).add(xPos, new Hidden(isMine, true, false));
