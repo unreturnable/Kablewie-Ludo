@@ -31,10 +31,10 @@ implements MouseListener, KeyListener {
 	private static JTextField m_boardSizeText;
 	private static JTextField m_totalMinesText;
 	/**
-	 * the constructor of the MainMenu create the Main Menu on which
-	 * the board size can be give and the username is asked 
+	 * the constructor of the MainMenu creates the Main Menu on which
+	 * the board size can be given and the username is entered 
 	 * @param frame - the main frame which is build in Kablewie
-	 * @param kablewie - the Kablewie object which starts 
+	 * @param kablewie - the Kablewie object that starts 
 	 * 						the game after the inputs have been entered
 	 */
 	public MainMenu(JFrame frame, Kablewie kablewie) {
@@ -48,7 +48,7 @@ implements MouseListener, KeyListener {
 	}
 	/**
 	 * create the user name on the gamePanel
-	 * @param gamePanel - the Panel is which is added on the frame
+	 * @param gamePanel - the Panel is added on the frame
 	 */
 	public void createUserName(JPanel gamePanel) {
 		JLabel userName = new JLabel("User Name:");
@@ -64,7 +64,7 @@ implements MouseListener, KeyListener {
 	}
 	/**
 	 * create the Board Size on the gamePanel
-	 * @param gamePanel - the Panel is which is added on the frame
+	 * @param gamePanel - the Panel which is added on the frame
 	 */
 	public void createBoardSize(JPanel gamePanel) {
 		JLabel boardSize = new JLabel("Board Size:");
@@ -81,7 +81,7 @@ implements MouseListener, KeyListener {
 	}
 	/**
 	 * create the Total Mine on the gamePanel
-	 * @param gamePanel - the Panel is which is added on the frame
+	 * @param gamePanel - the Panel which is added on the frame
 	 */
 	public void createTotalMines(JPanel gamePanel) {
 		JLabel totalMines = new JLabel("Total Mines:");
@@ -97,7 +97,7 @@ implements MouseListener, KeyListener {
 	}
 	/**
 	 * create the Start Button on the gamePanel
-	 * @param gamePanel - the Panel is which is added on the frame
+	 * @param gamePanel - the Panel which is added on the frame
 	 */
 	public void createStartGameBtn(JPanel gamePanel) {
 		JButton startGame = new JButton("Start Game");
@@ -111,7 +111,7 @@ implements MouseListener, KeyListener {
 		startGame.addMouseListener(this);
 	}
 	/**
-	 * add every thing which needs to be asked before starting the game
+	 * add every thing that needs to be asked before starting the game
 	 * in gamePanel
 	 * @param gamePanel
 	 */
@@ -129,7 +129,7 @@ implements MouseListener, KeyListener {
 		createStartGameBtn(gamePanel);
 	}
 	/**
-	 *  display the main menu using the above method which create a JPanel
+	 *  display the main menu using the above method which creates a JPanel
 	 *  which is then added in the frame
 	 */
 	public void display() {
@@ -177,7 +177,7 @@ implements MouseListener, KeyListener {
 	
 	/**
 	 * whenever the start button is pressed the mouseclicked
-	 *  is called which calls startGame()
+	 *  method is called which calls startGame()
 	 */
 	public void mouseClicked(MouseEvent arg0) {
 

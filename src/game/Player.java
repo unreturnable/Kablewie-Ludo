@@ -1,7 +1,7 @@
 package game;
 
 /**
- * store the name of the current player
+ * stores the name of the current player
  * @author Ceri Westcott
  *
  */
