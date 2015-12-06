@@ -117,9 +117,8 @@ implements MouseListener, KeyListener {
 	public void createPanel(JPanel gamePanel) {
 
 		gamePanel.setBackground(SystemColor.inactiveCaption);
-		gamePanel.setBorder(
-				new TitledBorder(null, "Kablewie Status"
-						, TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		gamePanel.setBorder(new TitledBorder(null, "Kablewie Status"
+				, TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		gamePanel.setBounds(100, 25, 440, 400);
 		m_frame.getContentPane().add(gamePanel);
 		gamePanel.setLayout(null);
@@ -162,13 +161,15 @@ implements MouseListener, KeyListener {
 			return;
 		}
 		if (!(boardSize > 0 && boardSize <= 30) 
-				|| !(numMines < boardSize * boardSize && numMines <= 150 && numMines>0)) {
+				|| !(numMines < boardSize * boardSize
+						&& numMines <= 150 && numMines>0)) {
 			m_totalMinesText.setText(m_boardSizeText.getText());
 			return;
 		}
 		Board board = new Board(boardSize, boardSize, numMines);
 		Player player = new Human(username);
 		m_frame.setSize(boardSize * 30 + 50, boardSize * 30 + 105);
+		m_frame.setMinimumSize(new Dimension(5 * 30 + 50+130, 5 * 30 + 105));
 		m_kablewie.startGame(board, player, this);
 	}
 	

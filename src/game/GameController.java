@@ -2,6 +2,7 @@ package game;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -19,6 +20,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.Timer;
 
 import main.MainMenu;
@@ -50,8 +52,16 @@ public class GameController implements MouseListener, ActionListener {
 	private JMenuItem m_exit;
 	private JMenuItem m_about;
 	private JMenuItem m_instructions;
-
-	public GameController(Board board, Player player, JFrame frame, MainMenu menu) {
+/**
+ * sets the games for the start
+ * @param board - which contains all the information of the tiles
+ * @param player - the player object
+ * @param frame - current frame 
+ * @param menu - the mainmenu so that if someone wants to
+ *  resize they can do it
+ */
+	public GameController(Board board, Player player
+			, JFrame frame, MainMenu menu) {
 		this.m_board = board;
 		this.m_player = player;
 		m_time = new Timer(1000, this);
@@ -61,7 +71,10 @@ public class GameController implements MouseListener, ActionListener {
 		startGame();
 		m_time.start();
 	}
-
+	/**
+	 * this method just displays the information 
+	 * needs to be displayed according to the requirements
+	 */
 	private void setInfo() {
 		m_panelInfo = new JPanel() {
 			@Override
@@ -71,6 +84,7 @@ public class GameController implements MouseListener, ActionListener {
 			}
 		};
 		m_panelInfo.setBounds(0, 0, 640, 50);
+	//	m_panelInfo.setMinimumSize(new Dimension(5 * 30 + 50+150, 5 * 30 + 105)));
 		m_frame.getContentPane().add(m_panelInfo);
 		m_panelInfo.setLayout(null);
 		m_GameFinsh = new JButton();
@@ -83,17 +97,28 @@ public class GameController implements MouseListener, ActionListener {
 		m_panelInfo.repaint();
 
 	}
-
+	/**
+	 * the method is called when the game is lost so that a 
+	 * kablewie animation can be show
+	 */
 	public void setm_GameLost() {
 		m_GameFinsh.setVisible(true);
 		m_GameFinsh.setIcon(new ImageIcon("gameLost.jpg"));
 	}
-
+	/**
+	 * the method is called when the game is win so that a 
+	 * kablewie animation can be show
+	 */
 	public void sesetm_GameWin() {
 		m_GameFinsh.setVisible(true);
 		m_GameFinsh.setIcon(new ImageIcon("GameWon.jpg"));
 	}
-
+	/**
+	 * called when the game needs to be started so the JPanel 
+	 * is added in the frame and that JPanel display the
+	 * information stored in Board
+	 * 
+	 */
 	private void startGame() {
 		m_panelGame = new JPanel() {
 			@Override
@@ -104,9 +129,8 @@ public class GameController implements MouseListener, ActionListener {
 		};
 		m_panelGame.setBounds(0, 50, m_frame.getWidth(), m_frame.getHeight());
 		m_panelGame.addMouseListener(this);
-
 		m_frame.getContentPane().add(m_panelGame);
-		m_frame.setJMenuBar(mymenu());
+		m_frame.setJMenuBar(myMenu());
 		try {
 			m_humanPlayer = (Human) m_player;
 		} catch (ClassCastException e) {
@@ -117,9 +141,15 @@ public class GameController implements MouseListener, ActionListener {
 
 		m_panelGame.repaint();
 		m_player.takeTurn();
-		m_gamePlaying = false;
-	}
 
+	}
+	/**
+	 * the mouseClicked is called when something is clicked on the Jpanel 
+	 * of panelGame then it decides which click it is then on the bases
+	 * of that it calls a method in Board class
+	 * after that it also check that if the game is lost or won
+	 * so that the game can be stoped
+	 */
 	public void mouseClicked(MouseEvent e) {
 		if (!(m_board.getm_GameLost())) {
 			if (e.getButton() == MouseEvent.BUTTON1) {
@@ -159,8 +189,13 @@ public class GameController implements MouseListener, ActionListener {
 
 	public void mouseReleased(MouseEvent arg0) {
 	}
-
-	private JMenuBar mymenu() {
+	/**
+	 * the method myMenu() returns a JMeunBar
+	 * which has all the thing required to restart the game
+	 * or resize and change the name of the current player
+	 * @return - a JMenuBar Object
+	 */
+	private JMenuBar myMenu() {
 		JMenuBar menu = new JMenuBar();
 		JMenu game = new JMenu("game");
 		m_newGame = new JMenuItem("New Game");
@@ -184,7 +219,11 @@ public class GameController implements MouseListener, ActionListener {
 		return menu;
 
 	}
-
+	/**
+	 * the actionPerformed is called either by the time
+	 * or by the JMenuBar it perform an action depending 
+	 * which Object called it
+	 */
 	public void actionPerformed(ActionEvent event) {
 		if (event.getSource() == m_time) {
 			m_panelInfo.repaint();
@@ -197,7 +236,8 @@ public class GameController implements MouseListener, ActionListener {
 					m_minuntesPlayed = 0;
 				}
 			}
-			m_timePassed = m_hoursPlayed + " : " + m_minuntesPlayed + " : " + m_secoundPlayed;
+			m_timePassed = m_hoursPlayed + " : " + m_minuntesPlayed 
+					+ " : " + m_secoundPlayed;
 		} else if (event.getSource() == m_newGame) {
 			reset();
 		} else if (event.getSource() == m_settings) {
@@ -209,24 +249,41 @@ public class GameController implements MouseListener, ActionListener {
 			String author="Author: Software Engineering Group 14\n";
 			author+="Date created : 06/12/2015 \n";
 			author+="Version : 1.0\n";
-			author+="The game was part of an assignment and is based on the famous game Minesweeper";
-			JOptionPane.showMessageDialog(m_about, author, "About", JOptionPane.PLAIN_MESSAGE);
+			author+="The game was part of an assignment and ";
+			author+= "is based on the famous game Minesweeper";
+			JOptionPane.showMessageDialog(m_about, author,
+					"About", JOptionPane.PLAIN_MESSAGE);
 		} else if (event.getSource() == m_instructions) {
-			JOptionPane.showMessageDialog(m_instructions, getInformation(), "About", JOptionPane.PLAIN_MESSAGE);
+			JOptionPane.showMessageDialog(m_instructions, getInstructions(), 
+					"About", JOptionPane.PLAIN_MESSAGE);
 
 		}
 	}
-	public String getInformation() {
+	/**
+	 * it return the Instruction to play the game
+	 * which is use in About>Instructions
+	 * @return
+	 */
+	private String getInstructions() {
 		return "Information:\n"+
-				"The goal of the game is to defuse all the mines on the board without revealing\n "+
-				"a mine, if a mine is revealed by the player then the game will be over and the player will deemed to have lost the game.\n"+
-				"How to play:\n"+
+				"The goal of the game is to defuse all the mines on the "
+				+ "board without revealing\n "+
+				"a mine, if a mine is revealed by the player then the game "
+				+ "will be over and the player will deemed to "
+				+ "have lost the game.\n"
+				+ "How to play:\n"+
 				"The user can left click to reveal a tile on the board.\n"
-				+ "If the user wishes to defuse a tile then the user would right click in\n"
-				+ "order to place a flag on the board and defuse a possible mine. If the flag is placed on a tile\n"
-				+ "that is deemed to be a mine then the number of mines defused is increased.\n";
+				+ "If the user wishes to defuse a tile then the user would "
+				+ "right click in\n"
+				+ "order to place a flag on the board and defuse a possible "
+				+ "mine. If the flag is placed on a tile\n"
+				+ "that is deemed to be a mine then the number of mines "
+				+ "defused is increased.\n";
 	}
-	public void reset() {
+	/**
+	 * reset() -resets the game to the input given by the user before
+	 */
+	private void reset() {
 		m_board.reset();
 		m_GameFinsh.setVisible(false);
 		m_panelGame.repaint();
