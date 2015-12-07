@@ -1,7 +1,6 @@
 package main;
 
 import java.awt.event.*;
-
 import java.awt.*;
 import java.util.List;
 
@@ -111,14 +110,12 @@ implements MouseListener, KeyListener {
 		JButton startGame = new JButton("Start Game");
 		startGame.setIcon(null);
 		startGame.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN, 10));
-		startGame.setForeground(Color.RED);
-		startGame.setBackground(Color.WHITE);
+		startGame.setForeground(Color.BLACK);
+		startGame.setBackground(Color.DARK_GRAY);
 		startGame.setBounds(110, 160, 100, 32);
 		gamePanel.add(startGame);
-		
-		
 
-		startGame.addMouseListener(this);
+		startGame.addMouseListener(this);		
 	}
 	/**
 	 * add every thing that needs to be asked before starting the game
@@ -127,7 +124,7 @@ implements MouseListener, KeyListener {
 	 */
 	public void createPanel(JPanel gamePanel) {
 
-		gamePanel.setBackground(SystemColor.inactiveCaption);
+		gamePanel.setBackground(Color.GRAY);
 		gamePanel.setBorder(
 				new TitledBorder(null, "Kablewie Status"
 						, TitledBorder.LEADING, TitledBorder.TOP, null, null));
