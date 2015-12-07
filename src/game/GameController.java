@@ -314,6 +314,7 @@ public class GameController implements MouseListener, ActionListener {
 		} else if (event.getSource() == m_settings) {
 			
 			m_frame.getContentPane().removeAll();
+			m_frame.getJMenuBar().setVisible(false);
 			m_tick.close();
 			m_won.close();
 			m_bomb.close();
