@@ -1,28 +1,26 @@
+/**
+ * @file Human.java
+ * @author Zongbo Xu
+ * @date 5 December 2015
+ *
+ * A class for Human players.
+ */ 
+
 package game;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
-import javax.swing.JPanel;
-
-/**
- * human is a player which store the
- * @author Zongbo Xu
- *
- */
-
 public class Human extends Player  {
-
-	private String m_username;
 	private boolean m_playersTurn = true;
 
 	public Human(String name) {
 		super(name);
 	}
-
 	
 	public void takeTurn() {
 		m_playersTurn = true;
+	}
+
+	public boolean getm_playersTurn() {
+		return m_playersTurn;
 	}
 
 	

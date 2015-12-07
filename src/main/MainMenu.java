@@ -34,20 +34,20 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 
 	/**
 	 * Constructor that sets variable values
-	 *  and starts display of the menu.
+	 * and starts display of the menu.
 	 * 
 	 * @param frame a JFrame that the menu can be attached to.
 	 * @param kablewie the instance of Kablewie which started this Menu.
 	 */
 	public MainMenu(JFrame frame, Kablewie kablewie) {
-		// Set Class variables.
+		// Set Class variables
 		this.m_frame = frame;
 		this.m_kablewie = kablewie;
 		
-		// Display the menu.
+		// Display the menu
 		display();
 		
-		// Repaint the frame so it displays the menu.
+		// Repaint the frame so it displays the menu
 		frame.validate();
 		frame.repaint();
 	}
