@@ -33,21 +33,21 @@ public abstract class Tile {
 	}
 	/**
 	 * 
-	 * @return isMine which contain true if the tile is a mine 
+	 * @return isMine which is true if the tile is a mine 
 	 */
 	protected boolean isMine() {
 		return m_isMine;
 	}
 	/**
 	 * 
-	 * @return isMine which contain true if the tile is a mine 
+	 * @return isMine which is true if the tile is a mine 
 	 */
 	protected boolean isHidden() {
 		return m_isHidden;
 	}
 	/**
 	 * 
-	 * @return isMine which contain true if the tile is a mine 
+	 * @return isMine which is true if the tile is a mine 
 	 */
 	protected boolean isDefused() {
 		return m_isDefused;
@@ -62,14 +62,14 @@ public abstract class Tile {
 		this.m_isHidden = isHidden;
 	}
 	/**
-	 *  a draw Function cause each tile will 
-	 *  has its own render Function
+	 *  a draw Function to draw each 
+	 *  type of tile in the system
 	 * @param g 
 	 * 			takes the graphics
 	 * @param x
-	 * 			take what is the coordinates of current tile x(row)
+	 * 			takes the coordinates of current tile x(row)
 	 * @param y
-	 *			take what is the coordinates of current tile y(coloumb)
+	 *			takes the coordinates of current tile y(column)
 	 */
 	public abstract void render(Graphics g, int x, int y);
 

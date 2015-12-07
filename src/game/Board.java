@@ -10,7 +10,7 @@ import java.lang.Math;
 
 /**
  * Contain the Information of the current Board
- * In generally Board Contain the Information
+ * In generally Board Contains the Information
  * which is displayed on the board
  * @author Ethan Davies
  *
@@ -28,8 +28,8 @@ public class Board {
 	private Revealed m_reveal; // made it so that you can call the reveal
 								// methods
 	/**
-	 * Board Constructor it take all the counter 
-	 * and the inputs from the MainMenu class as parameters
+	 * Board Constructor it takes all the counters 
+	 * and inputs from the MainMenu class as parameters
 	 * @param bRows 
 	 * 				number of rows
 	 * @param bColumns
@@ -57,7 +57,7 @@ public class Board {
 	}
 	/**
 	 * 
-	 * @return the board which has all the tile
+	 * @return the board that contains the tiles
 	 */
 	public ArrayList<ArrayList<Tile>> getm_Board() {
 		return m_board;
@@ -70,8 +70,8 @@ public class Board {
 		return m_gameWon;
 	}
 	/**
-	 * this set the Dimension of the board
-	 * which is the size times size enter in MainMenu
+	 * this set the Dimensions of the board
+	 * which is the size times size entered in MainMenu
 	 */
 	private void setBoardDimensions() {
 		// Sets the dimensions HxW of the board that is to be created
@@ -85,7 +85,7 @@ public class Board {
 	}
 	/**
 	 * this function places the mine at random 
-	 * position and makes sure that two Mine are not place on the same tile
+	 * position and makes sure that two Mines are not placed in the same tile
 	 */
 	private void placeMines() {
 		// This places the mines in random areas on the board(In the array)
@@ -106,7 +106,7 @@ public class Board {
 	}
 	/**
 	 * the method is called with the x,y position to reveal a tile
-	 * the method calls Revealed class if the Tile is not a mine and 
+	 * the method calls the Revealed class if the Tile is not a mine and 
 	 * is not defused 
 	 * @param x 
 	 * 			x position of the click on the board
@@ -142,7 +142,7 @@ public class Board {
 	/**
 	 * the method is called when the user does a right click
 	 * which is for placing a flag on a tile(Defusing a tile)
-	 * it make sure that if a flag is already there then it removes it
+	 * it makes sure that if a flag is already there then it removes it
 	 * @param x 
 	 * 			x position of the click on the board
 	 * @param y
@@ -168,7 +168,7 @@ public class Board {
 		}
 	}
 	/**
-	 * it check if x,y are in the range of the board or not
+	 * checks if x,y are in the range of the board or not
 	 * @param x
 	 * 			row in Tile
 	 * @param y
@@ -186,7 +186,7 @@ public class Board {
 	}
 	/**
 	 * the method calls the render method in Tile 
-	 * which draw the current status of the Board
+	 * which draws the current status of the Board
 	 * @param g
 	 * 			graphics
 	 */
@@ -199,7 +199,7 @@ public class Board {
 		}
 	}
 	/**
-	 * it displays the information which need to be display
+	 * it displays the information required
 	 * according to the specification
 	 * @param g
 	 * 			graphics
@@ -245,7 +245,7 @@ public class Board {
 
 	/**
 	 * 
-	 * @return the number of Revealed Tile
+	 * @return the number of Revealed Tiles
 	 */
 	private int getRevealedTile() {
 		int revealedTile = 0;
@@ -260,7 +260,7 @@ public class Board {
 	}
 	/**
 	 * 
-	 * @return the number of Hidden Tile
+	 * @return the number of Hidden Tiles
 	 */
 	private int getHiddenTile() {
 		int hiddenTile = 0;
@@ -275,7 +275,7 @@ public class Board {
 	}
 	/**
 	 * 
-	 * @return the number of defused Tile
+	 * @return the number of defused Tiles
 	 */
 	private int getDefusedTile() {
 		int defusedTile = 0;
@@ -289,7 +289,7 @@ public class Board {
 		return defusedTile;
 	}
 	/**
-	 * reset the game so that it can be played again
+	 * resets the game so that it can be played again
 	 */
 	public void reset() {
 		m_board.clear();

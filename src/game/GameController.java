@@ -27,8 +27,8 @@ import main.MainMenu;
 
 /**
  * controls the flow of the game 
- * take the click of the user and 
- * pass the position of the clicked to the Board
+ * takes the click of the user and 
+ * passes the position of the clicked tile to the Board
  * @author Peter Jenkins
  *
  */
@@ -55,12 +55,12 @@ public class GameController implements MouseListener, ActionListener {
 	private JMenuItem m_about;
 	private JMenuItem m_instructions;
 /**
- * sets the games for the start
- * @param board - which contains all the information of the tiles
+ * sets up the game at the start
+ * @param board - which contains all the information about the tiles
  * @param player - the player object
  * @param frame - current frame 
  * @param menu - the mainmenu so that if someone wants to
- *  resize they can do it
+ *  resize they can do so
  */
 	public GameController(Board board, Player player
 			, JFrame frame, MainMenu menu) {
@@ -74,7 +74,7 @@ public class GameController implements MouseListener, ActionListener {
 		m_time.start();
 	}
 	/**
-	 * this method just displays the information 
+	 * this method just displays the information that
 	 * needs to be displayed according to the requirements
 	 */
 	private void setInfo() {
@@ -101,15 +101,15 @@ public class GameController implements MouseListener, ActionListener {
 	}
 	/**
 	 * the method is called when the game is lost so that a 
-	 * kablewie animation can be show
+	 * kablewie animation can be shown
 	 */
 	public void setm_GameLost() {
 		m_GameFinsh.setVisible(true);
 		m_GameFinsh.setIcon(new ImageIcon("gameLost.jpg"));
 	}
 	/**
-	 * the method is called when the game is win so that a 
-	 * kablewie animation can be show
+	 * the method is called when the game is won so that a 
+	 * kablewie animation can be shown
 	 */
 	public void sesetm_GameWin() {
 		m_GameFinsh.setVisible(true);
@@ -117,7 +117,7 @@ public class GameController implements MouseListener, ActionListener {
 	}
 	/**
 	 * called when the game needs to be started so the JPanel 
-	 * is added in the frame and that JPanel display the
+	 * is added in the frame and that JPanel displays the
 	 * information stored in Board
 	 * 
 	 */
@@ -146,11 +146,11 @@ public class GameController implements MouseListener, ActionListener {
 
 	}
 	/**
-	 * the mouseClicked is called when something is clicked on the Jpanel 
-	 * of panelGame then it decides which click it is then on the bases
+	 * the mouseClicked method is called when something is clicked on the Jpanel 
+	 * of panelGame then it decides what click it is then on the basis
 	 * of that it calls a method in Board class
-	 * after that it also check that if the game is lost or won
-	 * so that the game can be stoped
+	 * after that it also checks that if the game is lost or won
+	 * so that the game can be halted
 	 */
 	public void mouseClicked(MouseEvent e) {
 		if (!(m_board.getm_GameLost())) {
@@ -193,13 +193,13 @@ public class GameController implements MouseListener, ActionListener {
 	}
 	/**
 	 * the method myMenu() returns a JMeunBar
-	 * which has all the thing required to restart the game
+	 * which has all the information required to restart the game
 	 * or resize and change the name of the current player
 	 * @return - a JMenuBar Object
 	 */
 	private JMenuBar myMenu() {
 		JMenuBar menu = new JMenuBar();
-		JMenu game = new JMenu("game");
+		JMenu game = new JMenu("Game");
 		m_newGame = new JMenuItem("New Game");
 		m_newGame.addActionListener(this);
 		m_settings = new JMenuItem("Settings");
@@ -223,7 +223,7 @@ public class GameController implements MouseListener, ActionListener {
 	}
 	/**
 	 * the actionPerformed is called either by the time
-	 * or by the JMenuBar it perform an action depending 
+	 * or by the JMenuBar it performs an action depending 
 	 * which Object called it
 	 */
 	public void actionPerformed(ActionEvent event) {
@@ -262,8 +262,8 @@ public class GameController implements MouseListener, ActionListener {
 		}
 	}
 	/**
-	 * it return the Instruction to play the game
-	 * which is use in About>Instructions
+	 * it returns the Instruction to play the game
+	 * which is used in About>Instructions
 	 * @return
 	 */
 	private String getInstructions() {
