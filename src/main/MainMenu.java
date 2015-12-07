@@ -139,9 +139,6 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 		gamePanel.setBorder(
 				new TitledBorder(null, "Kablewie Status", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		gamePanel.setBounds(95, 27, 274, 210);
-		gamePanel.setBorder(new TitledBorder(null, "Kablewie Status"
-				, TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		gamePanel.setBounds(100, 25, 440, 400);
 		m_frame.getContentPane().add(gamePanel);
 		gamePanel.setLayout(null);
 		createUserName(gamePanel);
