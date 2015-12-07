@@ -12,6 +12,7 @@ package main;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 import game.Board;
@@ -40,6 +41,7 @@ public class Kablewie {
 	public Kablewie() {
 		// Create the frame.
 		m_frame = new JFrame("Kablewie");
+		m_frame.setIconImage(new ImageIcon("Kablewie.png").getImage());
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 
 		// Set frame boundaries.
