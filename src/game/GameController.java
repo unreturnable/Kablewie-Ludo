@@ -142,7 +142,7 @@ public class GameController implements MouseListener, ActionListener {
 		m_frame.repaint();
 
 		m_panelGame.repaint();
-		m_player.takeTurn();
+		m_humanPlayer.takeTurn();
 
 	}
 	/**

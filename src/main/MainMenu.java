@@ -148,6 +148,8 @@ implements MouseListener, KeyListener {
 	/**
 	 * it starts the game if you press enter 
 	 * or pressed the start button
+	 * this method check the value should be valid
+	 * then only it let you allow in the game
 	 */
 	public void startGame() {
 		String username = m_userNameText.getText();

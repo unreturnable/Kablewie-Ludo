@@ -46,9 +46,15 @@ public class Revealed extends Tile implements ImageObserver {
 		g.drawImage(m_revealedImage.getImage(), 
 				x * super.WIDTH, y * super.HEIGHT, this);
 		if (m_nearbyMines > 0) {
-			g.setFont(new Font("Time new roman", Font.BOLD, 15));
+			/*
+			 * using Spacing so that the number is drawn in the center
+			 */
+			int spacingX=10;
+			int spacingY=19;
+			int fontSize=15;
+			g.setFont(new Font("Time new roman", Font.BOLD, fontSize));
 			g.drawString(Integer.toString(m_nearbyMines), 
-					x * super.WIDTH + 10, y * super.HEIGHT + 19);
+					x * super.WIDTH + spacingX, y * super.HEIGHT + spacingY);
 		}
 	}
 
@@ -94,11 +100,16 @@ public class Revealed extends Tile implements ImageObserver {
 		int prevrcol = j - 1;
 		int nextrow = i + 1;
 		int nextcol = j + 1;
+		//it run a for loop all around the tile i,j
 		ArrayList<Tile> t2 = new ArrayList<Tile>();
 		for (int k = prevrow; k <= nextrow; ++k) {
 			for (int m = prevrcol; m <= nextcol; ++m) {
 				if (!(k < 0 || m < 0 || k >= board.size() 
 						|| m >= board.get(0).size())) {
+					/*
+					 * before adding it the condition makes sure that it
+					 * is not out of bound of the board
+					 */
 					t2.add(board.get(k).get(m));
 				}
 			}
@@ -109,8 +120,9 @@ public class Revealed extends Tile implements ImageObserver {
 	/**
 	 * a recursion method the set the tile as a revealed tile if the clicked
 	 * tile is a zero then it will reveal all tile around it
-	 * the base case is if the tile is not hidden the stop and 
-	 * go back to the previous call
+	 * the base case is if the tile is not hidden or if i,j
+	 * are out of the bound then stop and 
+	 * go back to the previous call 
 	 * 
 	 * @param board
 	 *            contains all the tile
