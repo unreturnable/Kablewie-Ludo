@@ -128,16 +128,13 @@ implements MouseListener, KeyListener {
 	public void createPanel(JPanel gamePanel) {
 
 		gamePanel.setBackground(SystemColor.inactiveCaption);
-<<<<<<< HEAD
 		gamePanel.setBorder(
 				new TitledBorder(null, "Kablewie Status"
 						, TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		gamePanel.setBounds(95, 27, 274, 210);
-=======
 		gamePanel.setBorder(new TitledBorder(null, "Kablewie Status"
 				, TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		gamePanel.setBounds(100, 25, 440, 400);
->>>>>>> 2416cf068d49f5c758813d2e4b444f9059e4e269
 		m_frame.getContentPane().add(gamePanel);
 		gamePanel.setLayout(null);
 		createUserName(gamePanel);

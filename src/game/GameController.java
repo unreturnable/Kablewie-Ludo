@@ -6,11 +6,19 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+import java.io.File;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -43,7 +51,7 @@ public class GameController implements MouseListener, ActionListener {
 	private Human m_humanPlayer;
 	private JPanel m_panelGame;
 	private JPanel m_panelInfo;
-	private JButton m_GameFinsh;
+	private JButton m_GameFinshed;
 	private Timer m_time;
 	private long m_hoursPlayed;
 	private long m_minuntesPlayed;
@@ -54,6 +62,10 @@ public class GameController implements MouseListener, ActionListener {
 	private JMenuItem m_exit;
 	private JMenuItem m_about;
 	private JMenuItem m_instructions;
+	//private JScrollPane m_scroll;
+	private Clip m_tick;
+	private Clip m_bomb;
+	private Clip m_won;
 /**
  * sets up the game at the start
  * @param board - which contains all the information about the tiles
@@ -71,7 +83,9 @@ public class GameController implements MouseListener, ActionListener {
 		this.m_menu = menu;
 		setInfo();
 		startGame();
+		setSound();
 		m_time.start();
+		m_tick.loop(m_tick.LOOP_CONTINUOUSLY);
 	}
 	/**
 	 * this method just displays the information that
@@ -89,31 +103,55 @@ public class GameController implements MouseListener, ActionListener {
 	//	m_panelInfo.setMinimumSize(new Dimension(5 * 30 + 50+150, 5 * 30 + 105)));
 		m_frame.getContentPane().add(m_panelInfo);
 		m_panelInfo.setLayout(null);
-		m_GameFinsh = new JButton();
-		m_GameFinsh.setVisible(false);
-		m_GameFinsh.setBounds(130, 12, 38, 38);
-		m_panelInfo.add(m_GameFinsh);
-		m_GameFinsh.addMouseListener(this);
+		m_GameFinshed = new JButton();
+		m_GameFinshed.setVisible(false);
+		m_GameFinshed.setBounds(130, 12, 38, 38);
+		m_panelInfo.add(m_GameFinshed);
+		m_GameFinshed.addActionListener(this);
 		m_frame.validate();
 		m_frame.repaint();
 		m_panelInfo.repaint();
 
 	}
+	public void setSound() {
+		try
+		 {
+              AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("tick.wav").getAbsoluteFile());
+              m_tick = AudioSystem.getClip();
+              m_tick.open(audioInputStream);
+               audioInputStream = AudioSystem.getAudioInputStream(new File("bomb.wav").getAbsoluteFile());
+               m_bomb = AudioSystem.getClip();
+               m_bomb.open(audioInputStream);
+               audioInputStream = AudioSystem.getAudioInputStream(new File("won.wav").getAbsoluteFile());
+               m_won = AudioSystem.getClip();
+               m_won.open(audioInputStream);
+          }
+		 catch(Exception x) 
+          {  }
+	}
 	/**
 	 * the method is called when the game is lost so that a 
 	 * kablewie animation can be shown
 	 */
-	public void setm_GameLost() {
-		m_GameFinsh.setVisible(true);
-		m_GameFinsh.setIcon(new ImageIcon("gameLost.jpg"));
+	public void setGameLost() {
+		m_bomb.loop(1);
+		m_time.stop();
+		m_tick.stop();
+		m_GameFinshed.setVisible(true);
+		m_GameFinshed.setIcon(new ImageIcon("gameLost.jpg"));
 	}
 	/**
 	 * the method is called when the game is won so that a 
 	 * kablewie animation can be shown
 	 */
-	public void sesetm_GameWin() {
-		m_GameFinsh.setVisible(true);
-		m_GameFinsh.setIcon(new ImageIcon("GameWon.jpg"));
+	public void setGameWin() {
+		m_won.loop(1);
+		m_time.stop();
+		m_tick.stop();
+		m_GameFinshed.setVisible(true);
+		m_GameFinshed.setIcon(new ImageIcon("GameWon.jpg"));
+		String v="You Have won\n time taken- "+m_timePassed;
+		JOptionPane.showMessageDialog(m_frame,v , "Congratulation", JOptionPane.YES_NO_CANCEL_OPTION);
 	}
 	/**
 	 * called when the game needs to be started so the JPanel 
@@ -121,6 +159,7 @@ public class GameController implements MouseListener, ActionListener {
 	 * information stored in Board
 	 * 
 	 */
+	
 	private void startGame() {
 		m_panelGame = new JPanel() {
 			@Override
@@ -129,8 +168,9 @@ public class GameController implements MouseListener, ActionListener {
 				m_board.render(g);
 			}
 		};
-		m_panelGame.setBounds(0, 50, m_frame.getWidth(), m_frame.getHeight());
+		
 		m_panelGame.addMouseListener(this);
+		m_panelGame.setBounds(0,50,m_frame.getWidth(),m_frame.getHeight());
 		m_frame.getContentPane().add(m_panelGame);
 		m_frame.setJMenuBar(myMenu());
 		try {
@@ -165,18 +205,10 @@ public class GameController implements MouseListener, ActionListener {
 			}
 		}
 		if (m_board.getm_GameLost()) {
-			m_time.stop();
-			setm_GameLost();
-			if (e.getSource() == m_GameFinsh) {
-				reset();
-			}
+			setGameLost();
 		}
 		if(m_board.getm_GameWon()) {
-			m_time.stop();
-			sesetm_GameWin();
-			if (e.getSource() == m_GameFinsh) {
-				reset();
-			}
+			setGameWin();
 		}
 	}
 
@@ -244,6 +276,9 @@ public class GameController implements MouseListener, ActionListener {
 			reset();
 		} else if (event.getSource() == m_settings) {
 			m_frame.getContentPane().removeAll();
+			m_tick.close();
+			m_won.close();
+			m_bomb.close();
 			m_menu.display();
 		} else if (event.getSource() == m_exit) {
 			System.exit(0);
@@ -259,6 +294,8 @@ public class GameController implements MouseListener, ActionListener {
 			JOptionPane.showMessageDialog(m_instructions, getInstructions(), 
 					"About", JOptionPane.PLAIN_MESSAGE);
 
+		} else if (event.getSource() == m_GameFinshed) {
+			reset();
 		}
 	}
 	/**
@@ -287,7 +324,7 @@ public class GameController implements MouseListener, ActionListener {
 	 */
 	private void reset() {
 		m_board.reset();
-		m_GameFinsh.setVisible(false);
+		m_GameFinshed.setVisible(false);
 		m_panelGame.repaint();
 		m_panelInfo.repaint();
 		m_frame.repaint();
@@ -295,7 +332,14 @@ public class GameController implements MouseListener, ActionListener {
 		m_minuntesPlayed = 0;
 		m_hoursPlayed = 0;
 		m_timePassed = null;
+		m_won.stop();
+		m_won.flush();
+		m_won.setFramePosition(0);
+		m_bomb.stop();
+		m_bomb.flush();
+		m_bomb.setFramePosition(0);
 		m_time.start();
+		m_tick.loop(m_tick.LOOP_CONTINUOUSLY);
 	}
 
 }
