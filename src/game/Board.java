@@ -129,12 +129,12 @@ public class Board {
 				this.m_gameWon = false;
 				this.m_gameLost = true;
 				m_board.get(yPos).remove(xPos); // create a mine tile
-				m_board.get(yPos).add(xPos, new Mine(true, true, false, "mineX.jpg"));
+				m_board.get(yPos).add(xPos, new Mine(true, true, false, "images/mineX.jpg"));
 				for (int i = 0; i < m_board.size(); ++i) {
 					for (int j = 0; j < m_board.get(0).size(); ++j) {
 						if (m_board.get(i).get(j).m_isMine && !(i == yPos && j == xPos)) {
 							m_board.get(i).remove(j); // create a mine tile
-							m_board.get(i).add(j, new Mine(true, true, false, "mine.png"));
+							m_board.get(i).add(j, new Mine(true, true, false, "images/mine.png"));
 						}
 					}
 				}	

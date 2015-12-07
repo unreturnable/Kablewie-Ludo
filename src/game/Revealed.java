@@ -30,7 +30,7 @@ public class Revealed extends Tile {
 		// Always set hidden to false as its the revealed tile.
 		super(isMine, false, isDefused);
 
-		m_revealedImage = new ImageIcon("revealed.png");
+		m_revealedImage = new ImageIcon("images/revealed.png");
 	}
 
 	/**

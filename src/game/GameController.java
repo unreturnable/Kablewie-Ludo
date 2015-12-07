@@ -125,21 +125,21 @@ public class GameController implements MouseListener, ActionListener {
 		try {
 			AudioInputStream audioInputStream = 
 					AudioSystem.getAudioInputStream(
-							new File("tick.wav").getAbsoluteFile()
+							new File("sound/tick.wav").getAbsoluteFile()
 					);
 			m_tick = AudioSystem.getClip();
 			m_tick.open(audioInputStream);
 			
 			audioInputStream =
 					AudioSystem.getAudioInputStream(
-							new File("bomb.wav").getAbsoluteFile()
+							new File("sound/bomb.wav").getAbsoluteFile()
 					);
 			m_bomb = AudioSystem.getClip();
 			m_bomb.open(audioInputStream);
 			
 			audioInputStream =
 					AudioSystem.getAudioInputStream(
-							new File("won.wav").getAbsoluteFile()
+							new File("sound/won.wav").getAbsoluteFile()
 					);
 			m_won = AudioSystem.getClip();
 			m_won.open(audioInputStream);
@@ -156,7 +156,7 @@ public class GameController implements MouseListener, ActionListener {
 		m_time.stop();
 		m_tick.stop();
 		m_GameFinshed.setVisible(true);
-		m_GameFinshed.setIcon(new ImageIcon("gameLost.jpg"));
+		m_GameFinshed.setIcon(new ImageIcon("images/gameLost.jpg"));
 	}
 
 	/**
@@ -167,7 +167,7 @@ public class GameController implements MouseListener, ActionListener {
 		m_time.stop();
 		m_tick.stop();
 		m_GameFinshed.setVisible(true);
-		m_GameFinshed.setIcon(new ImageIcon("GameWon.jpg"));
+		m_GameFinshed.setIcon(new ImageIcon("images/GameWon.jpg"));
 		
 		String v = "You Have won\n time taken- " + m_timePassed;
 		JOptionPane.showMessageDialog(m_frame, v, "Congratulation", JOptionPane.YES_NO_CANCEL_OPTION);
