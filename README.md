@@ -1,4 +1,4 @@
-# Kablewie
+# Kablewie++
 
 This is the repository for A3 Code. To get a copy of the code  will need to have git installed. If you are on a Mac or Linux system this will be pre-installed you can access it by opening a terminal and typing git. If you are on windows you will need to download it from [here](https://git-scm.com/downloads)
 
