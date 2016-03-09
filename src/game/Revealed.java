@@ -8,6 +8,7 @@
 
 package game;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -44,24 +45,25 @@ public class Revealed extends Tile {
 	 * draw the number of mines near by the tile which is clicked
 	 */
 	public void render(Graphics g, int x, int y) {
-
 		g.drawImage(m_revealedImage.getImage(),
-					x * Tile.WIDTH,
-					y * Tile.HEIGHT,
-					null);
+				x * Tile.WIDTH,
+				y * Tile.HEIGHT,
+				null);
+	
+	if (m_nearbyMines > 0) {
+		/*
+		 * using Spacing so that the number is drawn in the center
+		 */
+		int spacingX = 10;
+		int spacingY = 19;
+		int fontSize = 15;
+		g.setFont(new Font("Time new roman", Font.BOLD, fontSize));
+		g.drawString(Integer.toString(m_nearbyMines),
+										x * Tile.WIDTH + spacingX,
+										y * Tile.HEIGHT + spacingY);
+	}
+
 		
-		if (m_nearbyMines > 0) {
-			/*
-			 * using Spacing so that the number is drawn in the center
-			 */
-			int spacingX = 10;
-			int spacingY = 19;
-			int fontSize = 15;
-			g.setFont(new Font("Time new roman", Font.BOLD, fontSize));
-			g.drawString(Integer.toString(m_nearbyMines),
-											x * Tile.WIDTH + spacingX,
-											y * Tile.HEIGHT + spacingY);
-		}
 	}
 
 	/**
@@ -76,7 +78,7 @@ public class Revealed extends Tile {
 		} else {
 			int nearbyMine = 0;
 			for (int i = 0; i < tileArround.size(); i++) {
-				if (tileArround.get(i).isMine()) {
+				if (tileArround.get(i).m_isMine) {
 					nearbyMine++;
 				}
 			}

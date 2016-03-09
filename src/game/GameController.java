@@ -64,6 +64,8 @@ public class GameController implements MouseListener, ActionListener {
 	private Clip m_tick;
 	private Clip m_bomb;
 	private Clip m_won;
+	
+	private Boolean m_gameFinshed;
 
 	/**
 	 * Constructor
@@ -80,7 +82,7 @@ public class GameController implements MouseListener, ActionListener {
 		this.m_player = player;
 		this.m_frame = frame;
 		this.m_menu = menu;
-
+		m_gameFinshed=false;
 		setInfo();
 		startGame();
 		setSound();
@@ -152,6 +154,7 @@ public class GameController implements MouseListener, ActionListener {
 	 * Show the animation when game is lost
 	 */
 	public void setGameLost() {
+		m_gameFinshed=true;
 		m_bomb.loop(1);
 		m_time.stop();
 		m_tick.stop();
@@ -163,6 +166,7 @@ public class GameController implements MouseListener, ActionListener {
 	 * Show the animation when game is won
 	 */
 	public void setGameWin() {
+		m_gameFinshed=true;
 		m_won.loop(1);
 		m_time.stop();
 		m_tick.stop();
@@ -210,6 +214,7 @@ public class GameController implements MouseListener, ActionListener {
 	 * Called on mouse event
 	 */
 	public void mouseClicked(MouseEvent e) {
+		if(m_gameFinshed) return;
 		if (!(m_board.getm_GameLost())) {
 			
 			if (e.getButton() == MouseEvent.BUTTON1) {
@@ -375,6 +380,7 @@ public class GameController implements MouseListener, ActionListener {
 	 */
 	private void reset() {
 		m_board.reset();
+		m_gameFinshed=false;
 		m_GameFinshed.setVisible(false);
 		m_panelGame.repaint();
 		m_panelInfo.repaint();

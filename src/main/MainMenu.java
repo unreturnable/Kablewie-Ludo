@@ -30,7 +30,13 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 	private JTextField m_totalMinesText;
 	private JFrame m_frame;
 	private Kablewie m_kablewie;
-
+	private final int MAXIMUM_NUMBER_OF_MINES=150;
+	private final int MINIMUM_NUMBER_OF_MINES=1;
+	private final int DEFAULT_NUMBER_OF_MINES=10;
+	private final int DEFAULT_BOARD_SIZE=10;
+	private final int MINIMUM_BOARD_SIZE=1;
+	private final int MAXIMUM_BOARD_SIZE=30;
+	
 	/**
 	 * Constructor that sets variable values
 	 * and starts display of the menu.
@@ -102,7 +108,7 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 
 		m_totalMinesText = new JTextField();
 		m_totalMinesText.addKeyListener(this);
-		m_totalMinesText.setText("10");
+		m_totalMinesText.setText(DEFAULT_NUMBER_OF_MINES+"");
 		m_totalMinesText.setBorder(null);
 		m_totalMinesText.setBounds(98, 116, 110, 26);
 		m_totalMinesText.setForeground(Color.RED);
@@ -178,11 +184,30 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 			boardSize = Integer.parseInt(m_boardSizeText.getText());
 			numMines = Integer.parseInt(m_totalMinesText.getText());
 		} catch (Exception e) {
+			JOptionPane.showConfirmDialog(null, "Format Of The Input Is not Right","Input", JOptionPane.WARNING_MESSAGE);
 			return;
 		}
-		if (!(boardSize > 0 && boardSize <= 30)
-				|| !(numMines < boardSize * boardSize && numMines <= 150 && numMines > 0)) {
+		if (!(boardSize >= MINIMUM_BOARD_SIZE && boardSize <= MAXIMUM_BOARD_SIZE)){
+			m_boardSizeText.setText(DEFAULT_BOARD_SIZE+"");
+			String message="The Board is not in the range it should be "
+					+ "above 0 and below or equal to 30";
+			JOptionPane.showConfirmDialog(null, message,"Input Range"
+					, JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		if(!(numMines < boardSize * boardSize && numMines <= MAXIMUM_NUMBER_OF_MINES && numMines >= MINIMUM_NUMBER_OF_MINES)) {
 			m_totalMinesText.setText(m_boardSizeText.getText());
+			int maxMinePossible=1;
+			if(boardSize * boardSize<= MAXIMUM_NUMBER_OF_MINES){
+				maxMinePossible=boardSize * boardSize - 1;
+			}
+			else {
+				maxMinePossible=MAXIMUM_NUMBER_OF_MINES;
+			}
+			String message="Number of mine are not in the range it should "
+					+ "be above 0 and below or equal to "+maxMinePossible;
+			JOptionPane.showConfirmDialog(null, message,"Input Range"
+					, JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 		Board board = new Board(boardSize, boardSize, numMines);
