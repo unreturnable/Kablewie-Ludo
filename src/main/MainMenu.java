@@ -136,8 +136,8 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 	public void createPanel(JPanel gamePanel) {
 
 		gamePanel.setBackground(Color.GRAY);
-		gamePanel.setBorder(
-				new TitledBorder(null, "Kablewie Status", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		gamePanel.setBorder(new TitledBorder(null, "Kablewie Status", 
+				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		gamePanel.setBounds(95, 27, 274, 210);
 		m_frame.getContentPane().add(gamePanel);
 		gamePanel.setLayout(null);
@@ -181,7 +181,8 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 			return;
 		}
 		if (!(boardSize > 0 && boardSize <= 30)
-				|| !(numMines < boardSize * boardSize && numMines <= 150 && numMines > 0)) {
+				|| !(numMines < boardSize * boardSize && 
+						numMines <= 150 && numMines > 0)) {
 			m_totalMinesText.setText(m_boardSizeText.getText());
 			return;
 		}

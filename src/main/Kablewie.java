@@ -46,7 +46,8 @@ public class Kablewie {
 
 		// Set frame boundaries.
 		m_frame.setSize(640, 480);
-		m_frame.setLocation(dim.width / 2 - m_frame.getSize().width / 2, dim.height / 2 - m_frame.getSize().height / 2);
+		m_frame.setLocation(dim.width / 2 - m_frame.getSize().width / 2, 
+				dim.height / 2 - m_frame.getSize().height / 2);
 
 		// Set window to close when exited.
 		m_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

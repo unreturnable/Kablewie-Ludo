@@ -5,7 +5,7 @@
  *
  * A Revealed Tile
  */ 
-
+//This is a noun but just to hammer it home potentially change to revealer?
 package game;
 
 import java.awt.Font;

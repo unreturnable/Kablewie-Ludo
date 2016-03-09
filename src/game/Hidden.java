@@ -6,6 +6,7 @@
  * A hidden Tile
  */ 
 
+//change name to secret?
 package game;
 
 import java.awt.Graphics;
