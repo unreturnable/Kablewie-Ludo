@@ -6,6 +6,7 @@
  * A Defused Tile
  */
 
+//change class name to flag or defuser?
 package game;
 
 import java.awt.Graphics;
