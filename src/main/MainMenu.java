@@ -218,11 +218,19 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 			JOptionPane.showMessageDialog(null,"Please enter a player name",
                     "No player name",JOptionPane.ERROR_MESSAGE);
 			return;
+		} else if (username.length() > 20){
+			JOptionPane.showMessageDialog(null,
+					"Please enter a player name less than 20 characters long",
+                    "Player name too long",JOptionPane.ERROR_MESSAGE);
+			return;
 		}
 		try {
 			boardSize = Integer.parseInt(m_boardSizeText.getText());
 			numMines = Integer.parseInt(m_totalMinesText.getText());
 		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null,
+					"Please enter integers only in Board Size and Total Mines",
+					"Not Integer",JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		if (!(boardSize > 0 && boardSize <= MAX_BOARD_SIZE)) {
