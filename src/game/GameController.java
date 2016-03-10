@@ -86,7 +86,6 @@ public class GameController implements MouseListener, ActionListener {
 		setInfo();
 		startGame();
 		setSound();
-
 		m_time = new Timer(1000, this);
 		m_time.start();
 		m_tick.loop(Clip.LOOP_CONTINUOUSLY);
