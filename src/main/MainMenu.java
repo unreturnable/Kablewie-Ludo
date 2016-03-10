@@ -172,6 +172,8 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 		int boardSize;
 		int numMines;
 		if (username.equalsIgnoreCase("")) {
+			JOptionPane.showMessageDialog(null,"Please enter a player name",
+                    "No player name",JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		try {
@@ -180,10 +182,18 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 		} catch (Exception e) {
 			return;
 		}
-		if (!(boardSize > 0 && boardSize <= 30)
-				|| !(numMines < boardSize * boardSize && 
-						numMines <= 150 && numMines > 0)) {
+		if (!(boardSize > 0 && boardSize <= 30)) {
+			JOptionPane.showMessageDialog(null,
+					"Please enter a value between 0 and 30",
+					"Value Out of Bounds",JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		if (!(numMines < boardSize * boardSize && 
+				numMines <= 150 && numMines > 0)){
 			m_totalMinesText.setText(m_boardSizeText.getText());
+			JOptionPane.showMessageDialog(null,
+					"Too many mines",
+					"Value Out of Bounds",JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		Board board = new Board(boardSize, boardSize, numMines);
