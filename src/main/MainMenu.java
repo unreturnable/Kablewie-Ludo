@@ -30,7 +30,7 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 	private JTextField m_totalMinesText;
 	private JFrame m_frame;
 	private Kablewie m_kablewie;
-	private final int m_maxBoardSize = 30;
+	private final int MAX_BOARD_SIZE = 30;
 
 	/**
 	 * Constructor that sets variable values
@@ -183,7 +183,7 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 		} catch (Exception e) {
 			return;
 		}
-		if (!(boardSize > 0 && boardSize <= m_maxBoardSize)) {
+		if (!(boardSize > 0 && boardSize <= MAX_BOARD_SIZE)) {
 			JOptionPane.showMessageDialog(null,
 					"Please enter a value between 0 and 30",
 					"Value Out of Bounds",JOptionPane.ERROR_MESSAGE);
@@ -199,10 +199,10 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 		}
 		Board board = new Board(boardSize, boardSize, numMines);
 		Player player = new Human(username);
-		m_frame.setSize(boardSize * m_maxBoardSize + 50,
-				boardSize * m_maxBoardSize + 105);
-		m_frame.setMinimumSize(new Dimension(5 * m_maxBoardSize + 50 + 130,
-				5 * m_maxBoardSize + 105));
+		m_frame.setSize(boardSize * MAX_BOARD_SIZE + 50,
+				boardSize * MAX_BOARD_SIZE + 105);
+		m_frame.setMinimumSize(new Dimension(5 * MAX_BOARD_SIZE + 50 + 130,
+				5 * MAX_BOARD_SIZE + 105));
 		m_kablewie.startGame(board, player, this);
 	}
 
