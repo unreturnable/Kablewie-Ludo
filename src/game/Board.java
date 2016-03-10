@@ -326,4 +326,19 @@ public class Board {
 		m_gameLost = false;
 		m_gameWon = false;
 	}
+	
+	/**
+	 * Reveals the mines without ending the game. Used for testing purposes
+	 */
+	public void showMines(Graphics g){
+		for (int y = 0; y < m_board.size(); y++) {
+			for (int x = 0; x < m_board.get(y).size(); x++) {
+				if(m_board.get(y).get(x).isMine()){
+					m_board.get(y).remove(x);
+					m_board.get(y).add(x, new Mine(true, true, false, "images/mine.png"));
+					m_board.get(y).get(x).render(g, x, y);
+				}
+			}
+		}
+	}
 }

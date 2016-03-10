@@ -188,6 +188,8 @@ public class GameController implements MouseListener, ActionListener {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				m_board.render(g);
+				//m_board.showMines(g); Added method to show all mines.
+				//Now to add button to toggle...
 			}
 		};
 
