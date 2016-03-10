@@ -13,6 +13,7 @@ import java.awt.event.*;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+import java.lang.Math;
 
 import game.Board;
 import game.Human;
@@ -30,6 +31,7 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 	private JTextField m_totalMinesText;
 	private JFrame m_frame;
 	private Kablewie m_kablewie;
+	private boolean test = false;
 	private final int MAX_BOARD_SIZE = 30;
 	private final int TXT_BOX_WIDTH = 110;
 	private final int TXT_BOX_HEIGHT = 26;
@@ -62,8 +64,53 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 	private final int JPANEL_WIDTH = 274;
 	private final int JPANEL_HEIGHT = 210;
 	
+	public boolean getTest(){
+		m_userNameText = new JTextField();
+		m_boardSizeText = new JTextField();
+		m_totalMinesText = new JTextField();
+		return test;
+	}
+	
+	public void setUserNameText(String username){
+		m_userNameText.setText(username);
+	}
+	
+	public void setBoardSizeText(int boardSize){
+		m_boardSizeText.setText(Integer.toString(boardSize));
+	}
+	
+	public void setTotalMinesText(int totalMines){
+		m_totalMinesText.setText(Integer.toString(totalMines));
+	}
+	
+	public String getUserNameText(){
+		if (m_userNameText.getText().length() > 0){
+			return m_userNameText.getText();
+		} else {
+			return "m_userNameText not set";
+		}
+	}
+	
+	public int getBoardSizeText(){
+		if (m_boardSizeText.getText().length() > 0){
+			return Integer.parseInt(m_boardSizeText.getText());
+		} else {
+			return 0;
+		}
+	}
+	
+	public int getTotalMinesText(){
+		if (m_totalMinesText.getText().length() > 0){
+			return Integer.parseInt(m_totalMinesText.getText());
+		} else {
+			return 0;
+		}
+	}
 	
 	
+	public MainMenu(){
+		
+	}
 	/**
 	 * Constructor that sets variable values
 	 * and starts display of the menu.
@@ -212,40 +259,63 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 
 	public void startGame() {
 		String username = m_userNameText.getText();
-		int boardSize;
-		int numMines;
+		int boardSize = 0;
+		int numMines = 0;
 		if (username.equalsIgnoreCase("")) {
-			JOptionPane.showMessageDialog(null,"Please enter a player name",
-                    "No player name",JOptionPane.ERROR_MESSAGE);
-			return;
-		} else if (username.length() > 20){
-			JOptionPane.showMessageDialog(null,
+			if(!test){
+				JOptionPane.showMessageDialog(null,"Please enter player name",
+					"No player name",JOptionPane.ERROR_MESSAGE);
+				return;
+			} else {
+				System.out.println("Please enter player name");
+			}
+		} else if (username.length() >= 20){
+			if(!test){
+				JOptionPane.showMessageDialog(null,
 					"Please enter a player name less than 20 characters long",
                     "Player name too long",JOptionPane.ERROR_MESSAGE);
-			return;
+				return;
+			} else {
+				System.out.println("Please enter player name < 20 chars long");
+			}
 		}
 		try {
 			boardSize = Integer.parseInt(m_boardSizeText.getText());
 			numMines = Integer.parseInt(m_totalMinesText.getText());
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null,
+			if(!test){
+				JOptionPane.showMessageDialog(null,
 					"Please enter integers only in Board Size and Total Mines",
 					"Not Integer",JOptionPane.ERROR_MESSAGE);
-			return;
+				return;
+			} else {
+				System.out.println("Please enter integers only");
+			}
 		}
 		if (!(boardSize > 0 && boardSize <= MAX_BOARD_SIZE)) {
-			JOptionPane.showMessageDialog(null,
-					"Please enter a value between 0 and 30",
+			if(!test){
+				JOptionPane.showMessageDialog(null,
+					"Please enter a board size between 0 and 30",
 					"Value Out of Bounds",JOptionPane.ERROR_MESSAGE);
-			return;
+				return;
+			} else {
+				System.out.println("Please enter board size between 0 and 30");
+			}
 		}
 		if (!(numMines < boardSize * boardSize && 
 				numMines <= MAX_MINES && numMines > 0)){
 			m_totalMinesText.setText(m_boardSizeText.getText());
-			JOptionPane.showMessageDialog(null,
-					"Too many mines",
-					"Value Out of Bounds",JOptionPane.ERROR_MESSAGE);
-			return;
+			int boardSquared = boardSize * boardSize;
+			int maxMines = Math.min(boardSquared, MAX_MINES);
+			if(!test) {
+				JOptionPane.showMessageDialog(null,
+					"Please enter a total number of mines between 0 and "
+					+maxMines,"Value Out of Bounds",JOptionPane.ERROR_MESSAGE);
+				return;
+			} else {
+				System.out.println("Please enter total mines between 0 and "
+						+ maxMines);
+			}
 		}
 		Board board = new Board(boardSize, boardSize, numMines);
 		Player player = new Human(username);
@@ -299,5 +369,18 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 
 	public void keyTyped(KeyEvent e) {
 
+	}
+	
+	public static void main(String[] args){
+		MainMenu test = new MainMenu();
+		if (test.getTest()){
+			test.getTest();
+			test.setUserNameText("abcdefghijklmnopqrs");
+			test.setBoardSizeText(30);
+			test.setTotalMinesText(-1);
+			test.startGame();
+		}
+		
+		
 	}
 }
