@@ -60,12 +60,15 @@ public class GameController implements MouseListener, ActionListener {
 	private JMenuItem m_exit;
 	private JMenuItem m_about;
 	private JMenuItem m_instructions;
+	private JMenuItem m_showHideMines;
 
 	private Clip m_tick;
 	private Clip m_bomb;
 	private Clip m_won;
 	
 	private Boolean m_gameFinshed;
+	
+	private boolean m_minesRevealed; //toggle mines being shown
 
 	/**
 	 * Constructor
@@ -89,6 +92,8 @@ public class GameController implements MouseListener, ActionListener {
 		m_time = new Timer(1000, this);
 		m_time.start();
 		m_tick.loop(Clip.LOOP_CONTINUOUSLY);
+		
+		m_minesRevealed = false; //hidden set to false initially
 	}
 
 	/**
@@ -188,8 +193,6 @@ public class GameController implements MouseListener, ActionListener {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				m_board.render(g);
-				//m_board.showMines(g); Added method to show all mines.
-				//Now to add button to toggle...
 			}
 		};
 
@@ -265,10 +268,13 @@ public class GameController implements MouseListener, ActionListener {
 		m_settings.addActionListener(this);
 		m_exit = new JMenuItem("Exit");
 		m_exit.addActionListener(this);
+		m_showHideMines = new JMenuItem("Show/Hide Mines");
+		m_showHideMines.addActionListener(this);
 		
 		game.add(m_newGame);
 		game.add(m_settings);
 		game.add(m_exit);
+		game.add(m_showHideMines);
 		
 		JMenu help = new JMenu("Help");
 		
@@ -329,6 +335,12 @@ public class GameController implements MouseListener, ActionListener {
 		} else if (event.getSource() == m_exit) {
 			
 			System.exit(0);
+			
+		} else if(event.getSource() == m_showHideMines){
+			
+			m_board.toggleMines(m_minesRevealed);
+			m_panelGame.repaint();
+			setMinesRevealed(!m_minesRevealed);
 			
 		} else if (event.getSource() == m_about) {
 			
@@ -398,6 +410,11 @@ public class GameController implements MouseListener, ActionListener {
 		m_bomb.setFramePosition(0);
 		m_time.start();
 		m_tick.loop(Clip.LOOP_CONTINUOUSLY);
+		setMinesRevealed(false);
+	}
+	
+	public void setMinesRevealed(boolean tf){
+		m_minesRevealed = tf;
 	}
 
 }
