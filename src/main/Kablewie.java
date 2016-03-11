@@ -1,6 +1,6 @@
 /**
  * @file Kablewie.java
- * @author Thomas Phelps
+ * @author Thomas Phelps, Michael Jeffrey
  * @date 4 December 2015
  *
  * Starts the game then creates and

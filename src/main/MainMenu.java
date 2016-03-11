@@ -1,6 +1,6 @@
 /**
  * @file MainMenu.java
- * @author Eromosele Gideon
+ * @author Eromosele Gideon, Michael Jeffrey
  * @date 7 December 2015
  *
  * Handles creation of the main menu
