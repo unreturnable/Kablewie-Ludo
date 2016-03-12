@@ -334,13 +334,17 @@ public class Board {
 	/**
 	 * Reveals the mines without ending the game. Used for testing purposes
 	 */
-	public void showMines(Graphics g){
+	public void toggleMines(boolean minesShown){
 		for (int y = 0; y < m_board.size(); y++) {
 			for (int x = 0; x < m_board.get(y).size(); x++) {
 				if(m_board.get(y).get(x).isMine()){
 					m_board.get(y).remove(x);
-					m_board.get(y).add(x, new Mine(true, true, false, "images/mine.png"));
-					m_board.get(y).get(x).render(g, x, y);
+					if(!minesShown){
+						m_board.get(y).add(x, new Mine(true, true, false, "images/mine.png"));
+					} else {
+						m_board.get(y).add(x, new Hidden(true, true, false));
+					}
+					
 				}
 			}
 		}

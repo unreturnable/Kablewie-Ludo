@@ -65,6 +65,7 @@ public class GameController implements MouseListener, ActionListener {
 	private JMenuItem m_computerAI;
 	private JMenuItem m_computerRandom;
 	
+	private JMenuItem m_showHideMines;
 
 	private Clip m_tick;
 	private Clip m_bomb;
@@ -73,6 +74,8 @@ public class GameController implements MouseListener, ActionListener {
 	private Boolean m_gameFinshed;
 	private Boolean m_isComputerAI;
 	private Boolean m_computerIsPressed;
+	
+	private boolean m_minesRevealed; //toggle mines being shown
 
 	/**
 	 * Constructor
@@ -99,6 +102,8 @@ public class GameController implements MouseListener, ActionListener {
 		m_tick.loop(Clip.LOOP_CONTINUOUSLY);
 		m_isComputerAI=true;
 		m_computerIsPressed=false;
+		
+		m_minesRevealed = false; //hidden set to false initially
 	}
 
 	/**
@@ -203,8 +208,6 @@ public class GameController implements MouseListener, ActionListener {
 			public void paintComponent(Graphics g) {
 				super.paintComponent(g);
 				m_board.render(g);
-				//m_board.showMines(g); Added method to show all mines.
-				//Now to add button to toggle...
 			}
 		};
 
@@ -291,6 +294,7 @@ public class GameController implements MouseListener, ActionListener {
 		m_settings.addActionListener(this);
 		m_exit = new JMenuItem("Exit");
 		m_exit.addActionListener(this);
+
 		JMenu computer=new JMenu("Computer");
 		m_computerAI=new JMenuItem("Computer AI");
 		m_computerAI.addActionListener(this);
@@ -298,10 +302,14 @@ public class GameController implements MouseListener, ActionListener {
 		m_computerRandom.addActionListener(this);
 		computer.add(m_computerAI);
 		computer.add(m_computerRandom);
+		m_showHideMines = new JMenuItem("Show/Hide Mines");
+		m_showHideMines.addActionListener(this);
+		
 		game.add(m_newGame);
 		game.add(m_settings);
 		game.add(computer);
 		game.add(m_exit);
+		game.add(m_showHideMines);
 		
 		JMenu help = new JMenu("Help");
 		
@@ -375,6 +383,12 @@ public class GameController implements MouseListener, ActionListener {
 			m_isComputerAI=false;
 		}else if (event.getSource() == m_exit) {
 			System.exit(0);
+		} else if(event.getSource() == m_showHideMines){
+			
+			m_board.toggleMines(m_minesRevealed);
+			m_panelGame.repaint();
+			setMinesRevealed(!m_minesRevealed);
+			
 		} else if (event.getSource() == m_about) {
 			
 			String author = "Author: Software Engineering Group 14\n";
@@ -446,6 +460,11 @@ public class GameController implements MouseListener, ActionListener {
 		m_bomb.setFramePosition(0);
 		m_time.start();
 		m_tick.loop(Clip.LOOP_CONTINUOUSLY);
+		setMinesRevealed(false);
+	}
+	
+	public void setMinesRevealed(boolean tf){
+		m_minesRevealed = tf;
 	}
 
 }

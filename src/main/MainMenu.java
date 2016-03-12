@@ -1,6 +1,6 @@
 /**
  * @file MainMenu.java
- * @author Eromosele Gideon
+ * @author Eromosele Gideon, Michael Jeffrey
  * @date 7 December 2015
  *
  * Handles creation of the main menu
@@ -19,7 +19,7 @@ import game.Board;
 import game.Human;
 import game.Player;
 
-/* 
+/** 
  * Suppress serial ID warning as ID would not
  * match coding conventions.
  */
@@ -65,6 +65,13 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 	private final int JPANEL_WIDTH = 274;
 	private final int JPANEL_HEIGHT = 210;
 	
+	/**
+	 * getTest initialises m_userNameText,
+	 * m_boardSizeText and m_totalMinesText
+	 * for testing in the main method
+	 * 
+	 * @return test
+	 */
 	public boolean getTest(){
 		m_userNameText = new JTextField();
 		m_boardSizeText = new JTextField();
@@ -72,18 +79,42 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 		return test;
 	}
 	
+	/**
+	 * setUserNameText sets the content of
+	 * m_userNameText for use in testing
+	 * 
+	 * @param username
+	 */
 	public void setUserNameText(String username){
 		m_userNameText.setText(username);
 	}
 	
+	/**
+	 * setBoardSizeText sets the content of
+	 * m_boardSizeText for use in testing
+	 * 
+	 * @param boardSize
+	 */
 	public void setBoardSizeText(int boardSize){
 		m_boardSizeText.setText(Integer.toString(boardSize));
 	}
 	
+	/**
+	 * setTotalMinesText sets the content of
+	 * m_totalMinesText for use in testing
+	 * 
+	 * @param totalMines
+	 */
 	public void setTotalMinesText(int totalMines){
 		m_totalMinesText.setText(Integer.toString(totalMines));
 	}
 	
+	/**
+	 * getUserNameText gets the content of
+	 * m_userNameText for use in testing
+	 * 
+	 * @return m_userNameText.getText()
+	 */
 	public String getUserNameText(){
 		if (m_userNameText.getText().length() > 0){
 			return m_userNameText.getText();
@@ -92,6 +123,12 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 		}
 	}
 	
+	/**
+	 * getBoardSizeText gets the content of
+	 * m_boardSizeText for use in testing
+	 * 
+	 * @return m_boardSizeText.getText()
+	 */
 	public int getBoardSizeText(){
 		if (m_boardSizeText.getText().length() > 0){
 			return Integer.parseInt(m_boardSizeText.getText());
@@ -100,6 +137,12 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 		}
 	}
 	
+	/**
+	 * getTotalMinesText gets the content of
+	 * m_totalMinesText for use in testing
+	 * 
+	 * @return m_totalMinesText.getText()
+	 */
 	public int getTotalMinesText(){
 		if (m_totalMinesText.getText().length() > 0){
 			return Integer.parseInt(m_totalMinesText.getText());
@@ -108,7 +151,10 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 		}
 	}
 	
-	
+	/**
+	 * Constructor to be able to create instances of the methods in
+	 * this class for use in the main method for testing
+	 */
 	public MainMenu(){
 		
 	}
@@ -257,7 +303,9 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 		createPanel(gamePanel);
 	}
 
-
+	/**
+	 * Checks that the text boxes contains valid data and starts the game 
+	 */
 	public void startGame() {
 		String username = m_userNameText.getText();
 		int boardSize = 0;
