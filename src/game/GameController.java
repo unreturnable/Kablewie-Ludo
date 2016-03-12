@@ -48,6 +48,8 @@ public class GameController implements MouseListener, ActionListener {
 	private JPanel m_panelGame;
 	private JPanel m_panelInfo;
 	private JButton m_GameFinshed;
+	private JButton m_Computer;
+	private Computer m_computer;
 
 	private Timer m_time;
 	private long m_hoursPlayed;
@@ -60,12 +62,17 @@ public class GameController implements MouseListener, ActionListener {
 	private JMenuItem m_exit;
 	private JMenuItem m_about;
 	private JMenuItem m_instructions;
+	private JMenuItem m_computerAI;
+	private JMenuItem m_computerRandom;
+	
 
 	private Clip m_tick;
 	private Clip m_bomb;
 	private Clip m_won;
 	
 	private Boolean m_gameFinshed;
+	private Boolean m_isComputerAI;
+	private Boolean m_computerIsPressed;
 
 	/**
 	 * Constructor
@@ -87,8 +94,11 @@ public class GameController implements MouseListener, ActionListener {
 		startGame();
 		setSound();
 		m_time = new Timer(1000, this);
+		m_computer = new Computer(player.getUsername());
 		m_time.start();
 		m_tick.loop(Clip.LOOP_CONTINUOUSLY);
+		m_isComputerAI=true;
+		m_computerIsPressed=false;
 	}
 
 	/**
@@ -103,7 +113,7 @@ public class GameController implements MouseListener, ActionListener {
 			}
 		};
 
-		m_panelInfo.setBounds(0, 0, 640, 50);
+		m_panelInfo.setBounds(0, 0, m_frame.getWidth(), 50);
 		m_frame.getContentPane().add(m_panelInfo);
 		m_panelInfo.setLayout(null);
 
@@ -112,6 +122,11 @@ public class GameController implements MouseListener, ActionListener {
 		m_GameFinshed.setBounds(130, 12, 38, 38);
 
 		m_panelInfo.add(m_GameFinshed);
+		
+		m_Computer= new JButton("Computer");
+		m_Computer.setBounds(325, 12, 100, 30);
+		m_Computer.addMouseListener(this);
+		m_panelInfo.add(m_Computer);
 		m_GameFinshed.addActionListener(this);
 
 		m_panelInfo.repaint();
@@ -216,6 +231,7 @@ public class GameController implements MouseListener, ActionListener {
 	 */
 	public void mouseClicked(MouseEvent e) {
 		if(m_gameFinshed) return;
+		if(e.getSource()==m_panelGame) {
 		if (!(m_board.getm_GameLost())) {
 			
 			if (e.getButton() == MouseEvent.BUTTON1) {
@@ -230,12 +246,15 @@ public class GameController implements MouseListener, ActionListener {
 				m_panelInfo.repaint();
 			}
 		}
-		if (m_board.getm_GameLost()) {
-			setGameLost();
 		}
-		if (m_board.getm_GameWon()) {
-			setGameWin();
+		else if(e.getSource() == m_Computer){
+			m_computerIsPressed=!m_computerIsPressed ;
+			m_computer.setComputerTurn(m_computerIsPressed);
+			if(m_computerIsPressed) {
+				m_computer.start(m_board);
+			}
 		}
+		checkWonOrLoss();
 	}
 
 	public void mouseEntered(MouseEvent e) {
@@ -249,7 +268,14 @@ public class GameController implements MouseListener, ActionListener {
 
 	public void mouseReleased(MouseEvent arg0) {
 	}
-
+	public void checkWonOrLoss(){
+		if (m_board.getm_GameLost()) {
+			setGameLost();
+		}
+		if (m_board.getm_GameWon()) {
+			setGameWin();
+		}
+	}
 	/**
 	 * Builds a JMenuBar with options
 	 * 
@@ -265,9 +291,16 @@ public class GameController implements MouseListener, ActionListener {
 		m_settings.addActionListener(this);
 		m_exit = new JMenuItem("Exit");
 		m_exit.addActionListener(this);
-		
+		JMenu computer=new JMenu("Computer");
+		m_computerAI=new JMenuItem("Computer AI");
+		m_computerAI.addActionListener(this);
+		m_computerRandom=new JMenuItem("Computer Random");
+		m_computerRandom.addActionListener(this);
+		computer.add(m_computerAI);
+		computer.add(m_computerRandom);
 		game.add(m_newGame);
 		game.add(m_settings);
+		game.add(computer);
 		game.add(m_exit);
 		
 		JMenu help = new JMenu("Help");
@@ -313,23 +346,35 @@ public class GameController implements MouseListener, ActionListener {
 							+ " : " 
 							+ m_secoundPlayed;
 			
+			if(m_computerIsPressed){
+				if(m_isComputerAI){
+				m_computer.computerAI(m_board);
+				m_panelGame.repaint();
+					m_panelInfo.repaint();
+				}
+				else{
+					m_computer.computerPlaysRandom(m_board);
+					m_panelGame.repaint();
+					m_panelInfo.repaint();
+				}
+				checkWonOrLoss();
+			}
+			
 		} else if (event.getSource() == m_newGame) {
-			
 			reset();
-			
 		} else if (event.getSource() == m_settings) {
-			
 			m_frame.getContentPane().removeAll();
 			m_frame.getJMenuBar().setVisible(false);
 			m_tick.close();
 			m_won.close();
 			m_bomb.close();
 			m_menu.display();
-			
-		} else if (event.getSource() == m_exit) {
-			
+		}else if (event.getSource() == m_computerAI) { 
+			m_isComputerAI=true;
+		}else if (event.getSource() == m_computerRandom) {
+			m_isComputerAI=false;
+		}else if (event.getSource() == m_exit) {
 			System.exit(0);
-			
 		} else if (event.getSource() == m_about) {
 			
 			String author = "Author: Software Engineering Group 14\n";
@@ -351,7 +396,7 @@ public class GameController implements MouseListener, ActionListener {
 
 		} else if (event.getSource() == m_GameFinshed) {
 			reset();
-		}
+		} 
 	}
 
 	/**
@@ -390,6 +435,9 @@ public class GameController implements MouseListener, ActionListener {
 		m_minuntesPlayed = 0;
 		m_hoursPlayed = 0;
 		m_timePassed = null;
+		m_computer.resetAI();
+		m_isComputerAI=true;
+		m_computerIsPressed=false;
 		m_won.stop();
 		m_won.flush();
 		m_won.setFramePosition(0);

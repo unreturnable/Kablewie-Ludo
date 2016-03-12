@@ -22,7 +22,7 @@ public class Player {
 	}
 	
 	protected void takeTurn() {
-		// Placeholder for turn
+		
 	}
 	
 	/**

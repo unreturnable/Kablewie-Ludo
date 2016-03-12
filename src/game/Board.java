@@ -45,7 +45,11 @@ public class Board {
 		setBoardDimensions();
 		placeMines();
 	}
-
+	//added for testing computer AI
+	public void setBoard(ArrayList<ArrayList<Tile>> board)
+	{
+		m_board=board;
+	}
 	/**
 	 * @return the value of m_gameLost which is true if the game is lost
 	 */
