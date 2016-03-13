@@ -225,9 +225,10 @@ public class SaveGame {
 		if (type == TILE) {
 			newTile = new Secret(false, true, false);
 		} else if (type == DEFUSED_TILE) {
-			newTile = new Secret(false, true, true);
+			System.out.println("CAME");
+			newTile = new Flag(false, true, true);
 		} else if (type == DEFUSED_MINE) {
-			newTile = new Secret(true, true, true);
+			newTile = new Flag(true, true, true);
 		} else if (type == MINE) {
 			newTile = new Secret(true, true, false);
 		} else if (type == REVEALED) {

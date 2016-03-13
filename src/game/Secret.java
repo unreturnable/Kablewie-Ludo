@@ -23,7 +23,7 @@ public class Secret extends Tile {
 	*/
 	public Secret(boolean isMine, boolean isHidden,boolean isDefused) {
 		// Always set hidden to false as its the hidden tile.
-		super(isMine, true,false);
+		super(isMine, isHidden,isDefused);
 		m_hidden=new ImageIcon("images/hidden.png");
 	}
 	
