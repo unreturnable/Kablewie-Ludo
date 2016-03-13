@@ -65,6 +65,7 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 	private final int JPANEL_Y_COORD = 27;
 	private final int JPANEL_WIDTH = 274;
 	private final int JPANEL_HEIGHT = 260;
+	private final int MAX_CHAR = 20;
 	
 	/**
 	 * getTest initialises m_userNameText,
@@ -345,7 +346,7 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 			} else {
 				System.out.println("Please enter player name");
 			}
-		} else if (username.length() >= 20){
+		} else if (username.length() >= MAX_CHAR){
 			if(!test){
 				JOptionPane.showMessageDialog(null,
 					"Please enter a player name less than 20 characters long",

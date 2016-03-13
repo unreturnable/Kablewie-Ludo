@@ -1,18 +1,17 @@
 /**
- * @file Hidden.java
+ * @file Secret.java
  * @author Thomas Williams
  * @date 7 December 2015
  *
  * A hidden Tile
  */ 
 
-//change name to secret?
 package game;
 
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
 
-public class Hidden extends Tile {
+public class Secret extends Tile {
 
 	private ImageIcon m_hidden;
 	
@@ -22,7 +21,7 @@ public class Hidden extends Tile {
 	 * @param isHidden a boolean is hidden or not
 	 * @param isDefused a boolean is defused or not
 	*/
-	public Hidden(boolean isMine, boolean isHidden,boolean isDefused) {
+	public Secret(boolean isMine, boolean isHidden,boolean isDefused) {
 		// Always set hidden to false as its the hidden tile.
 		super(isMine, true,false);
 		m_hidden=new ImageIcon("images/hidden.png");
@@ -43,12 +42,12 @@ public class Hidden extends Tile {
 	}
 	
 	/**
-	 * Unit test for hidden. Testing functionality of Tile here too
+	 * Unit test for Secret. Testing functionality of Tile here too
 	 * as tile is abstract and cannot be directly tested.
 	 * 
 	 */
 	public static void main(String[] args){
-		Tile t = new Hidden(true, false, false);
+		Tile t = new Secret(true, false, false);
 		
 		System.out.println("\nisMine() test | Expected output: true " 
 				+ "| Actual output: " + t.isMine());

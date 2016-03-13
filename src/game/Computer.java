@@ -18,7 +18,7 @@ public class Computer extends Player {
 	private boolean m_isComputerAI;
 	private LinkedList<Position> m_copyBoard;
 	private LinkedList<Position> m_cloneBoard;
-	private LinkedList<Mapping> m_mapping;
+	private LinkedList<Map> m_mapping;
 	private boolean firstComputerAIMove;
 	private static boolean m_test;
 
@@ -71,7 +71,7 @@ public class Computer extends Player {
 		super(name);
 		m_copyBoard = new LinkedList<Position>();
 		m_cloneBoard = new LinkedList<Position>();
-		m_mapping = new LinkedList<Mapping>();
+		m_mapping = new LinkedList<Map>();
 		firstComputerAIMove = true;
 	}
 
@@ -112,13 +112,13 @@ public class Computer extends Player {
 							System.out.print("CM*\t");
 							return;
 						}
-						Revealed r = (Revealed) board.getm_Board()
+						Revealer r = (Revealer) board.getm_Board()
 								.get(i).get(j);
 						System.out.print(r.getm_NearByMines() + "C\t");
 					} else {
 						if (board.getm_Board().get(i).get(j).isMine())
 							return;
-						Revealed r = (Revealed) board.getm_Board()
+						Revealer r = (Revealer) board.getm_Board()
 								.get(i).get(j);
 						System.out.print(r.getm_NearByMines() + "\t");
 					}
@@ -173,7 +173,7 @@ public class Computer extends Player {
 				 * and set the mine count to the number got
 				 */
 				if (!(tiles.get(i).get(j).m_isHidden)) {
-					Revealed r = (Revealed) tiles.get(i).get(j);
+					Revealer r = (Revealer) tiles.get(i).get(j);
 					position.setMineCount(r.getm_NearByMines());
 				}
 				/*
@@ -221,7 +221,7 @@ public class Computer extends Player {
 	 *         to what it should map to (number of mine)
 	 */
 	public int[] createMapping(LinkedList<Position> tileArround
-			, Mapping mapping, int numberOfMine) {
+			, Map mapping, int numberOfMine) {
 		int bombArround = 0;
 		int notMapPosition = 0;
 		for (Position position : tileArround) {
@@ -247,7 +247,7 @@ public class Computer extends Player {
 	 * @param mapping
 	 * @return
 	 */
-	public boolean setMine(Mapping mapping) {
+	public boolean setMine(Map mapping) {
 		for (Position position : mapping.getPosition()) {
 			if (!(position.isMine())) {
 				position.setIsMine(true);
@@ -270,7 +270,7 @@ public class Computer extends Player {
 	 */
 	public boolean mapToNumberOfMine(ArrayList<ArrayList<Tile>> tiles) {
 		boolean runCompleted = true;
-		m_mapping = new LinkedList<Mapping>();
+		m_mapping = new LinkedList<Map>();
 		for (int i = 0; i < m_copyBoard.size(); ++i) {
 			Position positionCheck = m_copyBoard.get(i);
 			LinkedList<Position> tileArround;
@@ -279,7 +279,7 @@ public class Computer extends Player {
 				tileArround = getTileArround(positionCheck
 						, tiles.size(), tiles.get(0).size());
 
-				Mapping mapping = new Mapping();
+				Map mapping = new Map();
 				int mapTarget = positionCheck.getMineCount();
 				int[] t = createMapping(tileArround, mapping, mapTarget);
 				int bombArround = t[0];
@@ -357,16 +357,16 @@ public class Computer extends Player {
 	 * 
 	 * @return true is return if a mapping is not in other object of mapping
 	 *         other wise it returns false
-	 * @see Mapping Class computerAI() method
+	 * @see Map Class computerAI() method
 	 * 
 	 */
 	public boolean isSubsetOfAnyMap() {
 		boolean methodComplete = true;
 		for (int i = 0; i < m_mapping.size(); ++i) {
-			Mapping mapSubset = m_mapping.get(i);
+			Map mapSubset = m_mapping.get(i);
 			for (int j = 0; j < m_mapping.size(); ++j) {
 				if (i != j) {
-					Mapping map = m_mapping.get(j);
+					Map map = m_mapping.get(j);
 					if (mapSubset.getPostionSize() < map.getPostionSize()) {
 						if (mapSubset.computerAI(map)) {
 							methodComplete = false;

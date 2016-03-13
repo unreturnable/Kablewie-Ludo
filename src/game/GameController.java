@@ -76,6 +76,21 @@ public class GameController implements MouseListener, ActionListener {
 	private Boolean m_isComputerAI;
 	private Boolean m_computerIsPressed;
 	
+	private final int INFO_HEIGHT = 50;
+	private final int TIMER_DELAY = 1000;
+	private final int FIN_BTN_X = 130;
+	private final int FIN_BTN_Y = 12;
+	private final int FIN_BTN_WIDTH = 38;
+	private final int FIN_BTN_HEIGHT = 38;
+	private final int COMP_BTN_X = 325;
+	private final int COMP_BTN_Y = 5;
+	private final int COMP_BTN_WIDTH = 90;
+	private final int COMP_BTN_HEIGHT = 25;
+	private final int GAME_PANEL_X = 0;
+	private final int GAME_PANEL_Y = 50;
+	private final int MILISECOND = 1000;
+	private final int MINUTE = 60;
+	
 	private boolean m_minesRevealed; //toggle mines being shown
 
 	public static void main(String[] args) {
@@ -89,7 +104,8 @@ public class GameController implements MouseListener, ActionListener {
 	    JFrame testFrame = new JFrame("Kablewie");
 	    
 	    System.out.println("Test Constructor");
-	    GameController gc = new GameController(null, new Human("TEST"), testFrame, null);
+	    GameController gc = new GameController(null, new Human("TEST"), 
+	    		testFrame, null);
 	    
 	    // Test methods that return values.
 	    System.out.println("Test getting JMenuBar");
@@ -134,7 +150,7 @@ public class GameController implements MouseListener, ActionListener {
 		setInfo();
 		startGame();
 		setSound();
-		m_time = new Timer(1000, this);
+		m_time = new Timer(TIMER_DELAY, this);
 		m_computer = new Computer(player.getUsername());
 		m_time.start();
 		m_tick.loop(Clip.LOOP_CONTINUOUSLY);
@@ -156,18 +172,20 @@ public class GameController implements MouseListener, ActionListener {
 			}
 		};
 
-		m_panelInfo.setBounds(0, 0, m_frame.getWidth(), 50);
+		m_panelInfo.setBounds(0, 0, m_frame.getWidth(), INFO_HEIGHT);
 		m_frame.getContentPane().add(m_panelInfo);
 		m_panelInfo.setLayout(null);
 
 		m_GameFinshed = new JButton();
 		m_GameFinshed.setVisible(false);
-		m_GameFinshed.setBounds(130, 12, 38, 38);
+		m_GameFinshed.setBounds(FIN_BTN_X, FIN_BTN_Y, FIN_BTN_WIDTH,
+				FIN_BTN_HEIGHT);
 
 		m_panelInfo.add(m_GameFinshed);
 		
 		m_Computer= new JButton("Computer");
-		m_Computer.setBounds(325, 5, 90, 25);
+		m_Computer.setBounds(COMP_BTN_X, COMP_BTN_Y, COMP_BTN_WIDTH,
+				COMP_BTN_HEIGHT);
 		m_Computer.addMouseListener(this);
 		m_panelInfo.add(m_Computer);
 		m_GameFinshed.addActionListener(this);
@@ -233,7 +251,8 @@ public class GameController implements MouseListener, ActionListener {
 		m_GameFinshed.setIcon(new ImageIcon("images/GameWon.jpg"));
 		
 		String v = "You Have won\n time taken- " + m_timePassed;
-		JOptionPane.showMessageDialog(m_frame, v, "Congratulation", JOptionPane.YES_NO_CANCEL_OPTION);
+		JOptionPane.showMessageDialog(m_frame, v, "Congratulation",
+				JOptionPane.YES_NO_CANCEL_OPTION);
 	}
 
 	/**
@@ -252,7 +271,8 @@ public class GameController implements MouseListener, ActionListener {
 		};
 
 		m_panelGame.addMouseListener(this);
-		m_panelGame.setBounds(0, 50, m_frame.getWidth(), m_frame.getHeight());
+		m_panelGame.setBounds(GAME_PANEL_X, GAME_PANEL_Y, m_frame.getWidth(),
+				m_frame.getHeight());
 		m_frame.getContentPane().add(m_panelGame);
 		m_frame.setJMenuBar(myMenu());
 		
@@ -380,14 +400,14 @@ public class GameController implements MouseListener, ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		if (event.getSource() == m_time) {
 			m_panelInfo.repaint();
-			m_secoundPlayed += m_time.getDelay() / 1000;
+			m_secoundPlayed += m_time.getDelay() / MILISECOND;
 			
-			if (m_secoundPlayed >= 60) {
+			if (m_secoundPlayed >= MINUTE) {
 				
 				m_minuntesPlayed = m_minuntesPlayed + 1;
 				m_secoundPlayed = 0;
 				
-				if (m_minuntesPlayed >= 60) {
+				if (m_minuntesPlayed >= MINUTE) {
 					m_hoursPlayed = m_hoursPlayed + 1;
 					m_minuntesPlayed = 0;
 				}

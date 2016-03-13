@@ -23,7 +23,7 @@ public class Board {
 	private boolean m_gameWon = false;
 	private boolean m_gameLost = false;
 	private ArrayList<ArrayList<Tile>> m_board;
-	private Revealed m_reveal;
+	private Revealer m_reveal;
 
 	/**
 	 * Constructor
@@ -42,7 +42,7 @@ public class Board {
 		this.m_columns = bColumns;
 
 		// Create a revealed tile for the sake of method calls.
-		m_reveal = new Revealed(false, false, false);
+		m_reveal = new Revealer(false, false, false);
 
 		// Setup the board.
 		setBoardDimensions();
@@ -104,7 +104,7 @@ public class Board {
 			m_board.add(new ArrayList<Tile>());
 
 			for (int q = 0; q < m_columns; q++) {
-				m_board.get(i).add(new Hidden(false, true, false));
+				m_board.get(i).add(new Secret(false, true, false));
 			}
 		}
 	}
@@ -143,9 +143,11 @@ public class Board {
 		int xPos = (int) Math.floor(x / Tile.WIDTH);
 		int yPos = (int) Math.floor(y / Tile.HEIGHT);
 
-		if (inLimit(yPos, xPos) && !(m_board.get(yPos).get(xPos).m_isDefused)) {
+		if (inLimit(yPos, xPos) && !(m_board.get(yPos).get(xPos).m_isDefused))
+		{
 
-			if (m_board.get(yPos).get(xPos).m_isHidden && !(m_board.get(yPos).get(xPos).m_isMine)) {
+			if (m_board.get(yPos).get(xPos).m_isHidden && 
+					!(m_board.get(yPos).get(xPos).m_isMine)) {
 
 				m_reveal.revealPosition(m_board, yPos, xPos);
 				haveWon();
@@ -155,12 +157,15 @@ public class Board {
 				this.m_gameWon = false;
 				this.m_gameLost = true;
 				m_board.get(yPos).remove(xPos); // create a mine tile
-				m_board.get(yPos).add(xPos, new Mine(true, false, false, "images/mineX.jpg"));
+				m_board.get(yPos).add(xPos, new Mine(true, false, false,
+						"images/mineX.jpg"));
 				for (int i = 0; i < m_board.size(); ++i) {
 					for (int j = 0; j < m_board.get(0).size(); ++j) {
-						if (m_board.get(i).get(j).m_isMine && !(i == yPos && j == xPos)) {
+						if (m_board.get(i).get(j).m_isMine &&
+								!(i == yPos && j == xPos)) {
 							m_board.get(i).remove(j); // create a mine tile
-							m_board.get(i).add(j, new Mine(true, false, false, "images/mine.png"));
+							m_board.get(i).add(j, new Mine(true, false, false,
+									"images/mine.png"));
 						}
 					}
 				}
@@ -191,11 +196,13 @@ public class Board {
 			if (isHidden) {
 				if (!(isDefused)) {
 					m_board.get(yPos).remove(xPos);
-					m_board.get(yPos).add(xPos, new Defused(isMine, true, true));
+					m_board.get(yPos).add(xPos, new Flag(isMine,
+							true, true));
 					haveWon();
 				} else {
 					m_board.get(yPos).remove(xPos);
-					m_board.get(yPos).add(xPos, new Hidden(isMine, true, false));
+					m_board.get(yPos).add(xPos, new Secret(isMine,
+							true, false));
 				}
 			}
 		}
@@ -212,7 +219,8 @@ public class Board {
 	 * @return true if x, y are in range
 	 */
 	private boolean inLimit(int x, int y) {
-		return !(x >= m_board.size() || y >= m_board.get(0).size() || x < 0 || y < 0);
+		return !(x >= m_board.size() || y >= m_board.get(0).size() 
+				|| x < 0 || y < 0);
 	}
 
 	/**
@@ -279,7 +287,8 @@ public class Board {
 	 * checks if the game have been won or not
 	 */
 	private void haveWon() {
-		if (getRevealedTile() + getDefusedTile() == m_board.size() * m_board.size()) {
+		if (getRevealedTile() + getDefusedTile() ==
+				m_board.size() * m_board.size()) {
 			m_gameLost = false;
 			m_gameWon = true;
 		}
@@ -327,7 +336,8 @@ public class Board {
 
 		for (int i = 0; i < m_board.size(); ++i) {
 			for (int j = 0; j < m_board.get(0).size(); ++j) {
-				if (m_board.get(i).get(j).m_isDefused && m_board.get(i).get(j).m_isMine) {
+				if (m_board.get(i).get(j).m_isDefused &&
+						m_board.get(i).get(j).m_isMine) {
 					++defusedTile;
 				}
 			}
@@ -356,9 +366,10 @@ public class Board {
 				if (m_board.get(y).get(x).isMine()) {
 					m_board.get(y).remove(x);
 					if (!minesShown) {
-						m_board.get(y).add(x, new Mine(true, true, false, "images/mine.png"));
+						m_board.get(y).add(x, new Mine(true, true, false,
+								"images/mine.png"));
 					} else {
-						m_board.get(y).add(x, new Hidden(true, true, false));
+						m_board.get(y).add(x, new Secret(true, true, false));
 					}
 
 				}

@@ -1,5 +1,5 @@
 /**
- * @file Revealed.java
+ * @file Revealer.java
  * @author Anshul Kumar
  * @date 5 December 2015
  *
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
-public class Revealed extends Tile {
+public class Revealer extends Tile {
 
 	private int m_nearbyMines;
 	private final ImageIcon m_revealedImage;
@@ -75,7 +75,7 @@ public class Revealed extends Tile {
 	 * @param isDefused
 	 *            a boolean is defused or not
 	 */
-	public Revealed(boolean isMine, boolean isHidden, boolean isDefused) {
+	public Revealer(boolean isMine, boolean isHidden, boolean isDefused) {
 		// Always set hidden to false as its the revealed tile.
 		super(isMine, false, isDefused);
 
@@ -138,7 +138,7 @@ public class Revealed extends Tile {
 	 * @param j
 	 *            the column to get around
 	 */
-	public void revealPosition(ArrayList<ArrayList<Tile>> board, int i, int j) {
+	public void revealPosition(ArrayList<ArrayList<Tile>> board,int i,int j) {
 
 		if (i < 0 || j < 0 || i >= board.size() || j >= board.get(0).size() ||
 				!(board.get(i).get(j).m_isHidden)) {
@@ -151,8 +151,8 @@ public class Revealed extends Tile {
 		if (calculateNearbyMines(board.get(i).get(j), tileArround) == 0) {
 
 			board.get(i).remove(j);
-			board.get(i).add(j, new Revealed(false, false, false));
-			Revealed r = (Revealed) board.get(i).get(j);
+			board.get(i).add(j, new Revealer(false, false, false));
+			Revealer r = (Revealer) board.get(i).get(j);
 
 			r.calculateNearbyMines(r, getTileArround(board, i, j));
 
@@ -168,17 +168,17 @@ public class Revealed extends Tile {
 		} else {
 
 			board.get(i).remove(j);
-			board.get(i).add(j, new Revealed(false, false, false));
-			Revealed r = (Revealed) board.get(i).get(j);
+			board.get(i).add(j, new Revealer(false, false, false));
+			Revealer r = (Revealer) board.get(i).get(j);
 			r.calculateNearbyMines(r, getTileArround(board, i, j));
 
 		}
 	}
 	
-	public void setNearByMines(ArrayList<ArrayList<Tile>> board, int i, int j) {
+	public void setNearByMines(ArrayList<ArrayList<Tile>> board,int i,int j) {
 		board.get(i).remove(j);
-		board.get(i).add(j, new Revealed(false, false, false));
-		Revealed r = (Revealed) board.get(i).get(j);
+		board.get(i).add(j, new Revealer(false, false, false));
+		Revealer r = (Revealer) board.get(i).get(j);
 		r.calculateNearbyMines(r, getTileArround(board, i, j));
 	}
 
