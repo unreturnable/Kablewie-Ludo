@@ -1,294 +1,497 @@
 /**
  * @file Computer.java
- * @author Zongbo Xu
+ * @author Zongbo Xu , Anshul Kumar
  * @date 5 December 2015
- *
+ * 
  * A class for computer players.
  */
 
 package game;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
-
-import javax.swing.Timer;
+import java.util.Scanner;
 
 public class Computer extends Player {
 
-	private boolean m_computerTurn;
+	private boolean m_isComputerAI;
+	private LinkedList<Position> m_copyBoard;
+	private LinkedList<Position> m_cloneBoard;
+	private LinkedList<Mapping> m_mapping;
+	private boolean firstComputerAIMove;
+	private boolean m_test = true;
 
-	public void setComputerTurn(boolean computerTurn) {
-		m_computerTurn = computerTurn;
+	/**
+	 * set the is it computer AI going to play or a random computer will play
+	 * 
+	 * @param computerTurn
+	 *            boolean
+	 */
+	public void setIsComputerAI(boolean computerTurn) {
+		m_isComputerAI = computerTurn;
 	}
 
-	public boolean getComputerTurn() {
-		return m_computerTurn;
+	/**
+	 * 
+	 * @return true is return if computer AI is playing otherwise false
+	 */
+	public boolean isComputerAI() {
+		return m_isComputerAI;
+	}// not sure if we needd it
+
+	/**
+	 * it is set to true whenever it is going to be the first turn from 
+	 * computer AI
+	 * 
+	 * @param computerAIFirst
+	 *            boolean
+	 */
+	public void setComputerAIFirst(boolean computerAIFirst) {
+		this.firstComputerAIMove = computerAIFirst;
 	}
 
+	/**
+	 * 
+	 * @return if it is first move from computer then true otherwise false
+	 */
+	public boolean getComputerAIFirst() {
+		return firstComputerAIMove;
+	}
+
+	/**
+	 * it initialising all the class variable and set the firstComputerAIMove 
+	 * to true because whenever the ai is called it will be the first time 
+	 * for now
+	 * 
+	 * @param name
+	 *            it the name of the player
+	 */
 	public Computer(String name) {
 		super(name);
+		m_copyBoard = new LinkedList<Position>();
+		m_cloneBoard = new LinkedList<Position>();
+		m_mapping = new LinkedList<Mapping>();
+		firstComputerAIMove = true;
 	}
 
+	/**
+	 * it just gets x and y (which is the position on board) and it makes sure
+	 * that it is a hidden tile and if it is defused then it undefused and
+	 * reveal it
+	 * 
+	 * @param board
+	 *            the board where it has all the tiles stores in it
+	 */
 	public void computerPlaysRandom(Board board) {
-		if (m_computerTurn) {
-			int openR = 0;
-			int openC = 0;
-			do {
-				Random rnd = new Random();
-				openR = rnd.nextInt(board.getm_Rows());
-				openC = rnd.nextInt(board.getm_Columns());
-			} while (!(board.getm_Board().get(openC).get(openR).isHidden()));
-			board.revealTile(openR * Tile.WIDTH, openC * Tile.HEIGHT);
-			if (board.getm_GameLost()) {
-				m_computerTurn = false;
-			}
-
+		int openR = 0;
+		int openC = 0;
+		do {
+			Random rnd = new Random();
+			openR = rnd.nextInt(board.getm_Rows());
+			openC = rnd.nextInt(board.getm_Columns());
+		} while (!(board.getm_Board().get(openC).get(openR).isHidden()));
+		if (board.getm_Board().get(openC).get(openR).isDefused()) {
+			board.defusedTile(openR * Tile.WIDTH, openC * Tile.HEIGHT);
 		}
+		board.revealTile(openR * Tile.WIDTH, openC * Tile.HEIGHT);
+		if (m_test) {
+			System.out.print("\t");
+			for (int i = 0; i < board.getm_Board().size(); ++i) {
+				System.out.print(i + "\t");
+			}
+			System.out.println();
 
+			for (int i = 0; i < board.getm_Board().size(); ++i) {
+				System.out.print(i + "\t");
+				for (int j = 0; j < board.getm_Board().get(0).size(); ++j) {
+					if (board.getm_Board().get(i).get(j).m_isHidden) {
+						System.out.print("\t");
+					} else if (j == openR && i == openC) {
+						if (board.getm_Board().get(i).get(j).isMine()) {
+							System.out.print("CM*\t");
+							return;
+						}
+						Revealed r = (Revealed) board.getm_Board()
+								.get(i).get(j);
+						System.out.print(r.getm_NearByMines() + "C\t");
+					} else {
+						if (board.getm_Board().get(i).get(j).isMine())
+							return;
+						Revealed r = (Revealed) board.getm_Board()
+								.get(i).get(j);
+						System.out.print(r.getm_NearByMines() + "\t");
+					}
+				}
+
+				System.out.println();
+			}
+			System.out.println("\n\n\n\n\n");
+		}
 	}
 
 	/*
-	 * AI for the computer class
-	 * 
-	 * 
+	 * AI for the computer class which thinks itself and tries to find a good
+	 * tile to open and if it can't find then it goes random
 	 */
 
-	/*
-	 * method 1 make a copy of the length of the board and then fill it the
-	 * vaule in it can only be M for mine or S for Safe
+	/**
+	 * ComputerAI is call the other AI method and tries to open a safe tile
+	 * otherwise it opens a random tile
+	 * 
+	 * @param board
+	 *            Board object
 	 */
-	private LinkedList<Position> copy;
-	public void start(Board board) {
-		copy = new LinkedList<Position>();
-		 ArrayList<ArrayList<Tile>> tiles = board.getm_Board();
+	public void computerAI(Board board) {
+		initialisingComputerAI(board);
+		while (!(mapToNumberOfMine(board.getm_Board())))
+			;
+		while (!(isSubsetOfAnyMap())) {
+			while (!(mapToNumberOfMine(board.getm_Board()))) {
+
+			}
+		}
+		defuseTile(board);
+		m_cloneBoard = m_copyBoard;
+	}
+
+	/**
+	 * it makes a copy of the board which has all the tile stored in it
+	 * 
+	 * @param board
+	 *            Board object
+	 */
+	public void initialisingComputerAI(Board board) {
+		m_copyBoard = new LinkedList<Position>();
+		ArrayList<ArrayList<Tile>> tiles = board.getm_Board();
+		int k = 0;
 		for (int i = 0; i < tiles.size(); ++i) {
 			for (int j = 0; j < tiles.get(0).size(); ++j) {
-				Position pos = new Position(i,j);
-				if(!(tiles.get(i).get(j).m_isHidden)) {
+				Position position = new Position(i, j);
+				/*
+				 * if the tile is opened then get the number of mine around it
+				 * and set the mine count to the number got
+				 */
+				if (!(tiles.get(i).get(j).m_isHidden)) {
 					Revealed r = (Revealed) tiles.get(i).get(j);
-					pos.mineCount=r.getm_NearByMines();
+					position.setMineCount(r.getm_NearByMines());
 				}
-				if(tiles.get(i).get(j).m_isDefused){
-					pos.doefusedComputing="D";
+				/*
+				 * if the tile is defused and it is the first move of 
+				 * computerAI then set is flag there to false
+				 */
+				else if (tiles.get(i).get(j).m_isDefused 
+						&& firstComputerAIMove) {
+					position.setFlagIsThere(false);
 				}
-				copy.add(pos);
-			}
-		}
-	}
-	public void method1(Board board) {
-		 ArrayList<ArrayList<Tile>> tiles = board.getm_Board();
-		 int k=0;
-		for (int i = 0; i < tiles.size(); ++i) {
-			for (int j = 0; j < tiles.get(0).size(); ++j) {
-				Position pos = copy.get(k);
+				/*
+				 * if the tile is defused and it is not ComputerAI first move
+				 * then set the is flag to true but before that we make sure
+				 * that there was a flag before in my cloned board
+				 */
+				else if (tiles.get(i).get(j).m_isDefused 
+						&& !firstComputerAIMove) {
+					if (m_cloneBoard.get(k).isFlagIsThere()) {
+						position.setFlagIsThere(true);
+					}
+				}
 				++k;
-				if(!(tiles.get(i).get(j).m_isHidden)) {
-					Revealed r = (Revealed) tiles.get(i).get(j);
-					pos.mineCount=r.getm_NearByMines();
-				}
-				copy.add(pos);
+				m_copyBoard.add(position);
 			}
+		}
+		/*
+		 * firstComputerMove is set to false if it was true
+		 */
+		if (firstComputerAIMove) {
+			firstComputerAIMove = false;
 		}
 	}
-	/*
-	 * method 2
+	/**
+	 * add a position to the mapping object before adding it make sure that it
+	 * is not a discovered mine when this method was called previously
+	 * 
+	 * @param tileArround
+	 *            list of Position
+	 * @param mapping
+	 *            an object of Mapping
+	 * @param numberOfMine
+	 *            integer which has the number of mine can be there
+	 *            in the list
+	 * @return mine information is returned like bomb around which where found
+	 *         to what it should map to (number of mine)
 	 */
-	LinkedList<Maping> map;
-	public boolean method2(ArrayList<ArrayList<Tile>> tiles) {
-		boolean runCompleted=true;
-		map=new LinkedList<Maping>();
-		
-		for(int i=0;i<copy.size();++i) {
-			//getting a posiiton
-			Position sPos = copy.get(i);
+	public int[] createMapping(LinkedList<Position> tileArround
+			, Mapping mapping, int numberOfMine) {
+		int bombArround = 0;
+		int notMapPosition = 0;
+		for (Position position : tileArround) {
+			if (position.isMine()) {
+				++bombArround;
+				--numberOfMine;
+			} else if (position.getMineCount() == -1 
+					&& !(position.isSafeToOpen())) {
+				mapping.add(position);
+				++notMapPosition;
+			}
+		}
+		int[] mineInfo = new int[3];
+		mineInfo[0] = bombArround;
+		mineInfo[1] = notMapPosition;
+		mineInfo[2] = numberOfMine;
+		return mineInfo;
+	}
+
+	/**
+	 * set that there is a mine at position
+	 * 
+	 * @param mapping
+	 * @return
+	 */
+	public boolean setMine(Mapping mapping) {
+		for (Position position : mapping.getPosition()) {
+			if (!(position.isMine())) {
+				position.setIsMine(true);
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * it has a list of Mapping which when added can have N number of mine and
+	 * that N number is stored in Mapping class
+	 * 
+	 * @param tiles
+	 *            it stores the original tile which is just use for getting 
+	 *            the size
+	 * @return 
+	 * 			true is return if method does not find any mine or any safe 
+	 * 			tile to open if it could find it then it returns false
+	 */
+	public boolean mapToNumberOfMine(ArrayList<ArrayList<Tile>> tiles) {
+		boolean runCompleted = true;
+		m_mapping = new LinkedList<Mapping>();
+		for (int i = 0; i < m_copyBoard.size(); ++i) {
+			Position positionCheck = m_copyBoard.get(i);
 			LinkedList<Position> tileArround;
-			//if mine count is not 0 then it mean that has been clicked
-			if(!(sPos.mineCount==-1) && !(sPos.mineCount==0)) {
-				//getting the tile arround it
-				tileArround=getTileArround(sPos,tiles.size(),tiles.get(0).size());
-				int bombArround=0;
-				int properArround=0;
-				Maping m = new Maping();
-				int mapTarget=sPos.mineCount;
-				
-				for(Position po : tileArround){
-					if(po.comp.equals("M")) 
-					{
-						++bombArround;
-						--mapTarget;
-					}
-					else if(po.comp.equals("S")){
-						//--mapTarget;
-					}
-					else if( po.mineCount == -1){
-						m.add(po);
-						++properArround;
-					}
-				}
-				m.target=mapTarget;
-				//here !(sPos.mineCount==0)
-				if((m.pos.size() == sPos.mineCount && bombArround==0)){
-					for(Position k : m.pos)
-					k.comp="M";
-					runCompleted=false;
-				}
-				//and here !(sPos.mineCount==0)
-				else if((properArround+bombArround)==sPos.mineCount){
-					
-					for(Position k : m.pos)
-					{
-						if(!(k.comp.equals("M"))){
-							k.comp="M";
-							runCompleted=false;
+			if (!(positionCheck.getMineCount() == -1) 
+					&& !(positionCheck.getMineCount() == 0)) {
+				tileArround = getTileArround(positionCheck
+						, tiles.size(), tiles.get(0).size());
+
+				Mapping mapping = new Mapping();
+				int mapTarget = positionCheck.getMineCount();
+				int[] t = createMapping(tileArround, mapping, mapTarget);
+				int bombArround = t[0];
+				int notMapPosition = t[1];
+				mapTarget = t[2];
+				mapping.setNumberOfMine(mapTarget);
+				if ((mapping.getPostionSize() == positionCheck.getMineCount()
+						&& bombArround == 0)) {
+					/*
+					 * for(Position k : mapping.getPosition())
+					 * k.setIsMine(true);
+					 */
+					runCompleted = setMine(mapping);
+				} else if ((notMapPosition + bombArround)
+						== positionCheck.getMineCount()) {
+					runCompleted = setMine(mapping);
+				} else if (bombArround == positionCheck.getMineCount()) {
+					for (Position position : tileArround) {
+						if (position.getMineCount() == -1 
+								&& !(position.isMine()) 
+								&& !(position.isSafeToOpen())) {
+							position.setIsSafeToOpen(true);
+							;
+							runCompleted = false;
 						}
 					}
-				}
-				else if(bombArround==sPos.mineCount){
-					for(Position po : tileArround){
-						if(po.comp.equals("M")) 
-						{
-						}
-						else if(po.comp.equals("S")) 
-						{
-						}
-						else if(po.mineCount==-1){
-							po.comp="S";
-							runCompleted=false;
-						}
-					}
-				}
-				else{
-					map.add(m);
+				} else {
+					m_mapping.add(mapping);
 				}
 			}
-			
+
 		}
-		
 		return runCompleted;
 	}
-	public LinkedList<Position> getTileArround(Position sPos,int mR,int mC) {
-		int i=sPos.xPos;
-		int j=sPos.yPos;
-		
+
+	/**
+	 * 
+	 * @param position
+	 *            has the position of a tile which around tile i need to return
+	 * @param row
+	 *            Size has the size of row on the board
+	 * @param column
+	 *            Size has the size of column on the board
+	 * @return the linked list of position which has the tile position around
+	 *         the position
+	 */
+	public LinkedList<Position> getTileArround(Position position
+			, int rowSize, int columnSize) {
+		int i = position.getXPos();
+		int j = position.getYPos();
 		int prevrow = i - 1;
 		int prevrcol = j - 1;
 		int nextrow = i + 1;
 		int nextcol = j + 1;
-		
-		// it run a for loop all around the tile i,j
 		LinkedList<Position> t2 = new LinkedList<Position>();
-		
 		for (int k = prevrow; k <= nextrow; ++k) {
 			for (int m = prevrcol; m <= nextcol; ++m) {
-				
-				if (!(	k < 0 ||
-						m < 0 || 
-						k >= mR 
-						|| m >= mC  ) && (!(k==i && m==j)))  {
+				if (!(k < 0 || m < 0 || k >= rowSize || m >= columnSize) 
+						&& (!(k == i && m == j))) {
 					/*
-					 * before adding it the condition makes sure that it is not
-					 * out of bound of the board
+					 * before adding it the condition makes sure that it is 
+					 * not out of bound of the board and it is not equals 
+					 * to the position given
 					 */
-					t2.add(copy.get(k*mR+m));
+					t2.add(m_copyBoard.get(k * rowSize + m));
 				}
 			}
 		}
-		
 		return t2;
-	
-	    
-	    
 	}
-	/*
-	 * method 3 mapping thing in the right order
+
+	/**
+	 * It tries to find two mapping where first mapping size is less then 
+	 * other mapping and then we call computerAI() method in mapping class
+	 * 
+	 * @return true is return if a mapping is not in other object of mapping
+	 *         other wise it returns false
+	 * @see Mapping Class computerAI() method
+	 * 
 	 */
-	public boolean method3(){
-		boolean methodComplete=true;
-		for ( int i=0;i<map.size();++i){
-			Maping m = map.get(i);
-			for(int j =0;j < map.size();++j){
-				if(i!=j){
-					Maping m2 = map.get(j);
-					if(m.pos.size()<m2.pos.size()){
-						if(m.contain(m2)){
-							methodComplete=false;
-							
-						};
+	public boolean isSubsetOfAnyMap() {
+		boolean methodComplete = true;
+		for (int i = 0; i < m_mapping.size(); ++i) {
+			Mapping mapSubset = m_mapping.get(i);
+			for (int j = 0; j < m_mapping.size(); ++j) {
+				if (i != j) {
+					Mapping map = m_mapping.get(j);
+					if (mapSubset.getPostionSize() < map.getPostionSize()) {
+						if (mapSubset.computerAI(map)) {
+							methodComplete = false;
+						}
+						;
 					}
 				}
 			}
 		}
 		return methodComplete;
 	}
-	
-	/*
-	 * method 4
+
+	/**
+	 * it diffuse the tile if the copy board know that some of the mine are at
+	 * x,y position then it diffuse that tile
+	 * 
+	 * @param board
+	 *            it has all the tile stored in it
 	 */
-	public void method4(Board b) {
-		for(int i=0;i<copy.size();++i){
-			Position pos=copy.get(i);
-			int x=pos.xPos;
-			int y=pos.yPos;
-			if(b.getm_Board().get(x).get(y).isDefused() && pos.comp.equals("S")){
-				b.defusedTile(pos.yPos*Tile.WIDTH, pos.xPos*Tile.HEIGHT);
-				b.revealTile(y*Tile.WIDTH, x*Tile.HEIGHT);
-				pos.doneComputing="D";
-				return ;
+	public void defuseTile(Board board) {
+		for (int i = 0; i < m_copyBoard.size(); ++i) {
+			Position pos = m_copyBoard.get(i);
+			int x = pos.getXPos();
+			int y = pos.getYPos();
+			if (pos.isMine() && pos.isFlagIsThere() == false) {
+				if (board.getm_Board().get(x).get(y).isDefused()) {
+					pos.setFlagIsThere(true);
+					continue;
+				}
+				board.defusedTile(y * Tile.WIDTH, x * Tile.HEIGHT);
+				pos.setFlagIsThere(true);
+				return;
 			}
-			else if(!(b.getm_Board().get(x).get(y).isHidden())){
-				pos.doneComputing="D";
+		}
+		revealTile(board);
+	}
+
+	/**
+	 * it reveal a tile if copy board say that it is save to open the 
+	 * tile then it reveal it
+	 * 
+	 * @param board
+	 *            it has all the tile stored in it
+	 */
+	public void revealTile(Board board) {
+		for (int i = 0; i < m_copyBoard.size(); ++i) {
+			Position position = m_copyBoard.get(i);
+			int x = position.getXPos();
+			int y = position.getYPos();
+			/*
+			 * if the tile is diffused and it is safe to open then undiffuse 
+			 * it
+			 */
+			if (board.getm_Board().get(x).get(y).isDefused() 
+					&& position.isSafeToOpen()) {
+				board.defusedTile(position.getYPos() * Tile.WIDTH
+						, position.getXPos() * Tile.HEIGHT);
+				return;
+			}
+			/*
+			 * if the tile is not hidden which mean that it is revealed 
+			 * then set the tile is open to true
+			 */
+			else if (!(board.getm_Board().get(x).get(y).isHidden())) {
+				position.setTileIsOpen(true);
 				continue;
 			}
-			else if(pos.comp.equals("S") && pos.doneComputing.equals("null")){
-				b.revealTile(y*Tile.WIDTH, x*Tile.HEIGHT);
-				pos.doneComputing="D";
-				return ;
+			/*
+			 * if it is safe to open and the tile is not open then open it
+			 */
+			else if (position.isSafeToOpen() && !(position.isTileIsOpen())) {
+				board.revealTile(y * Tile.WIDTH, x * Tile.HEIGHT);
+				position.setTileIsOpen(true);
+				return;
 			}
 		}
-		computerPlaysRandom(b);
+		computeRandomAI(board);
 	}
-	public void method5(Board b) {
-		for(int i=0;i<copy.size();++i){
-			Position pos=copy.get(i);
-			if(pos.comp.equals("M") && pos.doefusedComputing.equals("null")){
-				b.defusedTile(pos.yPos*Tile.WIDTH, pos.xPos*Tile.HEIGHT);
-				pos.doefusedComputing="D";
-				return ;
-			}
-		}
-		method4(b);
-	}
-	public void startComputerAI(Board b){
-		start(b);
-	}
-	public void computerAI(Board b){
 
-		while(!(method2(b.getm_Board())));
-		while(!(method3())){
-			while(!(method2(b.getm_Board()))){
-				
-			}
+	/**
+	 * picks a random tile on the board and check some of the important things
+	 * and if the tile is defused then undefused it and reveal it
+	 * 
+	 * @param board
+	 *            the board where it has all the tiles stores in it
+	 */
+	public void computeRandomAI(Board board) {
+		int openTile = 0;
+		Position check = null;
+		int x = 0;
+		int y = 0;
+		do {
+			// getting the random position till the copyBoard size
+			Random rnd = new Random();
+			openTile = rnd.nextInt(m_copyBoard.size());
+			check = m_copyBoard.get(openTile);
+			x = check.getXPos();
+			y = check.getYPos();
+			System.out.println("  Came  ;");
+		} while (check.isMine() || check.isFlagIsThere() 
+				|| !(board.getm_Board().get(x).get(y).isHidden()));
+		if (board.getm_Board().get(x).get(y).m_isDefused) {
+			board.defusedTile(y * Tile.WIDTH, x * Tile.HEIGHT);
 		}
-		method5(b);
-		method1(b);
+		board.revealTile(y * Tile.WIDTH, x * Tile.HEIGHT);
+		if (board.getm_GameLost()) {
+			m_isComputerAI = false;
+		}
+
 	}
-	public void resetAI(){
-		copy.clear();
-		map.clear();
+
+	public void resetAI() {
+		m_copyBoard.clear();
+		m_mapping.clear();
+		m_cloneBoard.clear();
+		firstComputerAIMove = true;
 	}
-	public void testComputerAI(){
-		/*
-		Board b = new Board(5, 5, 6);
-		ArrayList<ArrayList<Tile>> tiles = b.getm_Board();
+
+	public void testComputerAI() {
+		Board board = new Board(5, 5, 6);
+		ArrayList<ArrayList<Tile>> tiles = board.getm_Board();
 		tiles.clear();
-		for(int i=0;i<5;++i){
+		for (int i = 0; i < 5; ++i) {
 			tiles.add(new ArrayList<Tile>());
-			for( int j=0;j<5;++j)
-			{
+			for (int j = 0; j < 5; ++j) {
 				tiles.get(i).add(new Hidden(false, true, false));
 			}
 		}
@@ -299,230 +502,57 @@ public class Computer extends Player {
 		tiles.get(2).get(1).setTileType(true, true);
 		tiles.get(2).get(2).setTileType(true, true);
 		tiles.get(4).get(2).setTileType(true, true);
-		
-		b.setBoard(tiles);
-		b.revealTile(2* Tile.WIDTH, 0* Tile.HEIGHT);
-		b.revealTile(3* Tile.WIDTH, 0* Tile.HEIGHT);
-		b.revealTile(4* Tile.WIDTH, 0* Tile.HEIGHT);
-		b.revealTile(4* Tile.WIDTH, 1* Tile.HEIGHT);
-		b.revealTile(3* Tile.WIDTH, 2* Tile.HEIGHT);
-		b.revealTile(4* Tile.WIDTH, 2* Tile.HEIGHT);
-		b.revealTile(3* Tile.WIDTH, 3* Tile.HEIGHT);
-		b.revealTile(4* Tile.WIDTH, 3* Tile.HEIGHT);
-		b.revealTile(3* Tile.WIDTH, 4* Tile.HEIGHT);
-		b.revealTile(4* Tile.WIDTH, 4* Tile.HEIGHT);
-		b.revealTile(1* Tile.WIDTH, 3* Tile.HEIGHT);
-		b.revealTile(1* Tile.WIDTH, 4* Tile.HEIGHT);
-		
-		method1(b);
-		int j=0;
-		for(int i=0;i<copy.size();++i)
-		{
-			Position test =copy.get(i);
-			if( test.mineCount!=-1){
-				System.out.print(test.mineCount+"\t");
-			}
-			else
-			{
-				System.out.print(test.comp+"\t");
-			}
-			if(i==4*j+4+j && i!=0){
-				System.out.println();
-				++j;
-			}
-		}
-		while(!(method2(b.getm_Board())));
-		while(!(method3())){
-			while(!(method2(b.getm_Board())));
-		}
-		for(int i=0;i<map.size();++i){
-			for(Position  op : map.get(i).pos ){
-				System.out.print(op.xPos+" :--: "+op.yPos+"  ;  ");
-			}
-			System.out.println("   :---===:   " +map.get(i).target);
-		}
-		System.out.println("\n\n");
-		j=0;
-		for(int i=0;i<copy.size();++i)
-		{
-			Position test =copy.get(i);
-			if( test.mineCount!=-1){
-				System.out.print(test.mineCount+"\t");
-			}
-			else
-			{
-				System.out.print(test.comp+"\t");
-			}
-			if(i==4*j+4+j && i!=0){
-				System.out.println();
-				++j;
-			}
-		}
-		*/
-		int r=10;
-		int c=10;
-		Board b = new Board(r, c, 10);
-		/*ArrayList<ArrayList<Tile>> tiles = b.getm_Board();
-		tiles.clear();
-		for(int i=0;i<6;++i){
-			tiles.add(new ArrayList<Tile>());
-			for( int j=0;j<6;++j)
-			{
-				tiles.get(i).add(new Hidden(false, true, false));
-			}
-		}
-
-		tiles.get(3).get(2).setTileType(true, true);
-		tiles.get(5).get(0).setTileType(true, true);
-		tiles.get(3).get(3).setTileType(true, true);
-		tiles.get(1).get(3).setTileType(true, true);
-		
-		b.setBoard(tiles);*/
-		b.revealTile(1* Tile.WIDTH, 0* Tile.HEIGHT);
-		b.revealTile(2* Tile.WIDTH, 0* Tile.HEIGHT);
-		b.revealTile(1* Tile.WIDTH, 1* Tile.HEIGHT);
-		b.revealTile(2* Tile.WIDTH, 1* Tile.HEIGHT);
-		b.revealTile(1* Tile.WIDTH, 2* Tile.HEIGHT);
-		b.revealTile(2* Tile.WIDTH, 2* Tile.HEIGHT);
-		
-		start(b);
-		int j=0;
-		j=0;
-		for(int i=0;i<r;++i)
-		{
-			for(int k=0;k<c;++k)
-		
-			
-		{
-			Position test =copy.get(j);
-			++j;
-			if( test.mineCount!=-1){
-				System.out.print(test.mineCount+"\t");
-			}
-			else
-			{
-				System.out.print(test.comp+"\t");
-			}
-		}System.out.println();}
-		//-------------------------------------
-		while(!(method2(b.getm_Board())));
-		
-		//method2(b.getm_Board());
-		/*for(int i=0;i<map.size();++i){
-			for(Position  op : map.get(i).pos ){
-				System.out.print(op.xPos+" :--: "+op.yPos+"  ;  ");
-			}
-			System.out.println("   :---===:   " +map.get(i).target);
-		}
-		j=0;
-		for(int i=0;i<3;++i)
-		{
-			for(int k=0;k<3;++k)
-		
-			
-		{
-			Position test =copy.get(j);
-			++j;
-			if( test.mineCount!=-1){
-				System.out.print(test.mineCount+"\t");
-			}
-			else
-			{
-				System.out.print(test.comp+"\t");
-			}
-		}System.out.println();}*/
-		
-		
-		//lkihi-------------------------------------
-		while(!(method3())){
-			while(!(method2(b.getm_Board()))){
-				
-			}
-		}
-		for(int i=0;i<map.size();++i){
-			for(Position  op : map.get(i).pos ){
-				System.out.print(op.xPos+" :--: "+op.yPos+"  ;  ");
-			}
-			System.out.println("   :---===:   " +map.get(i).target);
-		}
-		System.out.println("\n\n");
-		
-		j=0;
-		for(int i=0;i<r;++i)
-		{
-			for(int k=0;k<c;++k)
-		
-			
-		{
-			Position test =copy.get(j);
-			++j;
-			if( test.mineCount!=-1){
-				System.out.print(test.mineCount+"\t");
-			}
-			else
-			{
-				System.out.print(test.comp+"\t");
-			}
-		}System.out.println();}
-		method4(b);
-		method1(b);
-		j=0;
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		for(int i=0;i<r;++i)
-		{
-			for(int k=0;k<c;++k)
-		
-			
-		{
-			Position test =copy.get(j);
-			++j;
-			if( test.mineCount!=-1){
-				System.out.print(test.mineCount+"\t");
-			}
-			else
-			{
-				System.out.print(test.comp+"\t");
-			}
-		}System.out.println();}
-
-		while(!(method2(b.getm_Board())));
-		while(!(method3())){
-			while(!(method2(b.getm_Board()))){
-				
-			}
-		}
-		method4(b);
-		method1(b);
-		System.out.println();
-		System.out.println();
-		System.out.println();
-		for(int i=0;i<r;++i)
-		{
-			for(int k=0;k<c;++k)
-		
-			
-		{
-			Position test =copy.get(j);
-			++j;
-			if( test.mineCount!=-1){
-				System.out.print(test.mineCount+"\t");
-			}
-			else
-			{
-				System.out.print(test.comp+"\t");
-			}
-		}System.out.println();}
-
-		
+		board.setBoard(tiles);
+		board.revealTile(2 * Tile.WIDTH, 0 * Tile.HEIGHT);
+		board.revealTile(3 * Tile.WIDTH, 0 * Tile.HEIGHT);
+		board.revealTile(4 * Tile.WIDTH, 0 * Tile.HEIGHT);
+		board.revealTile(4 * Tile.WIDTH, 1 * Tile.HEIGHT);
+		board.revealTile(3 * Tile.WIDTH, 2 * Tile.HEIGHT);
+		board.revealTile(4 * Tile.WIDTH, 2 * Tile.HEIGHT);
+		board.revealTile(3 * Tile.WIDTH, 3 * Tile.HEIGHT);
+		board.revealTile(4 * Tile.WIDTH, 3 * Tile.HEIGHT);
+		board.revealTile(3 * Tile.WIDTH, 4 * Tile.HEIGHT);
+		board.revealTile(4 * Tile.WIDTH, 4 * Tile.HEIGHT);
+		board.revealTile(1 * Tile.WIDTH, 3 * Tile.HEIGHT);
+		board.revealTile(1 * Tile.WIDTH, 4 * Tile.HEIGHT);
+		initialisingComputerAI(board);
+		displayAI(board);
+		setComputerAIFirst(true);
+		computerAI(board);
+		displayAI(board);
 	}
+
+	private void displayAI(Board board) {
+		int k = 0;
+		for (int i = 0; i < board.getm_Rows(); ++i) {
+			for (int j = 0; j < board.getm_Columns(); ++j) {
+				if (m_copyBoard.get(k).isMine()) {
+					System.out.print("M\t");
+				} else if (m_copyBoard.get(k).isSafeToOpen()) {
+					System.out.print("S\t");
+				} else if (m_copyBoard.get(k).getMineCount() != -1) {
+					System.out.print(m_copyBoard.get(k).getMineCount() + "\t");
+				} else {
+					System.out.print("*\t");
+				}
+				++k;
+			}
+			System.out.println();
+		}
+		System.out.println("\n\n");
+	}
+
 	public static void main(String args[]) {
-		//new Computer("testing").unitTest();
+		System.out.println("TESTING THE RANDOM COMPUTER IT "
+				+ "SHOULD OPEN A NEW SUQUARE EEACH TIME");
+		new Computer("testing").computerRandomTest();
+		System.out.println("PRESS ENTER TO GO TO COMPUTER AI TESTIN");
+		Scanner in = new Scanner(System.in);
+		in.nextLine();
 		new Computer("testing").testComputerAI();
 	}
 
-	public void unitTest() {
+	public void computerRandomTest() {
 		Board b = new Board(10, 10, 10);
 		System.out.print("\t");
 		for (int i = 0; i < b.getm_Board().size(); ++i) {
@@ -540,32 +570,11 @@ public class Computer extends Player {
 			System.out.println();
 		}
 
-		m_computerTurn = true;
-		while (m_computerTurn) {
+		m_isComputerAI = true;
+		while (m_isComputerAI) {
 			computerPlaysRandom(b);
-
-			System.out.print("\t");
-			for (int i = 0; i < b.getm_Board().size(); ++i) {
-				System.out.print(i + "\t");
-			}
-			System.out.println();
-
-			for (int i = 0; i < b.getm_Board().size(); ++i) {
-				System.out.print(i + "\t");
-
-				for (int j = 0; j < b.getm_Board().get(0).size(); ++j) {
-					if (b.getm_Board().get(i).get(j).m_isHidden) {
-						System.out.print("\t");
-					} else {
-						if (b.getm_Board().get(i).get(j).isMine())
-							return;
-
-						Revealed r = (Revealed) b.getm_Board().get(i).get(j);
-						System.out.print(r.getm_NearByMines() + "\t");
-					}
-				}
-
-				System.out.println();
+			if (b.getm_GameLost()) {
+				return;
 			}
 			try {
 				Thread.sleep(1000 * 3);
@@ -574,108 +583,5 @@ public class Computer extends Player {
 				e.printStackTrace();
 			}
 		}
-	}
-}
-
-class Position {
-	public int xPos;
-	public int yPos;
-	public int mineCount;
-	public String comp;
-	public String doneComputing;
-	public String doefusedComputing;
-
-	public Position(int x, int y) {
-		xPos = x;
-		yPos = y;
-		mineCount=-1;
-		comp="null";
-		doneComputing="null";
-		doefusedComputing="null";
-	}
-	public boolean equal(Position p){
-		return (xPos==p.xPos && yPos==p.yPos);
-	}
-}
-class Maping {
-	LinkedList<Position> pos;
-	int target;
-	public Maping(){
-		pos=new LinkedList<Position>();
-	}
-	public void add(Position p){
-		pos.add(p);
-	}
-	public boolean equal(Maping map){
-		for( int i=0;i<pos.size();++i){
-			int j=0;
-			for( j=0;j<map.pos.size();++j){
-				if(pos.get(i).equal(map.pos.get(j))){
-					break;
-				}
-			}
-			if(j==map.pos.size()){
-				return false;
-			}
-		}
-		return true;
-	}
-	public boolean contain(Maping map){
-		LinkedList<Position> mapRemove=new LinkedList<Position>();
-		int i=0;
-		for(i=0;i<pos.size();++i){
-			Position p = pos.get(i);
-			boolean pointFound=false;
-			for( int j=0;j<map.pos.size();++j) {
-				Position p2 = map.pos.get(j);
-				if(p.equal(p2)){
-					pointFound=true;
-					mapRemove.add(p2);
-					break;
-				}
-			}
-			if(!pointFound){
-				return false;
-			}
-		}
-		if(i==pos.size()){
-			int bomb=0;
-
-			bomb=map.pos.size()-mapRemove.size()+target;
-			if(bomb == map.target){
-				System.out.println("me");
-				for( int j=0;j<map.pos.size();++j){
-					int k=0;
-					for( k=0;k<mapRemove.size();++k)
-					{	
-						if(map.pos.get(j) == mapRemove.get(k)){
-							break;
-						}
-					}
-					if(k==mapRemove.size()){
-						map.pos.get(j).comp="M";
-					}
-				}
-				return true;
-			}
-			else if(map.target==target){
-				for( int j=0;j<map.pos.size();++j){
-					
-					int k=0;
-					for( k=0;k<mapRemove.size();++k)
-					{	
-						if(map.pos.get(j) == mapRemove.get(k)){
-							break;
-						}
-					}
-					if(k==mapRemove.size()){
-						map.pos.get(j).comp="S";
-					}
-					
-				}
-				return true;
-			}
-		}
-		return false;
 	}
 }

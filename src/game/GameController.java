@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -129,7 +130,7 @@ public class GameController implements MouseListener, ActionListener {
 		m_panelInfo.add(m_GameFinshed);
 		
 		m_Computer= new JButton("Computer");
-		m_Computer.setBounds(325, 12, 100, 30);
+		m_Computer.setBounds(325, 5, 90, 25);
 		m_Computer.addMouseListener(this);
 		m_panelInfo.add(m_Computer);
 		m_GameFinshed.addActionListener(this);
@@ -174,6 +175,7 @@ public class GameController implements MouseListener, ActionListener {
 	 */
 	public void setGameLost() {
 		m_gameFinshed=true;
+		m_computerIsPressed=false;
 		m_bomb.loop(1);
 		m_time.stop();
 		m_tick.stop();
@@ -186,6 +188,7 @@ public class GameController implements MouseListener, ActionListener {
 	 */
 	public void setGameWin() {
 		m_gameFinshed=true;
+		m_computerIsPressed=false;
 		m_won.loop(1);
 		m_time.stop();
 		m_tick.stop();
@@ -220,11 +223,11 @@ public class GameController implements MouseListener, ActionListener {
 			m_humanPlayer = (Human) m_player;
 		} catch (ClassCastException e) {
 			// Player was not human.
-		}
-		
+		}			
+				
 		m_frame.validate();
 		m_frame.repaint();
-
+		
 		m_panelGame.repaint();
 		m_humanPlayer.takeTurn();
 	}
@@ -234,7 +237,7 @@ public class GameController implements MouseListener, ActionListener {
 	 */
 	public void mouseClicked(MouseEvent e) {
 		if(m_gameFinshed) return;
-		if(e.getSource()==m_panelGame) {
+		if(e.getSource()==m_panelGame && !(m_computerIsPressed)){
 		if (!(m_board.getm_GameLost())) {
 			
 			if (e.getButton() == MouseEvent.BUTTON1) {
@@ -252,10 +255,8 @@ public class GameController implements MouseListener, ActionListener {
 		}
 		else if(e.getSource() == m_Computer){
 			m_computerIsPressed=!m_computerIsPressed ;
-			m_computer.setComputerTurn(m_computerIsPressed);
-			if(m_computerIsPressed) {
-				m_computer.start(m_board);
-			}
+			m_computer.setIsComputerAI(m_computerIsPressed);
+			
 		}
 		checkWonOrLoss();
 	}
@@ -450,7 +451,6 @@ public class GameController implements MouseListener, ActionListener {
 		m_hoursPlayed = 0;
 		m_timePassed = null;
 		m_computer.resetAI();
-		m_isComputerAI=true;
 		m_computerIsPressed=false;
 		m_won.stop();
 		m_won.flush();
