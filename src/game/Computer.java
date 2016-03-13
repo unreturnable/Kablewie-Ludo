@@ -20,7 +20,7 @@ public class Computer extends Player {
 	private LinkedList<Position> m_cloneBoard;
 	private LinkedList<Mapping> m_mapping;
 	private boolean firstComputerAIMove;
-	private boolean m_test = true;
+	private static boolean m_test;
 
 	/**
 	 * set the is it computer AI going to play or a random computer will play
@@ -486,23 +486,8 @@ public class Computer extends Player {
 	}
 
 	public void testComputerAI() {
-		Board board = new Board(5, 5, 6);
+		Board board = new Board(10, 10, 10);
 		ArrayList<ArrayList<Tile>> tiles = board.getm_Board();
-		tiles.clear();
-		for (int i = 0; i < 5; ++i) {
-			tiles.add(new ArrayList<Tile>());
-			for (int j = 0; j < 5; ++j) {
-				tiles.get(i).add(new Hidden(false, true, false));
-			}
-		}
-
-		tiles.get(0).get(0).setTileType(true, true);
-		tiles.get(1).get(3).setTileType(true, true);
-		tiles.get(2).get(0).setTileType(true, true);
-		tiles.get(2).get(1).setTileType(true, true);
-		tiles.get(2).get(2).setTileType(true, true);
-		tiles.get(4).get(2).setTileType(true, true);
-		board.setBoard(tiles);
 		board.revealTile(2 * Tile.WIDTH, 0 * Tile.HEIGHT);
 		board.revealTile(3 * Tile.WIDTH, 0 * Tile.HEIGHT);
 		board.revealTile(4 * Tile.WIDTH, 0 * Tile.HEIGHT);
@@ -543,6 +528,8 @@ public class Computer extends Player {
 	}
 
 	public static void main(String args[]) {
+		m_test = true;
+		if(m_test) {
 		System.out.println("TESTING THE RANDOM COMPUTER IT "
 				+ "SHOULD OPEN A NEW SUQUARE EEACH TIME");
 		new Computer("testing").computerRandomTest();
@@ -550,6 +537,10 @@ public class Computer extends Player {
 		Scanner in = new Scanner(System.in);
 		in.nextLine();
 		new Computer("testing").testComputerAI();
+		System.out.println("M mean mine is there (maybe)");
+		System.out.println("S mean safe to open  (maybe)");
+		System.out.println("* mean hidden");
+		}
 	}
 
 	public void computerRandomTest() {
