@@ -465,7 +465,6 @@ public class Computer extends Player {
 			check = m_copyBoard.get(openTile);
 			x = check.getXPos();
 			y = check.getYPos();
-			System.out.println("  Came  ;");
 		} while (check.isMine() || check.isFlagIsThere() 
 				|| !(board.getm_Board().get(x).get(y).isHidden()));
 		if (board.getm_Board().get(x).get(y).m_isDefused) {
