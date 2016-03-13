@@ -47,10 +47,10 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 	private final int MAX_MINES = 150;
 	private final int X_BUFFER = 50;
 	private final int Y_BUFFER = 105;
-	private final int X_MIN_MULTIPLY = 5;
-	private final int Y_MIN_MULTIPLY = 5;
+	private final int X_MIN_MULTIPLY = 10;
+	private final int Y_MIN_MULTIPLY = 10;
 	// change the buffer from 130 to 100 remember to see if any different
-	private final int X_MIN_BUFFER = 100;
+	private final int X_MIN_BUFFER = 130;
 	private final int COLOUR_R = 153;
 	private final int COLOUR_G = 180;
 	private final int COLOUR_B = 209;
@@ -398,12 +398,13 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 		}
 		Board board = new Board(boardSize, boardSize, numMines);
 		Player player = new Human(username);
-		// to x adding X_MIN_BUFFER cause needed space for computer button
-		m_frame.setSize(boardSize * MAX_BOARD_SIZE + X_BUFFER+X_MIN_BUFFER,
-				boardSize * MAX_BOARD_SIZE + Y_BUFFER);
+
 		m_frame.setMinimumSize(new Dimension(
 				X_MIN_MULTIPLY * MAX_BOARD_SIZE + X_BUFFER + X_MIN_BUFFER,
-				Y_MIN_MULTIPLY * MAX_BOARD_SIZE + Y_BUFFER));
+				boardSize * MAX_BOARD_SIZE + Y_BUFFER));
+		// to x adding X_MIN_BUFFER cause needed space for computer button
+		m_frame.setSize(boardSize * MAX_BOARD_SIZE + X_BUFFER,
+				boardSize * MAX_BOARD_SIZE + Y_BUFFER);
 		m_kablewie.startGame(board, player, this);
 	}
 
