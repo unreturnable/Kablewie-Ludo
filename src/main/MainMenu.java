@@ -18,6 +18,7 @@ import java.lang.Math;
 import game.Board;
 import game.Human;
 import game.Player;
+import game.SaveGame;
 
 /** 
  * Suppress serial ID warning as ID would not
@@ -58,12 +59,13 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 	private final int TXT_SIZE = 10;
 	private final int BUTTON_X_COORD = 110;
 	private final int BUTTON_Y_COORD = 160;
+	private final int BUTTON_LOAD_Y_COORD = 200;
 	private final int BUTTON_WIDTH = 100;
 	private final int BUTTON_HEIGHT = 32;
 	private final int JPANEL_X_COORD = 95;
 	private final int JPANEL_Y_COORD = 27;
 	private final int JPANEL_WIDTH = 274;
-	private final int JPANEL_HEIGHT = 210;
+	private final int JPANEL_HEIGHT = 260;
 	
 	/**
 	 * getTest initialises m_userNameText,
@@ -261,6 +263,33 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 
 		startGame.addMouseListener(this);		
 	}
+	
+	/**
+	 * Create the load game button.
+	 * 
+	 * @param gamePanel the panel to add elements to. 
+	 */
+	public void createLoadGameBtn(final JPanel gamePanel) {
+		JButton loadGame = new JButton("Load Game");
+		loadGame.setIcon(null);
+		loadGame.setFont(new Font("Copperplate Gothic Bold", Font.PLAIN,
+				TXT_SIZE));
+		loadGame.setForeground(Color.BLACK);
+		loadGame.setBackground(Color.DARK_GRAY);
+		loadGame.setBounds(BUTTON_X_COORD, BUTTON_LOAD_Y_COORD, BUTTON_WIDTH,
+				BUTTON_HEIGHT);
+		gamePanel.add(loadGame);
+		
+		final MainMenu menu = this;
+
+		loadGame.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+	        	SaveGame saveGame = new SaveGame();
+	        	m_frame.getContentPane().removeAll();
+	        	saveGame.loadGame(m_frame, menu);
+			}
+		});
+	}
 
 	/**
 	 * Add everything that needs to be asked
@@ -281,6 +310,7 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 		createBoardSize(gamePanel);
 		createTotalMines(gamePanel);
 		createStartGameBtn(gamePanel);
+		createLoadGameBtn(gamePanel);
 	}
 
 	/**

@@ -1,7 +1,7 @@
 /**
  * @file GameController.java
- * @author Peter Jenkins
- * @date 7 December 2015
+ * @author Isabel Jenkins
+ * @date 13 March 2016
  *
  * Controls the flow of the game takes the
  * click of the user and passes the position
@@ -39,6 +39,8 @@ import main.MainMenu;
 @SuppressWarnings("serial")
 public class GameController implements MouseListener, ActionListener {
 
+	private static boolean m_test = false;
+	
 	private MainMenu m_menu;
 	private Player m_player;
 	private Board m_board;
@@ -64,8 +66,8 @@ public class GameController implements MouseListener, ActionListener {
 	private JMenuItem m_instructions;
 	private JMenuItem m_computerAI;
 	private JMenuItem m_computerRandom;
-	
 	private JMenuItem m_showHideMines;
+	private JMenuItem m_saveGame;
 
 	private Clip m_tick;
 	private Clip m_bomb;
@@ -77,6 +79,43 @@ public class GameController implements MouseListener, ActionListener {
 	
 	private boolean m_minesRevealed; //toggle mines being shown
 
+	public static void main(String[] args) {
+		boolean test = true;
+		m_test = true;
+		
+	    if (test) {
+	    	System.out.println("GameController::main() BEGIN");
+	    }
+	    
+	    JFrame testFrame = new JFrame("Kablewie");
+	    
+	    System.out.println("Test Constructor");
+	    GameController gc = new GameController(null, new Human("TEST"), testFrame, null);
+	    
+	    // Test methods that return values.
+	    System.out.println("Test getting JMenuBar");
+		JMenuBar menu = gc.myMenu();
+		if (menu != null) {
+			System.out.println("Success in creating menu bar");
+		} else  {
+			System.out.println("Failed to create menu bar");
+		}
+		
+		System.out.println("Test getting Instructions");
+		String instructions = gc.getInstructions();
+		if (instructions != null && instructions.length() > 0) {
+			System.out.println("Success in getting instructions");
+		} else {
+			System.out.println("Failed to get instructions");
+		}
+		
+		System.out.println("Test getting JMenuBar");
+		
+	    if (test) {
+	       System.out.println("GameController::main() END");
+	    }
+	}
+	
 	/**
 	 * Constructor
 	 * 
@@ -226,32 +265,36 @@ public class GameController implements MouseListener, ActionListener {
 		m_frame.repaint();
 
 		m_panelGame.repaint();
-		m_humanPlayer.takeTurn();
+		
+		if (!m_test) {
+			m_humanPlayer.takeTurn();
+		}
 	}
 
 	/**
 	 * Called on mouse event
 	 */
 	public void mouseClicked(MouseEvent e) {
-		if(m_gameFinshed) return;
-		if(e.getSource()==m_panelGame) {
-		if (!(m_board.getm_GameLost())) {
-			
-			if (e.getButton() == MouseEvent.BUTTON1) {
+		if(m_gameFinshed) {
+			return;
+		}
+		if(e.getSource() == m_panelGame) {
+			if (!(m_board.getm_GameLost())) {
 				
-				m_board.revealTile(e.getX(), e.getY());
-				m_panelGame.repaint();
-				m_panelInfo.repaint();
-			} else if (e.getButton() == MouseEvent.BUTTON3) {
-				
-				m_board.defusedTile(e.getX(), e.getY());
-				m_panelGame.repaint();
-				m_panelInfo.repaint();
+				if (e.getButton() == MouseEvent.BUTTON1) {
+					
+					m_board.revealTile(e.getX(), e.getY());
+					m_panelGame.repaint();
+					m_panelInfo.repaint();
+				} else if (e.getButton() == MouseEvent.BUTTON3) {
+					
+					m_board.defusedTile(e.getX(), e.getY());
+					m_panelGame.repaint();
+					m_panelInfo.repaint();
+				}
 			}
-		}
-		}
-		else if(e.getSource() == m_Computer){
-			m_computerIsPressed=!m_computerIsPressed ;
+		} else if(e.getSource() == m_Computer){
+			m_computerIsPressed = !m_computerIsPressed;
 			m_computer.setComputerTurn(m_computerIsPressed);
 			if(m_computerIsPressed) {
 				m_computer.start(m_board);
@@ -271,6 +314,7 @@ public class GameController implements MouseListener, ActionListener {
 
 	public void mouseReleased(MouseEvent arg0) {
 	}
+	
 	public void checkWonOrLoss(){
 		if (m_board.getm_GameLost()) {
 			setGameLost();
@@ -279,6 +323,7 @@ public class GameController implements MouseListener, ActionListener {
 			setGameWin();
 		}
 	}
+	
 	/**
 	 * Builds a JMenuBar with options
 	 * 
@@ -304,12 +349,15 @@ public class GameController implements MouseListener, ActionListener {
 		computer.add(m_computerRandom);
 		m_showHideMines = new JMenuItem("Show/Hide Mines");
 		m_showHideMines.addActionListener(this);
+		m_saveGame = new JMenuItem("Save Game");
+		m_saveGame.addActionListener(this);
 		
 		game.add(m_newGame);
 		game.add(m_settings);
 		game.add(computer);
-		game.add(m_exit);
 		game.add(m_showHideMines);
+		game.add(m_saveGame);
+		game.add(m_exit);
 		
 		JMenu help = new JMenu("Help");
 		
@@ -324,7 +372,6 @@ public class GameController implements MouseListener, ActionListener {
 		menu.add(help);
 		
 		return menu;
-
 	}
 
 	/**
@@ -388,6 +435,11 @@ public class GameController implements MouseListener, ActionListener {
 			m_board.toggleMines(m_minesRevealed);
 			m_panelGame.repaint();
 			setMinesRevealed(!m_minesRevealed);
+		
+		} else if(event.getSource() == m_saveGame){
+			
+			SaveGame saveGame = new SaveGame();
+			saveGame.saveGame(m_board, m_player);
 			
 		} else if (event.getSource() == m_about) {
 			

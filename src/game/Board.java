@@ -6,7 +6,7 @@
  * Contain the Information of the current Board
  * and various helper methods for manipulating
  * the board.
- */ 
+ */
 
 package game;
 
@@ -28,28 +28,32 @@ public class Board {
 	/**
 	 * Constructor
 	 * 
-	 * @param bRows an int for the number of rows
-	 * @param bColumns an int for the number of columns
-	 * @param numMines an int for number of mines
+	 * @param bRows
+	 *            an int for the number of rows
+	 * @param bColumns
+	 *            an int for the number of columns
+	 * @param numMines
+	 *            an int for number of mines
 	 */
 	public Board(int bRows, int bColumns, int numMines) {
 		// Set Class variables
 		this.m_mineCount = numMines;
 		this.m_rows = bRows;
 		this.m_columns = bColumns;
-		
+
 		// Create a revealed tile for the sake of method calls.
 		m_reveal = new Revealed(false, false, false);
-		
+
 		// Setup the board.
 		setBoardDimensions();
 		placeMines();
 	}
-	//added for testing computer AI
-	public void setBoard(ArrayList<ArrayList<Tile>> board)
-	{
-		m_board=board;
+
+	// added for testing computer AI
+	public void setBoard(ArrayList<ArrayList<Tile>> board) {
+		m_board = board;
 	}
+	
 	/**
 	 * @return the value of m_gameLost which is true if the game is lost
 	 */
@@ -70,24 +74,30 @@ public class Board {
 	public boolean getm_GameWon() {
 		return m_gameWon;
 	}
-	
-	public int getm_Rows(){
+
+	public int getm_Rows() {
 		return m_rows;
 	}
-	public int getm_Columns(){
+
+	public int getm_Columns() {
 		return m_columns;
 	}
-	public int getm_MineCount(){
+
+	public int getm_MineCount() {
 		return m_mineCount;
 	}
 	
+	public void setTile(Tile tile, int x, int y) {
+		m_board.get(y).set(x, tile);
+	}
+
 	/**
 	 * Sets the dimensions of the board
 	 */
 	private void setBoardDimensions() {
 		// Create board
 		m_board = new ArrayList<ArrayList<Tile>>();
-		
+
 		// Sets the dimensions HxW of the board that is to be created
 		for (int i = 0; i < m_rows; i++) {
 			m_board.add(new ArrayList<Tile>());
@@ -119,27 +129,28 @@ public class Board {
 	}
 
 	/**
-	 * This method is used to reveal tiles on the board
-	 * after a users turn, and then takes action based
-	 * on what tile is revealed.
+	 * This method is used to reveal tiles on the board after a users turn, and
+	 * then takes action based on what tile is revealed.
 	 * 
-	 * @param x an int which is the X position of the click
-	 * @param y an int which is the Y position of the click
+	 * @param x
+	 *            an int which is the X position of the click
+	 * @param y
+	 *            an int which is the Y position of the click
 	 */
 	public void revealTile(int x, int y) {
 		// Work out the positions in the Array of the mouse click
 		int xPos = (int) Math.floor(x / Tile.WIDTH);
 		int yPos = (int) Math.floor(y / Tile.HEIGHT);
-		
+
 		if (inLimit(yPos, xPos) && !(m_board.get(yPos).get(xPos).m_isDefused)) {
-			
+
 			if (m_board.get(yPos).get(xPos).m_isHidden && !(m_board.get(yPos).get(xPos).m_isMine)) {
-				
+
 				m_reveal.revealPosition(m_board, yPos, xPos);
 				haveWon();
-				
+
 			} else if (m_board.get(yPos).get(xPos).m_isMine) {
-				
+
 				this.m_gameWon = false;
 				this.m_gameLost = true;
 				m_board.get(yPos).remove(xPos); // create a mine tile
@@ -151,30 +162,31 @@ public class Board {
 							m_board.get(i).add(j, new Mine(true, false, false, "images/mine.png"));
 						}
 					}
-				}	
+				}
 			}
 		}
 	}
 
 	/**
-	 * This method is used to defuse tiles on the board
-	 * after a users turn, storing whether the tile was
-	 * a mine or not.
+	 * This method is used to defuse tiles on the board after a users turn,
+	 * storing whether the tile was a mine or not.
 	 * 
-	 * @param x an int which is the X position of the click
-	 * @param y an int which is the Y position of the click
+	 * @param x
+	 *            an int which is the X position of the click
+	 * @param y
+	 *            an int which is the Y position of the click
 	 */
 	public void defusedTile(int x, int y) {
 		// Work out the positions in the Array of the mouse click
 		int xPos = (int) Math.floor(x / Tile.WIDTH);
 		int yPos = (int) Math.floor(y / Tile.HEIGHT);
-		
+
 		if (inLimit(yPos, xPos)) {
-			
+
 			boolean isMine = m_board.get(yPos).get(xPos).m_isMine;
 			boolean isDefused = m_board.get(yPos).get(xPos).m_isDefused;
 			boolean isHidden = m_board.get(yPos).get(xPos).m_isHidden;
-			
+
 			if (isHidden) {
 				if (!(isDefused)) {
 					m_board.get(yPos).remove(xPos);
@@ -191,22 +203,22 @@ public class Board {
 	/**
 	 * it check if x,y are in the range of the board or not
 	 * 
-	 * @param x an int for the row
-	 * @param y an int for the column
+	 * @param x
+	 *            an int for the row
+	 * @param y
+	 *            an int for the column
 	 * 
 	 * @return true if x, y are in range
 	 */
 	private boolean inLimit(int x, int y) {
-		return !(x >= m_board.size()
-				|| y >= m_board.get(0).size()
-				|| x < 0
-				|| y < 0);
+		return !(x >= m_board.size() || y >= m_board.get(0).size() || x < 0 || y < 0);
 	}
 
 	/**
 	 * Calls render on each tile on the board.
 	 * 
-	 * @param g a Graphics object for rendering the board.
+	 * @param g
+	 *            a Graphics object for rendering the board.
 	 */
 	public void render(Graphics g) {
 		// This will be responsible for creating the graphics of the board
@@ -220,41 +232,44 @@ public class Board {
 	/**
 	 * Renders the games UI
 	 * 
-	 * @param g a Graphics object for rendering the UI
-	 * @param player a Player object with the info to be displayed
-	 * @param timePassed a String with the time that has passed.
+	 * @param g
+	 *            a Graphics object for rendering the UI
+	 * @param player
+	 *            a Player object with the info to be displayed
+	 * @param timePassed
+	 *            a String with the time that has passed.
 	 */
 	public void renderInfo(Graphics g, Player player, String timePassed) {
 		Font timeNewRoman = new Font("Time new roman", Font.BOLD, 12);
-		
+
 		// Positioning Values.
 		int x = 1;
 		int y = 10;
-		
+
 		g.setFont(timeNewRoman);
 		g.setColor(Color.RED);
 		g.drawString("Name : " + player.getUsername(), x, y);
-		
+
 		x = x + 200;
-		
+
 		if (timePassed == null) {
 			g.drawString("Time : 00:00:00", x, y);
 		} else {
 			g.drawString("Time :" + timePassed, x, y);
 		}
-		
+
 		x = 1;
 		y = 27;
 		g.setColor(Color.BLUE);
 		g.drawString("Defused Mine : " + getDefusedTile(), x, y);
-		
+
 		x = x + 200;
 		g.drawString("Mines Present : " + m_mineCount, x, y);
-		
+
 		y = 48;
 		x = 1;
 		g.drawString("Hidden Square : " + getHiddenTile(), x, y);
-		
+
 		x = x + 200;
 		g.drawString("Revealed Square : " + getRevealedTile(), x, y);
 	}
@@ -274,7 +289,7 @@ public class Board {
 	 */
 	private int getRevealedTile() {
 		int revealedTile = 0;
-		
+
 		for (int i = 0; i < m_board.size(); ++i) {
 			for (int j = 0; j < m_board.get(0).size(); ++j) {
 				if (!(m_board.get(i).get(j).m_isHidden)) {
@@ -282,7 +297,7 @@ public class Board {
 				}
 			}
 		}
-		
+
 		return revealedTile;
 	}
 
@@ -291,7 +306,7 @@ public class Board {
 	 */
 	private int getHiddenTile() {
 		int hiddenTile = 0;
-		
+
 		for (int i = 0; i < m_board.size(); ++i) {
 			for (int j = 0; j < m_board.get(0).size(); ++j) {
 				if (m_board.get(i).get(j).m_isHidden) {
@@ -299,7 +314,7 @@ public class Board {
 				}
 			}
 		}
-		
+
 		return hiddenTile;
 	}
 
@@ -308,7 +323,7 @@ public class Board {
 	 */
 	private int getDefusedTile() {
 		int defusedTile = 0;
-		
+
 		for (int i = 0; i < m_board.size(); ++i) {
 			for (int j = 0; j < m_board.get(0).size(); ++j) {
 				if (m_board.get(i).get(j).m_isDefused && m_board.get(i).get(j).m_isMine) {
@@ -316,7 +331,7 @@ public class Board {
 				}
 			}
 		}
-		
+
 		return defusedTile;
 	}
 
@@ -330,21 +345,21 @@ public class Board {
 		m_gameLost = false;
 		m_gameWon = false;
 	}
-	
+
 	/**
 	 * Reveals the mines without ending the game. Used for testing purposes
 	 */
-	public void toggleMines(boolean minesShown){
+	public void toggleMines(boolean minesShown) {
 		for (int y = 0; y < m_board.size(); y++) {
 			for (int x = 0; x < m_board.get(y).size(); x++) {
-				if(m_board.get(y).get(x).isMine()){
+				if (m_board.get(y).get(x).isMine()) {
 					m_board.get(y).remove(x);
-					if(!minesShown){
+					if (!minesShown) {
 						m_board.get(y).add(x, new Mine(true, true, false, "images/mine.png"));
 					} else {
 						m_board.get(y).add(x, new Hidden(true, true, false));
 					}
-					
+
 				}
 			}
 		}
