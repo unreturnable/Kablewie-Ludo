@@ -53,6 +53,7 @@ public class GameController implements MouseListener, ActionListener {
 	private Computer m_computer;
 
 	private Timer m_time;
+	private Timer m_computerTime;
 	private long m_hoursPlayed;
 	private long m_minuntesPlayed;
 	private long m_secoundPlayed;
@@ -65,6 +66,7 @@ public class GameController implements MouseListener, ActionListener {
 	private JMenuItem m_instructions;
 	private JMenuItem m_computerAI;
 	private JMenuItem m_computerRandom;
+	private JMenuItem m_computerPauseTime;
 	private JMenuItem m_showHideMines;
 	private JMenuItem m_saveGame;
 
@@ -90,6 +92,9 @@ public class GameController implements MouseListener, ActionListener {
 	private final int GAME_PANEL_Y = 50;
 	private final int MILISECOND = 1000;
 	private final int MINUTE = 60;
+	private final int MAXIMUM_TIME_PAUSE=10;
+	private final int MINMIMUM_TIME_PAUSE=1;
+	
 	
 	private boolean m_minesRevealed; //toggle mines being shown
 
@@ -151,6 +156,7 @@ public class GameController implements MouseListener, ActionListener {
 		startGame();
 		setSound();
 		m_time = new Timer(TIMER_DELAY, this);
+		m_computerTime  = new Timer(TIMER_DELAY,this);
 		m_computer = new Computer(player.getUsername());
 		m_time.start();
 		m_tick.loop(Clip.LOOP_CONTINUOUSLY);
@@ -231,6 +237,7 @@ public class GameController implements MouseListener, ActionListener {
 	public void setGameLost() {
 		m_gameFinshed=true;
 		m_computerIsPressed=false;
+		m_computerTime.stop();
 		m_bomb.loop(1);
 		m_time.stop();
 		m_tick.stop();
@@ -244,6 +251,7 @@ public class GameController implements MouseListener, ActionListener {
 	public void setGameWin() {
 		m_gameFinshed=true;
 		m_computerIsPressed=false;
+		m_computerTime.stop();
 		m_won.loop(1);
 		m_time.stop();
 		m_tick.stop();
@@ -316,7 +324,11 @@ public class GameController implements MouseListener, ActionListener {
 		else if(e.getSource() == m_Computer){
 			m_computerIsPressed=!m_computerIsPressed ;
 			m_computer.setIsComputerAI(m_computerIsPressed);
-			
+			if(m_computerIsPressed) {
+				m_computerTime.start();
+			} else {
+				m_computerTime.stop();
+			}
 		}
 		checkWonOrLoss();
 	}
@@ -363,8 +375,11 @@ public class GameController implements MouseListener, ActionListener {
 		m_computerAI.addActionListener(this);
 		m_computerRandom=new JMenuItem("Computer Random");
 		m_computerRandom.addActionListener(this);
+		m_computerPauseTime=new JMenuItem("Computer Pause");
+		m_computerPauseTime.addActionListener(this);
 		computer.add(m_computerAI);
 		computer.add(m_computerRandom);
+		computer.add(m_computerPauseTime);
 		m_showHideMines = new JMenuItem("Show/Hide Mines");
 		m_showHideMines.addActionListener(this);
 		m_saveGame = new JMenuItem("Save Game");
@@ -419,6 +434,8 @@ public class GameController implements MouseListener, ActionListener {
 							+ " : " 
 							+ m_secoundPlayed;
 			
+			
+		}else if(event.getSource()==m_computerTime){
 			if(m_computerIsPressed){
 				if(m_isComputerAI){
 				m_computer.computerAI(m_board);
@@ -432,7 +449,6 @@ public class GameController implements MouseListener, ActionListener {
 				}
 				checkWonOrLoss();
 			}
-			
 		} else if (event.getSource() == m_newGame) {
 			reset();
 		} else if (event.getSource() == m_settings) {
@@ -446,6 +462,23 @@ public class GameController implements MouseListener, ActionListener {
 			m_isComputerAI=true;
 		}else if (event.getSource() == m_computerRandom) {
 			m_isComputerAI=false;
+		}else if (event.getSource() ==m_computerPauseTime){
+			String timePause=JOptionPane.showInputDialog(null, "Vaule", 0);
+			int timeComputerPause =1;
+			try {
+			 timeComputerPause = Integer.parseInt(timePause);
+			}catch (Exception e){
+				System.out.println("Time Pause is not Integer");
+			}
+			if( timeComputerPause >=MINMIMUM_TIME_PAUSE 
+					&& timeComputerPause<=MAXIMUM_TIME_PAUSE){
+				m_computerTime = new Timer(timeComputerPause*TIMER_DELAY,this);
+				if(m_computerIsPressed) {
+					m_computerTime.start();
+				} else {
+					m_computerTime.stop();
+				}
+			}
 		}else if (event.getSource() == m_exit) {
 			System.exit(0);
 		} else if(event.getSource() == m_showHideMines){
