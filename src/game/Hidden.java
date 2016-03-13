@@ -41,5 +41,33 @@ public class Hidden extends Tile {
 					y * Tile.HEIGHT,
 					null);
 	}
+	
+	/**
+	 * Unit test for hidden. Testing functionality of Tile here too
+	 * as tile is abstract and cannot be directly tested.
+	 * 
+	 */
+	public static void main(String[] args){
+		Tile t = new Hidden(true, false, false);
+		
+		System.out.println("\nisMine() test | Expected output: true " 
+				+ "| Actual output: " + t.isMine());
+		
+		System.out.println("\nisHidden() test | Expected output: true " 
+				+ "| Actual output: " + t.isHidden());
+		
+		System.out.println("\nisDefused() test | Expected output: false " 
+				+ "| Actual output: " + t.isDefused());
+		
+		System.out.println("\nsetTileType() test | Set mine to false and"
+				+ " hidden to false.");
+		t.setTileType(false, false);
+		
+		System.out.println("isMine test after change | Expected output: false" 
+				+ " | Actual output: " + t.isMine());
+		
+		System.out.println("isHidden() test | Expected output: false " 
+				+ "| Actual output: " + t.isDefused());
+	}
 
 }
