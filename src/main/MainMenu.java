@@ -48,6 +48,7 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 	private final int X_BUFFER = 50;
 	private final int Y_BUFFER = 105;
 	private final int X_MIN_MULTIPLY = 10;
+	private final int Y_MIN_MULTIPLY=10;
 	private final int X_MIN_BUFFER = 130;
 	private final int COLOUR_R = 153;
 	private final int COLOUR_G = 180;
@@ -317,6 +318,9 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 		// Frame options for menu.
 		m_frame.setResizable(false);
 		m_frame.setSize(MENU_WIDTH, MENU_HEIGHT);
+		m_frame.setMinimumSize(new Dimension(
+				X_MIN_MULTIPLY * MAX_BOARD_SIZE + X_BUFFER + X_MIN_BUFFER,
+				Y_MIN_MULTIPLY * MAX_BOARD_SIZE + Y_BUFFER));
 		m_frame.setTitle("Kablewie");
 		m_frame.setForeground(Color.RED);
 		m_frame.setBackground(Color.RED);
@@ -396,12 +400,20 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 		Board board = new Board(boardSize, boardSize, numMines);
 		Player player = new Human(username);
 
+		/*
+		frame.setSize(width * MAX_BOARD_SIZE + X_BUFFER+X_MIN_BUFFER,
+				 +				width * MAX_BOARD_SIZE + Y_BUFFER);
+				 +		frame.setMinimumSize(new Dimension(
+				 +				X_MIN_MULTIPLY * MAX_BOARD_SIZE + X_BUFFER + X_MIN_BUFFER,
+				 +				Y_MIN_MULTIPLY * MAX_BOARD_SIZE + Y_BUFFER));
+		
+		*/
+		 m_frame.setSize(boardSize * MAX_BOARD_SIZE + X_BUFFER+X_MIN_BUFFER,
+							boardSize * MAX_BOARD_SIZE + Y_BUFFER);
 		m_frame.setMinimumSize(new Dimension(
 				X_MIN_MULTIPLY * MAX_BOARD_SIZE + X_BUFFER + X_MIN_BUFFER,
-				boardSize * MAX_BOARD_SIZE + Y_BUFFER));
+				Y_MIN_MULTIPLY * MAX_BOARD_SIZE + Y_BUFFER));
 		// to x adding X_MIN_BUFFER cause needed space for computer button
-		m_frame.setSize(boardSize * MAX_BOARD_SIZE + X_BUFFER,
-				boardSize * MAX_BOARD_SIZE + Y_BUFFER);
 		m_kablewie.startGame(board, player, this);
 	}
 
