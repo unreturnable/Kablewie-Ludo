@@ -181,16 +181,29 @@ public class SaveGame {
 		
 		int count = 3;
 		Board board = new Board(width, height, 0);
-		
+		int mineCount=0;
 		for (int i=0; i<width; i++) {
 			for (int q=0; q<height; q++) {
 				
 				Tile newTile = processTile(Integer.parseInt(parts[count]));
+				if(newTile.isMine()){
+					++mineCount;
+				}
 				board.setTile(newTile, q, i);
 				count++;
 			}
 		}
-		
+		for (int i=0; i<width; i++) {
+			for (int q=0; q<height; q++) {
+				Tile newTile = board.getm_Board().get(i).get(q);
+				if(!(newTile.isHidden())){
+					Revealed reveal=(Revealed) newTile;
+					reveal.setNearByMines(board.getm_Board(), i, q);
+				}
+			}
+		}
+		board.setm_MineCount(mineCount);
+		frame.getContentPane().removeAll();
 		frame.setSize(width * MAX_BOARD_SIZE + X_BUFFER+X_MIN_BUFFER,
 				width * MAX_BOARD_SIZE + Y_BUFFER);
 		frame.setMinimumSize(new Dimension(
@@ -219,6 +232,7 @@ public class SaveGame {
 			newTile = new Hidden(true, true, false);
 		} else if (type == REVEALED) {
 			newTile = new Revealed(false, false, false);
+			
 		} else {
 			// Something went wrong
 			return null;

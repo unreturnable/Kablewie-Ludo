@@ -174,5 +174,12 @@ public class Revealed extends Tile {
 
 		}
 	}
+	
+	public void setNearByMines(ArrayList<ArrayList<Tile>> board, int i, int j) {
+		board.get(i).remove(j);
+		board.get(i).add(j, new Revealed(false, false, false));
+		Revealed r = (Revealed) board.get(i).get(j);
+		r.calculateNearbyMines(r, getTileArround(board, i, j));
+	}
 
 }

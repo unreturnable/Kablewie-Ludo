@@ -281,11 +281,9 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 		gamePanel.add(loadGame);
 		
 		final MainMenu menu = this;
-
 		loadGame.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 	        	SaveGame saveGame = new SaveGame();
-	        	m_frame.getContentPane().removeAll();
 	        	saveGame.loadGame(m_frame, menu);
 			}
 		});

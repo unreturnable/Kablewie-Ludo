@@ -86,7 +86,9 @@ public class Board {
 	public int getm_MineCount() {
 		return m_mineCount;
 	}
-	
+	public void setm_MineCount(int mineCount) {
+		m_mineCount=mineCount;
+	}
 	public void setTile(Tile tile, int x, int y) {
 		m_board.get(y).set(x, tile);
 	}
