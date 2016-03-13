@@ -1,5 +1,5 @@
 /**
- * @file Computer.java
+ * @file Map.java
  * @author Anshul Kumar
  * @date 12 March 2016
  * 
@@ -10,7 +10,7 @@ package game;
 
 import java.util.LinkedList;
 
-public class Mapping {
+public class Map {
 
 	private LinkedList<Position> m_position;
 	private int numberOfMine;
@@ -65,7 +65,7 @@ public class Mapping {
 	/**
 	 * Constructor of the class
 	 */
-	public Mapping() {
+	public Map() {
 		m_position = new LinkedList<Position>();
 	}
 
@@ -89,7 +89,7 @@ public class Mapping {
 	 * @return true if the two mapping object have the equal position 
 	 * 			otherwise it is false
 	 */
-	public boolean equal(Mapping mapping) {
+	public boolean equal(Map mapping) {
 		for (int i = 0; i < m_position.size(); ++i) {
 			int j = 0;
 			for (j = 0; j < mapping.m_position.size(); ++j) {
@@ -112,7 +112,7 @@ public class Mapping {
 	 * @return null is return if it is not a subset otherwise it return 
 	 * 			the list of position which are the element in both mapping
 	 */
-	public LinkedList<Position> isSubset(Mapping mapping) {
+	public LinkedList<Position> isSubset(Map mapping) {
 		LinkedList<Position> mapRemove = new LinkedList<Position>();
 		int i = 0;
 		for (i = 0; i < m_position.size(); ++i) {
@@ -142,7 +142,7 @@ public class Mapping {
 	 * @param mapRemove
 	 *            list of position
 	 */
-	public void setMines(Mapping mapping, LinkedList<Position> mapRemove) {
+	public void setMines(Map mapping, LinkedList<Position> mapRemove) {
 		for (int j = 0; j < mapping.m_position.size(); ++j) {
 			int k = 0;
 			for (k = 0; k < mapRemove.size(); ++k) {
@@ -166,7 +166,7 @@ public class Mapping {
 	 * @param mapRemove
 	 *            list of position
 	 */
-	public void setDefuse(Mapping mapping, LinkedList<Position> mapRemove) {
+	public void setDefuse(Map mapping, LinkedList<Position> mapRemove) {
 		for (int j = 0; j < mapping.m_position.size(); ++j) {
 			int k = 0;
 			for (k = 0; k < mapRemove.size(); ++k) {
@@ -194,7 +194,7 @@ public class Mapping {
 	 * @return true the method find a mine or a safe position to open 
 	 * 				otherwise it return false
 	 */
-	public boolean computerAI(Mapping mapping) {
+	public boolean computerAI(Map mapping) {
 		LinkedList<Position> mapRemove = isSubset(mapping);
 		if (mapRemove != null) {
 			int bomb = 0;

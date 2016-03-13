@@ -197,7 +197,7 @@ public class SaveGame {
 			for (int q=0; q<height; q++) {
 				Tile newTile = board.getm_Board().get(i).get(q);
 				if(!(newTile.isHidden())){
-					Revealed reveal=(Revealed) newTile;
+					Revealer reveal=(Revealer) newTile;
 					reveal.setNearByMines(board.getm_Board(), i, q);
 				}
 			}
@@ -224,15 +224,15 @@ public class SaveGame {
 		Tile newTile;
 		
 		if (type == TILE) {
-			newTile = new Hidden(false, true, false);
+			newTile = new Secret(false, true, false);
 		} else if (type == DEFUSED_TILE) {
-			newTile = new Hidden(false, true, true);
+			newTile = new Secret(false, true, true);
 		} else if (type == DEFUSED_MINE) {
-			newTile = new Hidden(true, true, true);
+			newTile = new Secret(true, true, true);
 		} else if (type == MINE) {
-			newTile = new Hidden(true, true, false);
+			newTile = new Secret(true, true, false);
 		} else if (type == REVEALED) {
-			newTile = new Revealed(false, false, false);
+			newTile = new Revealer(false, false, false);
 			
 		} else {
 			// Something went wrong

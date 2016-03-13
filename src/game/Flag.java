@@ -1,5 +1,5 @@
 /**
- * @file Defused.java
+ * @file Flag.java
  * @author Josh Townsend
  * @date 7 December 2015
  *
@@ -12,7 +12,7 @@ package game;
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
 
-public class Defused extends Tile {
+public class Flag extends Tile {
 
 	private ImageIcon m_defused;
 
@@ -23,7 +23,7 @@ public class Defused extends Tile {
 	 * @param isHidden a boolean is hidden or not
 	 * @param isDefused a boolean is defused or not
 	 */
-	public Defused(boolean isMine, boolean isHidden, boolean isDefused) {
+	public Flag(boolean isMine, boolean isHidden, boolean isDefused) {
 		super(isMine, isHidden, isDefused);
 		m_defused = new ImageIcon("images/defused.png");
 	}

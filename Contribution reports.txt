@@ -1,0 +1,43 @@
+Contribution reports
+
+Isabel:
+I was responsible for the GameController and Board classes. 
+At first I went through both of these and made sure they conformed with Bobs Coding Conventions. 
+I also tied up some parts of their code. 
+After this I implemented a Save and Load game feature which resulted in me creating the SaveGame class to help with this.
+I wrote a small unit test for GameController to test some of its methods.
+
+Daivd:
+My contribution towards this project was to make sure that the player, human, and defused classes were working correctly and that they all followed bobs coding conventions and that the ones that could, implemented unit testing.
+My role was testing manager, so I was in charge of checking that each class that could, had unit testing implemented. 
+I attended 2/3 meetings, missing one as I had a driving lesson the same time.
+
+Ben 820855:
+Benjamin Harris 820855 Contribution Report
+My role in team MIDAS was as the customer interface manager.
+I made sure to get an indepth understanding of the tasks
+required of the group and relayed this to the team. I ensured
+that everyone knew what they had to do and by when. Regarding
+implementation, I was tasked with adding the function of
+showing/hiding mines in the game. I was able to complete this
+with relative ease due to the nature of the already existing
+code and made sure to keep with the conventions so as to
+ensure easy future improvements. I was also responsible for
+ensuring that the 'Tile' and 'Hidden' classes were correctly
+formatted and commented, as well as performing unit tests on
+them. Tile was tested through Hidden as Tile is abstract
+and therefore uninstantiable.
+
+Simon 821549:
+I was the Doxygen manager, meaning I was in charge of making sure that all classes contained Doxygen comments and were done correctly. 
+I also applied Bobs concise coding conventions to the Board Class and applied unit testing to it. 
+I also did the screen capture for the software presentation.
+
+Anshul:
+I was the implementation manager and was responsible for completing the computer AI. I added a button for the computer class
+so whenever the button is pressed computer class take the control and plays the game.
+I implemented two types of computer one is Random which plays the game randomly 
+and the second is where computer which tries to find the mine and safe tile to open and if it cannot find a tile which is safe to open then it goes random.
+You can shift between the two types of computer through the menu bar.
+After that I fix some bug in the project one of them was if you flag all the tile then computer was not able to open the tile now the computer can handle this bug and there were more in the project.
+
