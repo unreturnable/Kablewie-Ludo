@@ -463,7 +463,8 @@ public class GameController implements MouseListener, ActionListener {
 		}else if (event.getSource() == m_computerRandom) {
 			m_isComputerAI=false;
 		}else if (event.getSource() ==m_computerPauseTime){
-			String timePause=JOptionPane.showInputDialog(null, "Vaule", 0);
+			String message ="Value of time pause for computer";
+			String timePause=JOptionPane.showInputDialog(null, message, 0);
 			int timeComputerPause =1;
 			try {
 			 timeComputerPause = Integer.parseInt(timePause);
