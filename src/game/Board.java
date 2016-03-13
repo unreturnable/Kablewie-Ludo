@@ -49,7 +49,6 @@ public class Board {
 		placeMines();
 	}
 
-	// added for testing computer AI
 	public void setBoard(ArrayList<ArrayList<Tile>> board) {
 		m_board = board;
 	}

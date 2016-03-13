@@ -49,7 +49,6 @@ public class MainMenu extends JPanel implements MouseListener, KeyListener {
 	private final int Y_BUFFER = 105;
 	private final int X_MIN_MULTIPLY = 10;
 	private final int Y_MIN_MULTIPLY = 10;
-	// change the buffer from 130 to 100 remember to see if any different
 	private final int X_MIN_BUFFER = 130;
 	private final int COLOUR_R = 153;
 	private final int COLOUR_G = 180;

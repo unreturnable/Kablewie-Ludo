@@ -35,9 +35,9 @@ public class SaveGame {
 	private final int MAX_BOARD_SIZE = 30;
 	private final int X_BUFFER = 50;
 	private final int Y_BUFFER = 105;
-	private final int X_MIN_MULTIPLY = 5;
-	private final int Y_MIN_MULTIPLY = 5;
-	private final int X_MIN_BUFFER = 100;
+	private final int X_MIN_MULTIPLY = 10;
+	private final int Y_MIN_MULTIPLY = 10;
+	private final int X_MIN_BUFFER = 130;
 
 	/**
 	 * Saves a game to file
@@ -203,13 +203,14 @@ public class SaveGame {
 			}
 		}
 		board.setm_MineCount(mineCount);
+
 		frame.getContentPane().removeAll();
-		frame.setSize(width * MAX_BOARD_SIZE + X_BUFFER+X_MIN_BUFFER,
-				width * MAX_BOARD_SIZE + Y_BUFFER);
 		frame.setMinimumSize(new Dimension(
 				X_MIN_MULTIPLY * MAX_BOARD_SIZE + X_BUFFER + X_MIN_BUFFER,
-				Y_MIN_MULTIPLY * MAX_BOARD_SIZE + Y_BUFFER));
-		
+				width * MAX_BOARD_SIZE + Y_BUFFER));
+		// to x adding X_MIN_BUFFER cause needed space for computer button
+		frame.setSize(width * MAX_BOARD_SIZE + X_BUFFER,
+				width * MAX_BOARD_SIZE + Y_BUFFER);
 		Human player = new Human(username);
 		new GameController(board, player, frame, menu);
 	}
