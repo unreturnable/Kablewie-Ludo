@@ -417,7 +417,7 @@ public class Computer extends Player {
 			int x = position.getXPos();
 			int y = position.getYPos();
 			/*
-			 * if the tile is diffused and it is safe to open then undiffuse 
+			 * if the tile is diffused and it is safe to open then undiffuse
 			 * it
 			 */
 			if (board.getm_Board().get(x).get(y).isDefused() 
