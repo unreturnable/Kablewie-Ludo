@@ -38,7 +38,7 @@ public class Computer extends Player {
 	 */
 	public boolean isComputerAI() {
 		return m_isComputerAI;
-	}// not sure if we needd it
+	}
 
 	/**
 	 * it is set to true whenever it is going to be the first turn from 
@@ -486,7 +486,6 @@ public class Computer extends Player {
 
 	public void testComputerAI() {
 		Board board = new Board(10, 10, 10);
-		ArrayList<ArrayList<Tile>> tiles = board.getm_Board();
 		board.revealTile(2 * Tile.WIDTH, 0 * Tile.HEIGHT);
 		board.revealTile(3 * Tile.WIDTH, 0 * Tile.HEIGHT);
 		board.revealTile(4 * Tile.WIDTH, 0 * Tile.HEIGHT);
@@ -535,6 +534,7 @@ public class Computer extends Player {
 		System.out.println("PRESS ENTER TO GO TO COMPUTER AI TESTIN");
 		Scanner in = new Scanner(System.in);
 		in.nextLine();
+		in.close();
 		new Computer("testing").testComputerAI();
 		System.out.println("M mean mine is there (maybe)");
 		System.out.println("S mean safe to open  (maybe)");

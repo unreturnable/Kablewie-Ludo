@@ -36,7 +36,6 @@ public class SaveGame {
 	private final int X_BUFFER = 50;
 	private final int Y_BUFFER = 105;
 	private final int X_MIN_MULTIPLY = 10;
-	private final int Y_MIN_MULTIPLY = 10;
 	private final int X_MIN_BUFFER = 130;
 
 	/**
