@@ -1,6 +1,6 @@
-# Kablewie++
+# Kablewie-Ludo
 
-This is the repository for A3 Code. To get a copy of the code  will need to have git installed. If you are on a Mac or Linux system this will be pre-installed you can access it by opening a terminal and typing git. If you are on windows you will need to download it from [here](https://git-scm.com/downloads)
+This is the repository for A6 Code. To get a copy of the code  will need to have git installed. If you are on a Mac or Linux system this will be pre-installed you can access it by opening a terminal and typing git. If you are on windows you will need to download it from [here](https://git-scm.com/downloads)
 
 A simple how to for using the Command Line git can be found [here](http://git-scm.com/docs/gittutorial)
 
